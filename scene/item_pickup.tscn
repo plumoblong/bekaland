@@ -1,0 +1,55 @@
+[gd_scene format=3 uid="uid://ekuqcd0kimx6"]
+
+[ext_resource type="Script" uid="uid://bchj5ayuwc7s" path="res://src/item_pickup.gd" id="1_75b4b"]
+[ext_resource type="Texture2D" uid="uid://8gmp57srsh6b" path="res://images/items.png" id="2_luwgx"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yf5fn"]
+atlas = ExtResource("2_luwgx")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_75b4b"]
+height = 1.5
+radius = 0.1
+
+[node name="ItemPickup" type="CharacterBody3D" unique_id=762370924 node_paths=PackedStringArray("sprite", "hitbox")]
+collision_layer = 16
+collision_mask = 16
+script = ExtResource("1_75b4b")
+sprite = NodePath("Sprite")
+hitbox = NodePath("CollisionShape3D")
+submerge_offset = 0.0
+
+[node name="Sprite" type="Sprite3D" parent="." unique_id=562620101]
+pixel_size = 0.04
+billboard = 1
+shaded = true
+double_sided = false
+alpha_cut = 2
+texture_filter = 0
+texture = SubResource("AtlasTexture_yf5fn")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=231608464]
+shape = SubResource("CylinderShape3D_75b4b")
+
+[node name="Light" type="OmniLight3D" parent="." unique_id=1639774055]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8341949, 0)
+visible = false
+light_energy = 0.1
+light_specular = 0.0
+distance_fade_enabled = true
+distance_fade_begin = 100.0
+omni_range = 10.0
+omni_attenuation = 0.5
+
+[node name="Debug" type="Label3D" parent="." unique_id=998759587]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.43213868, 0)
+visible = false
+billboard = 1
+double_sided = false
+no_depth_test = true
+texture_filter = 0
+text = "Item: Wood
+Count : 1
+Velocity: (0.0, 0.0, 0.0)"
+horizontal_alignment = 0
+vertical_alignment = 2

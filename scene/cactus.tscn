@@ -1,0 +1,64 @@
+[gd_scene format=3 uid="uid://4r1qt1g6p8rg"]
+
+[ext_resource type="Texture2D" uid="uid://cmed6namt8stx" path="res://texture/sand_0.png" id="1_6ebpx"]
+[ext_resource type="Script" uid="uid://3m104saimlnj" path="res://src/cactus.gd" id="1_whoh6"]
+[ext_resource type="Texture2D" uid="uid://bc4rmshwi7rg3" path="res://texture/dots.png" id="2_whoh6"]
+[ext_resource type="Script" uid="uid://c3m674ammcf1a" path="res://src/health.gd" id="4_y33is"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y33is"]
+albedo_color = Color(0.369, 0.41, 0.205, 1)
+albedo_texture = ExtResource("1_6ebpx")
+metallic_specular = 0.0
+texture_filter = 0
+
+[sub_resource type="SphereMesh" id="SphereMesh_g4v7s"]
+height = 3.0
+radial_segments = 5
+rings = 7
+is_hemisphere = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_brag7"]
+transparency = 4
+cull_mode = 2
+albedo_color = Color(0, 0, 0, 1)
+albedo_texture = ExtResource("2_whoh6")
+metallic_specular = 0.0
+texture_filter = 0
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_g4v7s"]
+height = 4.0
+radius = 0.94189453
+
+[node name="Cactus" type="StaticBody3D" unique_id=1587830090 node_paths=PackedStringArray("health", "hitbox", "body")]
+script = ExtResource("1_whoh6")
+health = NodePath("Health")
+hitbox = NodePath("CollisionShape3D")
+body = NodePath("Body")
+
+[node name="Body" type="Node3D" parent="." unique_id=1994931070]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Body" unique_id=1671705584]
+transform = Transform3D(1.4133735, 0, 0, 0, 1.1778071, 0, 0, 0, 1.4133735, 0, -0.37264213, 0)
+material_override = SubResource("StandardMaterial3D_y33is")
+visibility_range_end = 600.0
+visibility_range_end_margin = 10.0
+visibility_range_fade_mode = 1
+mesh = SubResource("SphereMesh_g4v7s")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Body" unique_id=541381776]
+transform = Transform3D(1.5547109, 0, 0, 0, 1.2955879, 0, 0, 0, 1.5547109, 0, -0.5927402, 0)
+material_override = SubResource("StandardMaterial3D_brag7")
+visibility_range_end = 600.0
+visibility_range_end_margin = 10.0
+visibility_range_fade_mode = 1
+mesh = SubResource("SphereMesh_g4v7s")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2011272778]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+shape = SubResource("CylinderShape3D_g4v7s")
+
+[node name="Health" type="Node" parent="." unique_id=1406776483]
+script = ExtResource("4_y33is")
+max_health = 1.5
+metadata/_custom_type_script = "uid://c3m674ammcf1a"

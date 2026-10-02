@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://bqirbt1vtu7e4"]
+
+[ext_resource type="AudioStream" uid="uid://broexx6wodig5" path="res://sound/pig_idle_0.wav" id="1_v7xmp"]
+[ext_resource type="Script" uid="uid://bd6mj48oye20d" path="res://src/entity_sfx.gd" id="2_cmvyu"]
+[ext_resource type="AudioStream" uid="uid://bw7mf83npaevh" path="res://sound/pig_idle_1.wav" id="3_d517i"]
+[ext_resource type="AudioStream" uid="uid://b67llm8yimx1v" path="res://sound/pig_idle_2.wav" id="4_7nboy"]
+[ext_resource type="AudioStream" uid="uid://b0unvd2htdos4" path="res://sound/pig_idle_3.wav" id="5_ohcs2"]
+[ext_resource type="AudioStream" uid="uid://c15ejqyu5ljc5" path="res://sound/pig_hurt.wav" id="6_dpg1n"]
+[ext_resource type="AudioStream" uid="uid://dhqeafgygxphn" path="res://sound/pig_die.wav" id="7_gpje8"]
+
+[node name="EntitySFX" type="AudioStreamPlayer3D" unique_id=6241287 node_paths=PackedStringArray("health", "idle_sound_timer")]
+stream = ExtResource("1_v7xmp")
+max_db = 0.0
+max_distance = 50.0
+attenuation_filter_cutoff_hz = 20500.0
+script = ExtResource("2_cmvyu")
+health = NodePath("")
+idle_sound_timer = NodePath("")
+idle_sounds = Array[AudioStream]([ExtResource("1_v7xmp"), ExtResource("3_d517i"), ExtResource("4_7nboy"), ExtResource("5_ohcs2")])
+hurt_sounds = Array[AudioStream]([ExtResource("6_dpg1n")])
+die_sounds = Array[AudioStream]([ExtResource("7_gpje8")])
+idle_pitch_range = Vector2(0.75, 1.5)
+hurt_pitch_range = Vector2(1, 1.5)
+die_pitch_range = Vector2(1.1, 1.3)

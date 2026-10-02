@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://cdc48ryq1kire"]
+
+[ext_resource type="Script" uid="uid://mspc1hduuokb" path="res://src/start.gd" id="1_gbpcu"]
+[ext_resource type="Texture2D" uid="uid://55v4d4vqgd6" path="res://images/hej_logo_start.png" id="1_pyxt3"]
+
+[node name="Start" type="Control" unique_id=1096503300]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_gbpcu")
+
+[node name="ColorRect" type="TextureRect" parent="." unique_id=585072705]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_pyxt3")
+stretch_mode = 3

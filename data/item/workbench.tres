@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://bv2h6jdi685pe"]
+
+[ext_resource type="Texture2D" uid="uid://8gmp57srsh6b" path="res://images/items.png" id="1_rphot"]
+[ext_resource type="Script" uid="uid://bgtjxmfdy52l3" path="res://src/item.gd" id="2_7eymq"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rphot"]
+atlas = ExtResource("1_rphot")
+region = Rect2(96, 24, 24, 24)
+
+[resource]
+script = ExtResource("2_7eymq")
+name = "Workbench"
+icon = SubResource("AtlasTexture_rphot")
+max_stack = 1
+emits_light = true
+place_ghost_size = Vector3(0.4, 1, 0.4)
+place_ghost_offset = Vector3(0, 0.34, 0)
+metadata/_custom_type_script = "uid://bgtjxmfdy52l3"

@@ -1,0 +1,10 @@
+[gd_resource type="Terrain3DTextureAsset" format=3 uid="uid://c48av66gifr3a"]
+
+[ext_resource type="Texture2D" uid="uid://cmed6namt8stx" path="res://texture/sand_0.png" id="1_24mq2"]
+
+[resource]
+name = "grass_0"
+albedo_texture = ExtResource("1_24mq2")
+uv_scale = 0.25
+detiling_rotation = 1.0
+detiling_shift = 1.0

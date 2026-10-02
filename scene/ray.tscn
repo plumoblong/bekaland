@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://drx66fiugetl6"]
+
+[ext_resource type="Script" uid="uid://b3iu64wpe4l5e" path="res://src/ray.gd" id="1_2thvp"]
+[ext_resource type="Texture2D" uid="uid://b64yx20w0gl14" path="res://texture/morph_0.png" id="2_nevr0"]
+
+[node name="RayCast3D" type="RayCast3D" unique_id=1073012016]
+target_position = Vector3(0, -200, 0)
+collision_mask = 4294967295
+debug_shape_thickness = 5
+script = ExtResource("1_2thvp")
+
+[node name="Sprite3D" type="Sprite3D" parent="." unique_id=2075313393]
+transform = Transform3D(1, 0, 0, 0, 512, 0, 0, 0, 1, 0, 0, 0)
+top_level = true
+centered = false
+offset = Vector2(-16, -16)
+pixel_size = 0.05
+billboard = 2
+double_sided = false
+alpha_cut = 2
+texture_filter = 0
+texture = ExtResource("2_nevr0")

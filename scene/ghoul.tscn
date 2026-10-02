@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://benot0j65bglq"]
+
+[ext_resource type="Texture2D" uid="uid://csy112kswybk0" path="res://images/straszny.png" id="1_hta0g"]
+[ext_resource type="Script" uid="uid://c12l4d87r3srl" path="res://src/ghoul.gd" id="1_tgrx2"]
+[ext_resource type="Script" uid="uid://djvti03xkst6p" path="res://src/movement.gd" id="3_pk1n0"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_g4v7s"]
+
+[node name="Ghoul" type="CharacterBody3D" unique_id=937412027 node_paths=PackedStringArray("movement")]
+script = ExtResource("1_tgrx2")
+movement = NodePath("Movement")
+
+[node name="Sprite3D" type="Sprite3D" parent="." unique_id=1218977130]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.500934, 0)
+billboard = 1
+double_sided = false
+texture_filter = 0
+texture = ExtResource("1_hta0g")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1296804047]
+shape = SubResource("CapsuleShape3D_g4v7s")
+
+[node name="Movement" type="Node" parent="." unique_id=1865690018]
+script = ExtResource("3_pk1n0")
+move_speed = 10.0
+metadata/_custom_type_script = "uid://djvti03xkst6p"
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1865251269]

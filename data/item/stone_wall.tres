@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://4ueichfa3c3e"]
+
+[ext_resource type="Texture2D" uid="uid://8gmp57srsh6b" path="res://images/items.png" id="1_abg1k"]
+[ext_resource type="Script" uid="uid://bgtjxmfdy52l3" path="res://src/item.gd" id="2_55ob0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_abg1k"]
+atlas = ExtResource("1_abg1k")
+region = Rect2(48, 0, 24, 24)
+
+[resource]
+script = ExtResource("2_55ob0")
+name = "Stone Wall"
+icon = SubResource("AtlasTexture_abg1k")
+metadata/_custom_type_script = "uid://bgtjxmfdy52l3"

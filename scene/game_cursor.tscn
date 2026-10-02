@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://bigw5his8ewsr"]
+
+[ext_resource type="Texture2D" uid="uid://cbqhebm8d77fx" path="res://images/arrow.png" id="1_tkxmo"]
+[ext_resource type="Script" uid="uid://ctbhr1hu6abw4" path="res://src/game_cursor.gd" id="2_tkxmo"]
+[ext_resource type="PackedScene" uid="uid://ba13xtkn2kfff" path="res://scene/inventory_slot_ui.tscn" id="3_t1n2v"]
+[ext_resource type="Script" uid="uid://owxpkers3g4w" path="res://src/inventory_slot.gd" id="4_fv6f3"]
+
+[sub_resource type="Resource" id="Resource_roaxr"]
+script = ExtResource("4_fv6f3")
+metadata/_custom_type_script = "uid://owxpkers3g4w"
+
+[sub_resource type="Resource" id="Resource_fv6f3"]
+script = ExtResource("4_fv6f3")
+metadata/_custom_type_script = "uid://owxpkers3g4w"
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g4v7s"]
+bg_color = Color(0, 0, 0, 0.6666667)
+border_width_left = 8
+border_width_right = 8
+border_color = Color(0, 0, 0, 0.6666667)
+anti_aliasing = false
+
+[node name="GameCursor" type="CanvasLayer" unique_id=794880997]
+layer = 9
+script = ExtResource("2_tkxmo")
+slot = SubResource("Resource_roaxr")
+
+[node name="Cursor" type="Sprite2D" parent="." unique_id=505675931]
+texture = ExtResource("1_tkxmo")
+centered = false
+hframes = 4
+
+[node name="Slot" parent="Cursor" unique_id=987532823 instance=ExtResource("3_t1n2v")]
+show_behind_parent = true
+offset_left = 13.0
+offset_top = 2.0
+offset_right = 45.0
+offset_bottom = 34.0
+mouse_filter = 2
+disable_input = true
+slot = SubResource("Resource_fv6f3")
+
+[node name="Tooltip" type="Label" parent="Cursor" unique_id=2017523346]
+offset_left = 13.0
+offset_right = 30.0
+offset_bottom = 21.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_g4v7s")

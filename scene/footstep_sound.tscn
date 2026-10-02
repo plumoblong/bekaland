@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://c518wsapnfbe2"]
+
+[ext_resource type="AudioStream" uid="uid://c4oak1hxcboxb" path="res://sound/step_default.wav" id="1_t8n3c"]
+
+[node name="Footstep" type="AudioStreamPlayer3D" unique_id=1832627877]
+stream = ExtResource("1_t8n3c")
+attenuation_filter_cutoff_hz = 20500.0
+attenuation_filter_db = 0.0

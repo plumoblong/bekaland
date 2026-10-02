@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://culqh4nn5ui03"]
+
+[ext_resource type="Script" uid="uid://cyy6ux2w0es8s" path="res://src/global.gd" id="1_t7wwv"]
+[ext_resource type="PackedScene" uid="uid://csxdx3y546hrs" path="res://scene/loading_screen.tscn" id="2_3o7an"]
+
+[node name="Global" type="CanvasLayer" unique_id=1046745986]
+layer = 10
+script = ExtResource("1_t7wwv")
+
+[node name="Control" type="Control" parent="." unique_id=1978190386]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="DebugLabel" type="Label" parent="Control" unique_id=2139327641]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 23.0
+grow_horizontal = 0
+theme_override_colors/font_color = Color(0, 1, 0, 1)
+theme_override_font_sizes/font_size = 8
+text = "sdfs"
+horizontal_alignment = 2
+
+[node name="Alert" type="Label" parent="." unique_id=1034236789]
+offset_right = 68.0
+offset_bottom = 19.0
+theme_override_font_sizes/font_size = 10
+text = "Screenshot saved"
+
+[node name="LoadingScreen" parent="." unique_id=1374857047 instance=ExtResource("2_3o7an")]
+visible = false

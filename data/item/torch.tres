@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://dvfdu7i3rqehw"]
+
+[ext_resource type="Texture2D" uid="uid://8gmp57srsh6b" path="res://images/items.png" id="1_cnv80"]
+[ext_resource type="Script" uid="uid://bgtjxmfdy52l3" path="res://src/item.gd" id="2_r435o"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cnv80"]
+atlas = ExtResource("1_cnv80")
+region = Rect2(24, 0, 24, 24)
+
+[resource]
+script = ExtResource("2_r435o")
+name = "Torch"
+icon = SubResource("AtlasTexture_cnv80")
+emits_light = true
+placeable_id = 1
+place_ghost_size = Vector3(0.4, 1, 0.4)
+place_ghost_offset = Vector3(0, 0.34, 0)
+metadata/_custom_type_script = "uid://bgtjxmfdy52l3"

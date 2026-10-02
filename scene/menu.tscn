@@ -1,0 +1,90 @@
+[gd_scene format=3 uid="uid://v6yxyagn1aiy"]
+
+[ext_resource type="Script" uid="uid://dx2ug6mg3l0y7" path="res://src/menu.gd" id="1_e5g8k"]
+[ext_resource type="FontFile" uid="uid://07o6bh33do7h" path="res://font/timesb.ttf" id="2_8hxod"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_g4v7s"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yf5fn"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_57qmd"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_d0u6y"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2j2di"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3gngh"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fcnqv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7numd"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_p1u0y"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5s0fj"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_33x8s"]
+
+[node name="Menu" type="Control" unique_id=468396459]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_e5g8k")
+
+[node name="Main" type="Control" parent="." unique_id=80769350]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Logo" type="Label" parent="Main" unique_id=16391515]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.263
+anchor_right = 1.0
+anchor_bottom = 0.269
+offset_top = -18.0
+offset_bottom = 18.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_enabled = true
+theme_override_colors/font_shadow_color = Color(0.22159421, 0.22159421, 0.22159421, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = 4
+theme_override_constants/shadow_outline_size = 0
+theme_override_fonts/font = ExtResource("2_8hxod")
+theme_override_font_sizes/font_size = 32
+text = "BEKALAND"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Start" type="Button" parent="Main" unique_id=319190545]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_styles/normal = SubResource("StyleBoxEmpty_g4v7s")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_yf5fn")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_57qmd")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_d0u6y")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_2j2di")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_3gngh")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_fcnqv")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_7numd")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_p1u0y")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_5s0fj")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_33x8s")
+text = "play"
+
+[connection signal="pressed" from="Main/Start" to="." method="_on_start_pressed"]

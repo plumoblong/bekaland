@@ -1,0 +1,26 @@
+[gd_resource type="Terrain3DMeshAsset" format=3 uid="uid://7ef2vddm8y6q"]
+
+[ext_resource type="Texture2D" uid="uid://deeggl8ek01c6" path="res://texture/grass.png" id="1_r8cdi"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_24mq2"]
+transparency = 4
+cull_mode = 2
+albedo_color = Color(0.69826937, 0.6982693, 0.6982693, 1)
+albedo_texture = ExtResource("1_r8cdi")
+roughness = 0.0
+texture_filter = 0
+distance_fade_mode = 2
+distance_fade_min_distance = 200.0
+distance_fade_max_distance = 100.0
+
+[resource]
+name = "Grass"
+id = 1
+generated_type = 1
+height_offset = 0.5
+material_override = SubResource("StandardMaterial3D_24mq2")
+generated_faces = 3
+generated_size = Vector2(4, 2)
+last_lod = 0
+last_shadow_lod = 0
+lod0_range = 128.0

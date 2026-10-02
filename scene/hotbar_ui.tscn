@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://bhha50ya005ed"]
+
+[ext_resource type="Script" uid="uid://4038p6l5akol" path="res://src/hotbar_ui.gd" id="1_i0lfa"]
+[ext_resource type="PackedScene" uid="uid://ba13xtkn2kfff" path="res://scene/inventory_slot_ui.tscn" id="2_687kg"]
+
+[node name="HotbarUI" type="Control" unique_id=409044168 node_paths=PackedStringArray("grid")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_i0lfa")
+slot_scene = ExtResource("2_687kg")
+grid = NodePath("GridContainer")
+
+[node name="GridContainer" type="GridContainer" parent="." unique_id=1123064855]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 0
+columns = 6

@@ -1,0 +1,94 @@
+[gd_scene format=3 uid="uid://d2b3aoow1gqji"]
+
+[ext_resource type="Script" uid="uid://eij8qsygaf5q" path="res://src/generation.gd" id="1_5kiuu"]
+[ext_resource type="Script" uid="uid://bll1rbtbfq1ub" path="res://src/game.gd" id="1_dbls1"]
+[ext_resource type="PackedScene" uid="uid://bksy4y2gtl53c" path="res://scene/torch.tscn" id="2_yq8tf"]
+[ext_resource type="Texture2D" uid="uid://b7e8jaym3cccp" path="res://data/terrain/noise_fallof_1.png" id="3_33cqm"]
+[ext_resource type="Gradient" uid="uid://6pv5unxa0dq7" path="res://data/terrain/height_color_gradient.tres" id="4_17rxn"]
+[ext_resource type="Script" uid="uid://mr1vkpuqbn77" path="res://src/enemy_spawn.gd" id="4_xlg7c"]
+[ext_resource type="PackedScene" uid="uid://53mv8wotyrc0" path="res://scene/water.tscn" id="4_xwcet"]
+[ext_resource type="FastNoiseLite" uid="uid://6sskw3378c43" path="res://data/terrain/terrain_noise.tres" id="5_5g16k"]
+[ext_resource type="Script" uid="uid://clww0ee7xv23x" path="res://src/item_manager.gd" id="5_ll5lq"]
+[ext_resource type="PackedScene" uid="uid://dcnr258lg7xl4" path="res://scene/player.tscn" id="5_p1ry8"]
+[ext_resource type="FastNoiseLite" uid="uid://cnh8k0c8fbnpe" path="res://data/terrain/terrain_selector_noise.tres" id="6_81276"]
+[ext_resource type="PackedScene" uid="uid://b3r4h71ndb7f2" path="res://scene/sun.tscn" id="7_qpk70"]
+[ext_resource type="PackedScene" uid="uid://drx66fiugetl6" path="res://scene/ray.tscn" id="9_ym5sv"]
+
+[sub_resource type="Gradient" id="Gradient_p1ry8"]
+interpolation_color_space = 2
+offsets = PackedFloat32Array(0, 0.043406595, 0.104945056, 0.460989, 0.50494504, 0.52912086, 0.5510989, 0.5686813)
+colors = PackedColorArray(0, 0, 0, 1, 0, 0.0174999, 0.35, 1, 0.538749, 0.69642395, 0.9602608, 1, 0.4549415, 0.639425, 0.9417542, 1, 0.6784314, 0.28235295, 0.2, 1, 0.68, 0.1632, 0.35269338, 1, 0.3257101, 0.072600015, 0.33, 1, 0, 0, 0, 1)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_5kiuu"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_dbls1"]
+sky_material = SubResource("ProceduralSkyMaterial_5kiuu")
+
+[sub_resource type="Environment" id="Environment_33cqm"]
+background_mode = 1
+background_color = Color(1, 1, 1, 1)
+sky = SubResource("Sky_dbls1")
+ambient_light_source = 2
+fog_enabled = true
+fog_mode = 1
+fog_light_color = Color(0, 0.49411765, 1, 1)
+fog_density = 1.0
+fog_depth_begin = 96.5
+fog_depth_end = 337.1
+
+[node name="Game" type="Node" unique_id=202458787 node_paths=PackedStringArray("ray")]
+script = ExtResource("1_dbls1")
+ray = NodePath("RayCast3D")
+sky_gradient = SubResource("Gradient_p1ry8")
+placeable_scenes = Array[PackedScene]([ExtResource("2_yq8tf")])
+
+[node name="Environment" type="WorldEnvironment" parent="." unique_id=1732974813]
+environment = SubResource("Environment_33cqm")
+
+[node name="Light" type="DirectionalLight3D" parent="." unique_id=632771224]
+transform = Transform3D(0.11736256, -0.99272746, 0.026801541, 0.35355347, 0.06698734, 0.9330127, -0.9280226, -0.100025, 0.35884398, 0, 0, 0)
+light_specular = 0.0
+
+[node name="Skybox" parent="." unique_id=1926797977 node_paths=PackedStringArray("game") instance=ExtResource("7_qpk70")]
+game = NodePath("..")
+
+[node name="TerrainGeneration" type="Node" parent="." unique_id=334838749]
+process_priority = 1
+script = ExtResource("1_5kiuu")
+noise = ExtResource("5_5g16k")
+selector_noise = ExtResource("6_81276")
+terrain_gradient = ExtResource("4_17rxn")
+control = ExtResource("3_33cqm")
+
+[node name="Spawner" type="Node" parent="." unique_id=1250086166 node_paths=PackedStringArray("animals_node", "animal_spawn_timer")]
+script = ExtResource("4_xlg7c")
+animals_node = NodePath("../Animals")
+animal_spawn_timer = NodePath("../AnimalSpawnTimer")
+
+[node name="ItemManager" type="Node" parent="." unique_id=511905055]
+script = ExtResource("5_ll5lq")
+
+[node name="RayCast3D" parent="." unique_id=1073012016 instance=ExtResource("9_ym5sv")]
+
+[node name="Water" parent="." unique_id=1868927651 instance=ExtResource("4_xwcet")]
+
+[node name="Animals" type="Node" parent="." unique_id=503057786]
+
+[node name="Enemies" type="Node" parent="." unique_id=299707615]
+
+[node name="PlayerObjects" type="Node" parent="." unique_id=1827651190]
+
+[node name="Pickups" type="Node" parent="." unique_id=68858412]
+
+[node name="AnimalSpawnTimer" type="Timer" parent="." unique_id=1580274333]
+one_shot = true
+autostart = true
+
+[node name="Player" parent="." unique_id=1868531950 instance=ExtResource("5_p1ry8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 200, 0)
+
+[node name="Terrain" type="Node3D" parent="." unique_id=496367523]
+
+[node name="Caves" type="Node3D" parent="." unique_id=928819601]

@@ -1,0 +1,53 @@
+[gd_scene format=3 uid="uid://b4oyw58u8plm7"]
+
+[ext_resource type="Script" uid="uid://bw8ivcky3mw2y" path="res://src/long_grass.gd" id="1_ehiel"]
+[ext_resource type="Texture2D" uid="uid://deeggl8ek01c6" path="res://texture/grass.png" id="1_j0gcf"]
+[ext_resource type="Script" uid="uid://c3m674ammcf1a" path="res://src/health.gd" id="3_y2rvj"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3gngh"]
+transparency = 4
+cull_mode = 2
+albedo_color = Color(0.43359998, 0.6, 0.21600002, 1)
+albedo_texture = ExtResource("1_j0gcf")
+metallic_specular = 0.0
+texture_filter = 0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_d0u6y"]
+orientation = 2
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_g4v7s"]
+radius = 1.0
+
+[node name="LongGrass" type="StaticBody3D" unique_id=1215575340 node_paths=PackedStringArray("health", "hitbox", "body")]
+collision_layer = 8
+collision_mask = 8
+script = ExtResource("1_ehiel")
+health = NodePath("Health")
+hitbox = NodePath("CollisionShape3D")
+body = NodePath("Body")
+
+[node name="Body" type="Node3D" parent="." unique_id=1116890410]
+
+[node name="Mesh" type="MeshInstance3D" parent="Body" unique_id=191138142]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+material_override = SubResource("StandardMaterial3D_3gngh")
+visibility_range_end = 300.0
+visibility_range_end_margin = 5.0
+visibility_range_fade_mode = 1
+mesh = SubResource("PlaneMesh_d0u6y")
+
+[node name="Mesh2" type="MeshInstance3D" parent="Body" unique_id=108359652]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0.5, 0)
+material_override = SubResource("StandardMaterial3D_3gngh")
+visibility_range_end = 300.0
+visibility_range_end_margin = 5.0
+visibility_range_fade_mode = 1
+mesh = SubResource("PlaneMesh_d0u6y")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=945890439]
+shape = SubResource("SphereShape3D_g4v7s")
+
+[node name="Health" type="Node" parent="." unique_id=1432794385]
+script = ExtResource("3_y2rvj")
+max_health = 0.01
+metadata/_custom_type_script = "uid://c3m674ammcf1a"

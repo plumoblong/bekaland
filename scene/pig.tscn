@@ -1,0 +1,88 @@
+[gd_scene format=3 uid="uid://3fxwjug7eeo3"]
+
+[ext_resource type="Script" uid="uid://d2t5xww6110df" path="res://src/pig.gd" id="1_e13wj"]
+[ext_resource type="Texture2D" uid="uid://cf4n60u1hmsh2" path="res://images/pig.png" id="2_qcf1v"]
+[ext_resource type="Script" uid="uid://cyefixq68ujo7" path="res://src/rotating_sprite.gd" id="3_ha0f7"]
+[ext_resource type="Script" uid="uid://djvti03xkst6p" path="res://src/movement.gd" id="3_qcf1v"]
+[ext_resource type="Script" uid="uid://c3m674ammcf1a" path="res://src/health.gd" id="5_qcf1v"]
+[ext_resource type="Script" uid="uid://c5m7qrah0eb4r" path="res://src/item_pickup_spawner.gd" id="6_1fjgv"]
+[ext_resource type="Script" uid="uid://brptackfci4hp" path="res://src/loot_table.gd" id="7_hvqpc"]
+[ext_resource type="Script" uid="uid://dh0eisfiobd56" path="res://src/loot.gd" id="8_sewpc"]
+[ext_resource type="Resource" uid="uid://hvqvf1lfi1rs" path="res://data/item/raw_meat.tres" id="9_hvqpc"]
+[ext_resource type="PackedScene" uid="uid://bqirbt1vtu7e4" path="res://scene/entity_sfx.tscn" id="10_sewpc"]
+[ext_resource type="Texture2D" uid="uid://b64yx20w0gl14" path="res://texture/morph_0.png" id="11_u5p5p"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_g4v7s"]
+radius = 0.75
+
+[sub_resource type="Resource" id="Resource_1fjgv"]
+script = ExtResource("8_sewpc")
+item = ExtResource("9_hvqpc")
+count_max = 3
+count_min = 1
+metadata/_custom_type_script = "uid://dh0eisfiobd56"
+
+[sub_resource type="Resource" id="Resource_g4v7s"]
+script = ExtResource("7_hvqpc")
+table = Dictionary[ExtResource("8_sewpc"), int]({
+SubResource("Resource_1fjgv"): 1
+})
+metadata/_custom_type_script = "uid://brptackfci4hp"
+
+[node name="Pig" type="CharacterBody3D" unique_id=1685867862 node_paths=PackedStringArray("wander_timer", "health", "sprite", "movement", "loot_spawner", "hitbox") groups=["Entity"]]
+collision_layer = 138
+collision_mask = 138
+script = ExtResource("1_e13wj")
+randomize_scale = false
+wander_timer = NodePath("Timer")
+health = NodePath("Health")
+sprite = NodePath("Sprite")
+movement = NodePath("Movement")
+loot_spawner = NodePath("LootSpawner")
+hitbox = NodePath("Hitbox")
+
+[node name="Sprite" type="Sprite3D" parent="." unique_id=499415341]
+offset = Vector2(0, 2)
+pixel_size = 0.07
+billboard = 1
+shaded = true
+double_sided = false
+texture_filter = 0
+texture = ExtResource("2_qcf1v")
+hframes = 3
+script = ExtResource("3_ha0f7")
+death_anim_final_color = Color(0.34509805, 0, 0, 0)
+
+[node name="Hitbox" type="CollisionShape3D" parent="." unique_id=1356052040]
+shape = SubResource("SphereShape3D_g4v7s")
+
+[node name="Movement" type="Node" parent="." unique_id=1528634254]
+script = ExtResource("3_qcf1v")
+move_speed = 8.0
+metadata/_custom_type_script = "uid://djvti03xkst6p"
+
+[node name="Timer" type="Timer" parent="." unique_id=19924063]
+one_shot = true
+
+[node name="Health" type="Node" parent="." unique_id=784815904]
+script = ExtResource("5_qcf1v")
+metadata/_custom_type_script = "uid://c3m674ammcf1a"
+
+[node name="LootSpawner" type="Node3D" parent="." unique_id=1909726745]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7718632, 0)
+script = ExtResource("6_1fjgv")
+loot = SubResource("Resource_g4v7s")
+random_position_radius = 0.25
+metadata/_custom_type_script = "uid://c5m7qrah0eb4r"
+
+[node name="EntitySFX" parent="." unique_id=6241287 node_paths=PackedStringArray("health", "idle_sound_timer") instance=ExtResource("10_sewpc")]
+health = NodePath("../Health")
+idle_sound_timer = NodePath("../IdleSFXTimer")
+
+[node name="IdleSFXTimer" type="Timer" parent="." unique_id=1279594446]
+one_shot = true
+
+[node name="Sprite3D" type="Sprite3D" parent="." unique_id=2041645598]
+transform = Transform3D(-7.0730033e-07, 0, 1.0000004, 0, 0.45794874, 0, -16.181145, 0, -4.3711402e-08, 0, 0, -2.5800889)
+visible = false
+texture = ExtResource("11_u5p5p")

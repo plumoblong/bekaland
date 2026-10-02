@@ -1,0 +1,85 @@
+[gd_scene format=3 uid="uid://cw1j04wi7ejqu"]
+
+[ext_resource type="Script" uid="uid://bxt4uyfyoy564" path="res://src/tree.gd" id="1_214j1"]
+[ext_resource type="Texture2D" uid="uid://cmed6namt8stx" path="res://texture/sand_0.png" id="1_dcgk5"]
+[ext_resource type="Resource" uid="uid://djiuoh2wvu611" path="res://data/item/dummy_slot.tres" id="2_ebvvg"]
+[ext_resource type="Texture2D" uid="uid://bfkv4ayd5o5xr" path="res://texture/foliage.png" id="2_lutej"]
+[ext_resource type="Script" uid="uid://c5m7qrah0eb4r" path="res://src/item_pickup_spawner.gd" id="5_y4dod"]
+[ext_resource type="Resource" uid="uid://ceuuufpwcqpbf" path="res://data/loottable/tree.tres" id="6_ebvvg"]
+[ext_resource type="Script" uid="uid://c3m674ammcf1a" path="res://src/health.gd" id="6_x17qx"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yf5fn"]
+albedo_color = Color(0.32, 0.18373333, 0.086399995, 1)
+albedo_texture = ExtResource("1_dcgk5")
+metallic_specular = 0.0
+texture_filter = 0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_g4v7s"]
+top_radius = 0.22
+bottom_radius = 0.75
+height = 5.833679
+radial_segments = 5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gksm2"]
+transparency = 4
+cull_mode = 2
+albedo_color = Color(0.2492, 0.35, 0.126, 1)
+albedo_texture = ExtResource("2_lutej")
+metallic_specular = 0.0
+uv1_scale = Vector3(3, 3, 3)
+texture_filter = 0
+
+[sub_resource type="SphereMesh" id="SphereMesh_yf5fn"]
+radius = 5.0
+height = 8.0
+radial_segments = 4
+rings = 4
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_g4v7s"]
+height = 17.141232
+radius = 2.0239258
+
+[node name="Tree" type="StaticBody3D" unique_id=351852684 node_paths=PackedStringArray("health", "hitbox", "body", "loot_spawner")]
+physics_interpolation_mode = 2
+collision_layer = 9
+collision_mask = 9
+script = ExtResource("1_214j1")
+health = NodePath("Health")
+hitbox = NodePath("Hitbox")
+body = NodePath("Body")
+loot_spawner = NodePath("LootSpawner")
+item_spawner_slot = ExtResource("2_ebvvg")
+
+[node name="Body" type="Node3D" parent="." unique_id=1541400398]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Body" unique_id=1945233005]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 7.405138, 0)
+material_override = SubResource("StandardMaterial3D_yf5fn")
+visibility_range_end = 500.0
+visibility_range_end_margin = 10.0
+visibility_range_fade_mode = 1
+mesh = SubResource("CylinderMesh_g4v7s")
+
+[node name="Leaf" type="MeshInstance3D" parent="Body" unique_id=454349951]
+transform = Transform3D(3, 0, 0, 0, 2, 0, 0, 0, 3, 0, 19.2, 0)
+material_override = SubResource("StandardMaterial3D_gksm2")
+visibility_range_end = 500.0
+visibility_range_end_margin = 10.0
+visibility_range_fade_mode = 1
+mesh = SubResource("SphereMesh_yf5fn")
+
+[node name="Hitbox" type="CollisionShape3D" parent="." unique_id=2147449280]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.6758823, 0)
+top_level = true
+shape = SubResource("CylinderShape3D_g4v7s")
+
+[node name="Health" type="Node" parent="." unique_id=1345430830]
+script = ExtResource("6_x17qx")
+max_health = 0.5
+metadata/_custom_type_script = "uid://c3m674ammcf1a"
+
+[node name="LootSpawner" type="Node3D" parent="." unique_id=436834291]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5306096, 0)
+script = ExtResource("5_y4dod")
+loot = ExtResource("6_ebvvg")
+metadata/_custom_type_script = "uid://cc1y3i7f28y0"

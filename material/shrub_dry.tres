@@ -1,0 +1,11 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://nbk5pe424jx5"]
+
+[ext_resource type="Texture2D" uid="uid://c1qvb7yf67u1n" path="res://texture/shrub.png" id="1_idxlq"]
+
+[resource]
+transparency = 4
+cull_mode = 2
+albedo_color = Color(0.74771535, 0.31648844, 0.44748786, 1)
+albedo_texture = ExtResource("1_idxlq")
+metallic_specular = 0.0
+texture_filter = 0

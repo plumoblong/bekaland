@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://hvqvf1lfi1rs"]
+
+[ext_resource type="Texture2D" uid="uid://8gmp57srsh6b" path="res://images/items.png" id="1_xm62r"]
+[ext_resource type="Script" uid="uid://bgtjxmfdy52l3" path="res://src/item.gd" id="2_l745i"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xm62r"]
+atlas = ExtResource("1_xm62r")
+region = Rect2(96, 0, 24, 24)
+
+[resource]
+script = ExtResource("2_l745i")
+name = "Meat"
+icon = SubResource("AtlasTexture_xm62r")
+consumable = true
+consumable_poison_chance = 0.1
+consumable_heal_value = 0.05
+metadata/_custom_type_script = "uid://bgtjxmfdy52l3"

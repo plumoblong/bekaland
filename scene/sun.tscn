@@ -1,0 +1,100 @@
+[gd_scene format=3 uid="uid://b3r4h71ndb7f2"]
+
+[ext_resource type="Texture2D" uid="uid://cptwpih4yicip" path="res://texture/sun.png" id="1_4d7cj"]
+[ext_resource type="Script" uid="uid://birtmmd8gb1yk" path="res://src/skybox.gd" id="1_q1qnm"]
+[ext_resource type="Texture2D" uid="uid://bfxy384us8hdx" path="res://texture/moon.png" id="2_kspwg"]
+[ext_resource type="Texture2D" uid="uid://c8rdvspgcrwyo" path="res://images/stars.png" id="3_kspwg"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yf5fn"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+disable_fog = true
+albedo_color = Color(0.6542321, 0.6542321, 0.654232, 1)
+albedo_texture = ExtResource("1_4d7cj")
+texture_filter = 0
+billboard_mode = 1
+fixed_size = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_g4v7s"]
+material = SubResource("StandardMaterial3D_yf5fn")
+size = Vector2(0.08, 0.08)
+orientation = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4d7cj"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+disable_fog = true
+albedo_color = Color(0.7204674, 0.7204675, 0.7204674, 1)
+albedo_texture = ExtResource("2_kspwg")
+uv1_scale = Vector3(0.2, 1, 1)
+texture_filter = 0
+billboard_mode = 1
+fixed_size = true
+point_size = 67.1
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_kspwg"]
+size = Vector2(0.08, 0.08)
+orientation = 2
+
+[sub_resource type="Gradient" id="Gradient_q1qnm"]
+offsets = PackedFloat32Array(0, 0.5, 1)
+colors = PackedColorArray(0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_d0u6y"]
+gradient = SubResource("Gradient_q1qnm")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_gmnoj"]
+emission_shape = 2
+emission_sphere_radius = 600.0
+direction = Vector3(1, 1, 0)
+spread = 180.0
+initial_velocity_min = 1.0
+initial_velocity_max = 5.0
+gravity = Vector3(0, 0, 0)
+color_ramp = SubResource("GradientTexture1D_d0u6y")
+anim_speed_min = 10.0
+anim_speed_max = 10.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_57qmd"]
+blend_mode = 1
+shading_mode = 0
+disable_fog = true
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("3_kspwg")
+texture_filter = 0
+billboard_mode = 3
+particles_anim_h_frames = 4
+particles_anim_v_frames = 1
+particles_anim_loop = true
+fixed_size = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_axakj"]
+material = SubResource("StandardMaterial3D_57qmd")
+size = Vector2(0.02, 0.02)
+orientation = 2
+
+[node name="Sun" type="Node3D" unique_id=1926797977]
+script = ExtResource("1_q1qnm")
+
+[node name="Sun" type="MeshInstance3D" parent="." unique_id=1085409066]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -500)
+mesh = SubResource("PlaneMesh_g4v7s")
+
+[node name="Moon" type="MeshInstance3D" parent="." unique_id=594844025]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 500)
+material_override = SubResource("StandardMaterial3D_4d7cj")
+mesh = SubResource("PlaneMesh_kspwg")
+
+[node name="Stars" type="GPUParticles3D" parent="." unique_id=642898122]
+amount = 128
+lifetime = 20.0
+randomness = 1.0
+fixed_fps = 10
+interpolate = false
+visibility_aabb = AABB(-256, -256, -256, 512, 512, 512)
+local_coords = true
+trail_lifetime = 8.47
+process_material = SubResource("ParticleProcessMaterial_gmnoj")
+draw_pass_1 = SubResource("PlaneMesh_axakj")

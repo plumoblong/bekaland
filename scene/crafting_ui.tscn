@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://cvxvo05kv24j1"]
+
+[node name="CraftingUI" type="Control" unique_id=1422458481]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

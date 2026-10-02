@@ -1,0 +1,217 @@
+[gd_scene format=3 uid="uid://cqnkgktosc74"]
+
+[ext_resource type="Script" uid="uid://dgl170h8e0517" path="res://src/ui.gd" id="1_s2f8l"]
+[ext_resource type="Texture2D" uid="uid://c6iwbwxnt76m" path="res://texture/water.png" id="3_kee8w"]
+[ext_resource type="Texture2D" uid="uid://dsgncvqat1for" path="res://images/crosshair.png" id="3_xh8xk"]
+[ext_resource type="Texture2D" uid="uid://bh81yl5epquee" path="res://images/health_empty.png" id="4_ajaei"]
+[ext_resource type="FontFile" uid="uid://07o6bh33do7h" path="res://font/timesb.ttf" id="4_xh8xk"]
+[ext_resource type="Texture2D" uid="uid://cb2u4sk2okly1" path="res://images/health.png" id="5_0oc5v"]
+[ext_resource type="Texture2D" uid="uid://dias3r7crs485" path="res://images/hunger.png" id="6_vqisl"]
+[ext_resource type="Texture2D" uid="uid://cge0gbxyi032i" path="res://images/hunger_empty.png" id="7_xcrjw"]
+
+[node name="UI" type="Control" unique_id=90584689]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_s2f8l")
+metadata/_edit_use_anchors_ = true
+
+[node name="WaterOverlay" type="TextureRect" parent="." unique_id=888591535]
+modulate = Color(0, 0, 1, 0.5019608)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("3_kee8w")
+stretch_mode = 1
+metadata/_edit_lock_ = true
+
+[node name="Alive" type="Control" parent="." unique_id=1454825931]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="Time" type="Label" parent="Alive" unique_id=1436990596]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.2
+anchor_right = 1.0
+anchor_bottom = 0.2
+offset_top = -9.5
+offset_bottom = 9.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "16:40"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Crosshair" type="TextureRect" parent="Alive" unique_id=309123299]
+modulate = Color(1, 1, 1, 0.5019608)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_xh8xk")
+expand_mode = 1
+stretch_mode = 3
+
+[node name="LastHealth" type="ColorRect" parent="Alive/Crosshair" unique_id=1950430346]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.45
+anchor_top = 0.525
+anchor_right = 0.55
+anchor_bottom = 0.525
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, 16)
+
+[node name="Bars" type="Control" parent="Alive" unique_id=843029974]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = 174.0
+offset_bottom = 174.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="Health" type="TextureRect" parent="Alive/Bars" unique_id=397417697]
+modulate = Color(1, 0.29000002, 0.29000002, 1)
+layout_mode = 1
+offset_left = -106.0
+offset_right = -36.0
+offset_bottom = 14.0
+mouse_filter = 0
+texture = ExtResource("5_0oc5v")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="Empty" type="TextureRect" parent="Alive/Bars/Health" unique_id=1875096782]
+modulate = Color(0.13, 0.13, 0.13, 1)
+show_behind_parent = true
+layout_mode = 0
+offset_top = 1.0
+offset_right = 70.0
+offset_bottom = 15.0
+mouse_filter = 0
+texture = ExtResource("4_ajaei")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="Hunger" type="TextureRect" parent="Alive/Bars" unique_id=2111791407]
+visible = false
+layout_mode = 0
+offset_left = 38.0
+offset_right = 54.0
+offset_bottom = 14.0
+offset_transform_scale = Vector2(2.525, 2.525)
+mouse_filter = 0
+texture = ExtResource("6_vqisl")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="Empty" type="TextureRect" parent="Alive/Bars/Hunger" unique_id=920114888]
+modulate = Color(0.09006393, 0.039767966, 0, 1)
+show_behind_parent = true
+layout_mode = 0
+offset_top = 1.0
+offset_right = 70.0
+offset_bottom = 15.0
+mouse_filter = 0
+texture = ExtResource("7_xcrjw")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="HealthTooltip" type="ColorRect" parent="Alive/Bars" unique_id=1008279342]
+layout_mode = 0
+offset_left = -107.0
+offset_top = 1.0
+offset_right = -36.0
+offset_bottom = 14.0
+color = Color(1, 0, 0, 0)
+
+[node name="HungerTooltip" type="ColorRect" parent="Alive/Bars" unique_id=380315440]
+layout_mode = 0
+offset_left = 37.0
+offset_top = 1.0
+offset_right = 108.0
+offset_bottom = 14.0
+color = Color(1, 0, 0, 0)
+
+[node name="Death" type="Control" parent="." unique_id=1036608748]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="Death" unique_id=606700089]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -64.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_xh8xk")
+theme_override_font_sizes/font_size = 24
+text = "You are dead."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Respawn" type="Label" parent="Death" unique_id=1279711705]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+text = "Respawning in 5 seconds."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Pulse" type="ColorRect" parent="." unique_id=194455396]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 0)
+
+[node name="Debug" type="Label" parent="." unique_id=2143969809]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.185
+anchor_right = 0.262
+anchor_bottom = 0.709
+offset_left = 16.0
+offset_right = 1.0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 10

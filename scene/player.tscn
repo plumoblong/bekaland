@@ -1,0 +1,155 @@
+[gd_scene format=3 uid="uid://dcnr258lg7xl4"]
+
+[ext_resource type="Script" uid="uid://c4grere56j8dh" path="res://src/player.gd" id="1_xo3ru"]
+[ext_resource type="Script" uid="uid://djvti03xkst6p" path="res://src/movement.gd" id="3_fvtld"]
+[ext_resource type="Resource" uid="uid://cwehonurb6wla" path="res://data/item/player_inventory.tres" id="4_ml7e8"]
+[ext_resource type="Texture2D" uid="uid://bjfvl25g3pc0b" path="res://images/player_body.png" id="4_oh5ij"]
+[ext_resource type="Texture2D" uid="uid://dku5512mqok30" path="res://images/player_head.png" id="5_hp4bs"]
+[ext_resource type="PackedScene" uid="uid://cqnkgktosc74" path="res://scene/ui.tscn" id="5_s4jxa"]
+[ext_resource type="Script" uid="uid://c3m674ammcf1a" path="res://src/health.gd" id="6_oh5ij"]
+[ext_resource type="PackedScene" uid="uid://c8qit8vp088b1" path="res://scene/inventory_ui.tscn" id="7_hp4bs"]
+[ext_resource type="Script" uid="uid://f7tnadjjdegp" path="res://src/inventory_manager.gd" id="8_g2vtq"]
+[ext_resource type="Script" uid="uid://cc1y3i7f28y0" path="res://src/loot_spawner.gd" id="11_ihjo1"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_75b4b"]
+height = 2.5
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_j3pel"]
+radius = 1.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gwuoj"]
+transparency = 1
+
+[sub_resource type="BoxMesh" id="BoxMesh_g4v7s"]
+material = SubResource("StandardMaterial3D_gwuoj")
+
+[node name="Player" type="CharacterBody3D" unique_id=1868531950 node_paths=PackedStringArray("health", "movement", "inv_manager", "hitbox")]
+collision_layer = 69
+collision_mask = 69
+script = ExtResource("1_xo3ru")
+health = NodePath("Health")
+movement = NodePath("Movement")
+inv_manager = NodePath("InventoryManager")
+hitbox = NodePath("CollisionShape3D")
+submerge_offset = 0.7
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1582901647]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+shape = SubResource("CylinderShape3D_75b4b")
+
+[node name="Head" type="Node3D" parent="." unique_id=1879347344]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.70640874, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Head" unique_id=1353969760]
+physics_interpolation_mode = 2
+transform = Transform3D(1, 0, -1.7484555e-07, 0, 1, 0, 1.7484555e-07, 0, 1, 0, 0, 0)
+current = true
+far = 800.0
+
+[node name="Ray" type="RayCast3D" parent="Head/Camera3D" unique_id=1886539879]
+target_position = Vector3(0, 0, -6.5)
+collision_mask = 8
+collide_with_areas = true
+
+[node name="Movement" type="Node" parent="." unique_id=333707162]
+script = ExtResource("3_fvtld")
+water_margin = 0.75
+
+[node name="InventoryManager" type="Node" parent="." unique_id=1104471879 node_paths=PackedStringArray("inventory_ui", "hotbar_ui", "ui")]
+script = ExtResource("8_g2vtq")
+inventory = ExtResource("4_ml7e8")
+inventory_ui = NodePath("../InventoryUI")
+hotbar_ui = NodePath("../HotbarUI")
+ui = NodePath("../UI")
+metadata/_custom_type_script = "uid://f7tnadjjdegp"
+
+[node name="Health" type="Node" parent="." unique_id=370502166]
+script = ExtResource("6_oh5ij")
+natural_heal = true
+alive = false
+
+[node name="Body" type="Node3D" parent="." unique_id=896251517]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.14248776)
+
+[node name="Sprite" type="Sprite3D" parent="Body" unique_id=2088482029]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.26023924, 0)
+visibility_range_fade_mode = 1
+pixel_size = 0.02
+shaded = true
+texture_filter = 0
+texture = ExtResource("4_oh5ij")
+
+[node name="HeldItem" type="Sprite3D" parent="Body" unique_id=1229443477]
+transform = Transform3D(1, 4.440892e-16, 0, 4.440892e-16, 1, 0, 0, 0, 1, 1, 5.9604645e-08, -0.14248776)
+
+[node name="Head" type="Sprite3D" parent="Body" unique_id=1125036444]
+transform = Transform3D(1, 0, 0, 0, 0.9977782, 0.06662437, 0, -0.06662437, 0.9977782, 0, 0.76023924, 0)
+visibility_range_fade_mode = 1
+offset = Vector2(0, 24)
+pixel_size = 0.02
+shaded = true
+double_sided = false
+texture_filter = 0
+texture = ExtResource("5_hp4bs")
+hframes = 2
+frame = 1
+
+[node name="Face" type="Sprite3D" parent="Body/Head" unique_id=566559488]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+visibility_range_fade_mode = 1
+offset = Vector2(0, 24)
+pixel_size = 0.02
+shaded = true
+double_sided = false
+texture_filter = 0
+texture = ExtResource("5_hp4bs")
+hframes = 2
+
+[node name="SuffocationTimer" type="Timer" parent="." unique_id=95105889]
+one_shot = true
+
+[node name="RespawnTimer" type="Timer" parent="." unique_id=1073027787]
+one_shot = true
+
+[node name="UI" parent="." unique_id=90584689 instance=ExtResource("5_s4jxa")]
+
+[node name="InventoryUI" parent="." unique_id=1137781025 instance=ExtResource("7_hp4bs")]
+
+[node name="HotbarUI" parent="." unique_id=220085551 instance=ExtResource("7_hp4bs")]
+visible = false
+anchors_preset = -1
+anchor_top = 1.0
+offset_top = -96.0
+grow_vertical = 0
+start_grid = 0
+end_grid = 6
+hotbar = true
+
+[node name="PickupQuery" type="Area3D" parent="." unique_id=1639568746]
+collision_layer = 16
+collision_mask = 16
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PickupQuery" unique_id=1944402888]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+shape = SubResource("SphereShape3D_j3pel")
+
+[node name="Ghost" type="MeshInstance3D" parent="." unique_id=1943790572]
+top_level = true
+transparency = 1.0
+visibility_range_end = 8.0
+visibility_range_end_margin = 8.0
+visibility_range_fade_mode = 1
+mesh = SubResource("BoxMesh_g4v7s")
+
+[node name="PickupSpawner" type="Node3D" parent="." unique_id=602097519]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+script = ExtResource("11_ihjo1")
+metadata/_custom_type_script = "uid://cc1y3i7f28y0"
+
+[connection signal="hotbar_slot_selected" from="InventoryManager" to="." method="_on_inventory_manager_hotbar_slot_selected"]
+[connection signal="damaged" from="Health" to="." method="_on_health_damaged"]
+[connection signal="died" from="Health" to="." method="_on_health_died"]
+[connection signal="respawned" from="Health" to="." method="_on_health_respawned"]
+[connection signal="timeout" from="SuffocationTimer" to="." method="_suffocate"]
+[connection signal="timeout" from="RespawnTimer" to="." method="_on_respawn_timer_timeout"]
+[connection signal="body_entered" from="PickupQuery" to="." method="_on_pickup_query_body_entered"]
