@@ -35,5 +35,20 @@ offset_bottom = 19.0
 theme_override_font_sizes/font_size = 10
 text = "Screenshot saved"
 
+[node name="Version" type="Label" parent="." unique_id=541295583]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -107.0
+offset_top = -19.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 10
+text = "BEKALAND version 1"
+horizontal_alignment = 2
+vertical_alignment = 2
+
 [node name="LoadingScreen" parent="." unique_id=1374857047 instance=ExtResource("2_3o7an")]
 visible = false

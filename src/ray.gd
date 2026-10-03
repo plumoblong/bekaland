@@ -5,7 +5,7 @@ class_name TerrainRay
 
 func sample_position(pos : Vector2 = Vector2.ZERO) -> Vector3:
 	set_global_position(Vector3(pos.x, 128.0, pos.y))
-	force_raycast_update()
+	force_raycast_update.call_deferred()
 	return _get_point()
 	
 func _process(delta: float) -> void:

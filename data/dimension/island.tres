@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Dimension" format=3 uid="uid://blr6p5ijlrute"]
+
+[ext_resource type="Texture2D" uid="uid://b7e8jaym3cccp" path="res://data/terrain/noise_fallof_1.png" id="1_jhniw"]
+[ext_resource type="FastNoiseLite" uid="uid://6sskw3378c43" path="res://data/terrain/terrain_noise.tres" id="2_babxy"]
+[ext_resource type="Script" uid="uid://d25nqlla4trm1" path="res://src/dimension.gd" id="3_kcjui"]
+[ext_resource type="FastNoiseLite" uid="uid://cnh8k0c8fbnpe" path="res://data/terrain/terrain_selector_noise.tres" id="4_1m5l2"]
+[ext_resource type="Gradient" uid="uid://6pv5unxa0dq7" path="res://data/terrain/height_color_gradient.tres" id="5_mnj2u"]
+
+[sub_resource type="Gradient" id="Gradient_p1ry8"]
+interpolation_color_space = 2
+offsets = PackedFloat32Array(0, 0.043406595, 0.104945056, 0.460989, 0.50494504, 0.52912086, 0.5510989, 0.5686813)
+colors = PackedColorArray(0, 0, 0, 1, 0, 0.0174999, 0.35, 1, 0.538749, 0.69642395, 0.9602608, 1, 0.4549415, 0.639425, 0.9417542, 1, 0.6784314, 0.28235295, 0.2, 1, 0.68, 0.1632, 0.35269338, 1, 0.3257101, 0.072600015, 0.33, 1, 0, 0, 0, 1)
+
+[resource]
+script = ExtResource("3_kcjui")
+noise = ExtResource("2_babxy")
+selector_noise = ExtResource("4_1m5l2")
+control = ExtResource("1_jhniw")
+terrain_gradient = ExtResource("5_mnj2u")
+sky_gradient = SubResource("Gradient_p1ry8")
+metadata/_custom_type_script = "uid://d25nqlla4trm1"

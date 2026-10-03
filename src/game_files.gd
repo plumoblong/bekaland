@@ -26,6 +26,67 @@ signal screenshot_end
 var is_screenshoting : bool = false
 var screenshot_textures : Array[ImageTexture]
 
+# ---------- WORLD SAVES ----------
+const SAVE_ROOT : String = "user://saves/"
+var current_slot : String = "world1"
+
+func get_world_dir() -> String:
+	return SAVE_ROOT + current_slot + "/"
+
+## Every dimension gets its own folder so terrain never mixes
+func get_dimension_dir(dimension_key : String) -> String:
+	return get_world_dir() + dimension_key + "/"
+
+func has_save() -> bool:
+	return FileAccess.file_exists(get_world_dir() + "world.json")
+
+func save_world(data : Dictionary) -> void:
+	DirAccess.make_dir_recursive_absolute(get_world_dir())
+	var f : FileAccess = FileAccess.open(get_world_dir() + "world.json", FileAccess.WRITE)
+	if f == null:
+		push_error("Could not write world.json")
+		return
+	f.store_string(JSON.stringify(data, "\t"))
+	f.close()
+
+func load_world() -> Dictionary:
+	if not has_save():
+		return {}
+	var text : String = FileAccess.get_file_as_string(get_world_dir() + "world.json")
+	var parsed : Variant = JSON.parse_string(text)
+	return parsed if parsed is Dictionary else {}
+
+## Terrain3D stores its regions as .res files
+func has_terrain(dir : String) -> bool:
+	if not DirAccess.dir_exists_absolute(dir):
+		return false
+	for file : String in DirAccess.get_files_at(dir):
+		if file.ends_with(".res"):
+			return true
+	return false
+
+## Trees/foliage + player placed objects, one file per dimension.
+## store_var keeps Vector3 etc. exactly, and is compact for thousands of entries.
+func save_objects(dir : String, data : Dictionary) -> void:
+	DirAccess.make_dir_recursive_absolute(dir)
+	var f : FileAccess = FileAccess.open(dir + "objects.sav", FileAccess.WRITE)
+	if f == null:
+		push_error("Could not write objects.sav")
+		return
+	f.store_var(data)
+	f.close()
+
+func load_objects(dir : String) -> Dictionary:
+	var path : String = dir + "objects.sav"
+	if not FileAccess.file_exists(path):
+		return {}
+	var f : FileAccess = FileAccess.open(path, FileAccess.READ)
+	if f == null:
+		return {}
+	var data : Variant = f.get_var()
+	f.close()
+	return data if data is Dictionary else {}
+
 func setup() -> void:
 	_load_screenshots()
 

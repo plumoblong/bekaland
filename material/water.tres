@@ -1,0 +1,14 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://cs3lhnusjsgku"]
+
+[ext_resource type="Texture2D" uid="uid://c6iwbwxnt76m" path="res://texture/water.png" id="1_ajxiu"]
+
+[resource]
+render_priority = 1
+transparency = 1
+cull_mode = 2
+albedo_color = Color(0, 0, 1, 0.6666667)
+albedo_texture = ExtResource("1_ajxiu")
+uv1_scale = Vector3(512, 512, 512)
+uv1_triplanar_sharpness = 150.0
+texture_filter = 0
+disable_receive_shadows = true

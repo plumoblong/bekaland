@@ -283,7 +283,6 @@ temporary1={
 [physics]
 
 common/physics_ticks_per_second=25
-common/max_physics_steps_per_frame=2
 3d/physics_engine="Jolt Physics"
 jolt_physics_3d/simulation/velocity_steps=4
 jolt_physics_3d/simulation/position_steps=4
@@ -292,6 +291,7 @@ jolt_physics_3d/limits/max_bodies=65536
 jolt_physics_3d/limits/max_body_pairs=131072
 jolt_physics_3d/limits/max_contact_constraints=65536
 common/physics_interpolation=true
+jolt_physics_3d/max_physics_steps_per_frame=2
 
 [rendering]
 

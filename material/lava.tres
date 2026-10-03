@@ -1,0 +1,14 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://cuus25kak37c7"]
+
+[ext_resource type="Texture2D" uid="uid://dk082n3x6w856" path="res://texture/lava.png" id="1_64pl2"]
+
+[resource]
+render_priority = 1
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+albedo_texture = ExtResource("1_64pl2")
+uv1_scale = Vector3(512, 512, 512)
+uv1_triplanar_sharpness = 150.0
+texture_filter = 0
+disable_receive_shadows = true

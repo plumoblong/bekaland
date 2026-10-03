@@ -14,7 +14,7 @@ var _parent : CharacterEntity
 const GRAVITY : float = 25.0
 const FALLING_MULT : float = 1.7
 
-var movement_mult : float
+var movement_mult : float = 1.0
 var wish_dir : Vector2
 
 func _ready() -> void:
@@ -25,7 +25,7 @@ func _ready() -> void:
 
 func jump(strength: float = -1.0) -> void:
 	if not _parent.is_on_floor(): return
-	var water_mult : float = 1.3 if _parent.is_in_water else 1.0
+	var water_mult : float = 1.3 if _parent.is_in_liquid() else 1.0
 	var spd: float = jump_speed if strength == -1.0 else strength
 	_parent.velocity += get_surface_normal() * spd * water_mult
 	
@@ -34,8 +34,6 @@ func get_surface_normal() -> Vector3:
 
 func update(delta : float) -> void:
 	if not _G.game: return
-	
-	movement_mult = 1.0 if not _parent.is_in_water else 0.5
 	
 	if not _parent.is_on_floor():
 		var mult : float = FALLING_MULT if _parent.velocity.y < 0.0 else 1.0

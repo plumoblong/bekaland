@@ -76,7 +76,7 @@ func _update_dead() -> void:
 	respawn_label.text = "Respawning in " + str(ceili(_p.timer_respawn.time_left)) + " seconds."
 	
 func _update_water() -> void:
-	water_overlay.visible = _p.oxygen < 1.0 or _p.is_in_water
+	water_overlay.visible = _p.oxygen < 1.0 or _p.is_in_liquid()
 	var c : float = (float(_p.is_submerged()) * 0.2) + (1.0 - _p.oxygen) * 0.55
 	
 	water_overlay.modulate.a = c

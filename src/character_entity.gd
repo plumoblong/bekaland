@@ -12,9 +12,8 @@ class_name CharacterEntity
 @export var submerge_offset : float = 1.0
 #@export var in_water_offset : float = 1.0
 
-var is_in_water : bool = false
-
-var _water_detect_position : Vector3 = Vector3.ZERO
+var _is_in_water : bool = false
+var _is_in_lava : bool = false
 
 func disable_hitbox() -> void:
 	if not hitbox:
@@ -26,5 +25,14 @@ func enable_hitbox() -> void:
 		return
 	hitbox.disabled = true
 
+func in_water() -> bool:
+	return _is_in_water
+	
+func in_lava() -> bool:
+	return _is_in_lava
+	
+func is_in_liquid() -> bool:
+	return _is_in_lava or _is_in_water
+
 func is_submerged() -> bool:
-	return _water_detect_position.y + submerge_offset < _G.game.SEA_LEVEL and is_in_water
+	return global_position.y + submerge_offset < _G.game.get_sea_level() and in_water() or in_lava()

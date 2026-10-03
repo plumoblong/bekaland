@@ -1,6 +1,8 @@
 extends CanvasLayer
 class_name Global
 
+const VERSION : int = 1
+
 @onready var debug_label : Label = get_node("Control/DebugLabel")
 @onready var loading_screen : LoadingScreen = get_node("LoadingScreen")
 @onready var _alert : Label = get_node("Alert")
@@ -35,6 +37,8 @@ func set_init_flags() -> void:
 			_host_os = "pc"
 		
 	_is_debug_build = OS.has_feature("debug")
+	
+	$Version.text = "BEKALAND version " + str(_G.VERSION) 
 
 func _process(delta: float) -> void:
 	_handle_fullscreen()
