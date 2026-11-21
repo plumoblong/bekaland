@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Foliage" format=3 uid="uid://bf14ppa0blpgr"]
+
+[ext_resource type="Script" uid="uid://rbgmi8m3r7g3" path="res://src/foliage_rule.gd" id="1_uv06d"]
+[ext_resource type="Script" uid="uid://c4lrna3njeq1y" path="res://src/foliage.gd" id="2_347ti"]
+[ext_resource type="Resource" uid="uid://c1shjge8qtxf1" path="res://data/dimension/foliage/rule_small_rock.tres" id="2_2865w"]
+
+[resource]
+script = ExtResource("2_347ti")
+rules = Array[ExtResource("1_uv06d")]([ExtResource("2_2865w")])
+metadata/_custom_type_script = "uid://c4lrna3njeq1y"

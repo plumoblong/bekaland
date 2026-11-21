@@ -12,18 +12,22 @@ class_name Player
 
 @onready var body_sprite : Node3D = get_node("Body")
 @onready var head_sprite : Sprite3D = get_node("Body/Head")
+@onready var held_item_sprite : Sprite3D = get_node("Body/HeldItem")
+@onready var held_item_light : OmniLight3D = get_node("Body/HeldItem/OmniLight3D")
 
 @onready var timer_suffocation : Timer = get_node("SuffocationTimer")
 @onready var timer_respawn : Timer = get_node("RespawnTimer")
 
-const MOUSE_SENSITIVITY : float = 0.002
+@onready var crafting_manager : CraftingManager = get_node("CraftingManager")
+
+const MOUSE_SENSITIVITY : float = 0.0025
 
 const SUFFOCATION_THRES : float = 0.01
 const SUFFOCATION_TIME : float = 1.0
 const SUFFOCATION_DAMAGE : float = 0.1
  
-const CAMERA_BOB_SPEED : float = 7.0
-const CAMERA_BOB_HEIGHT : float = 0.25
+const CAMERA_BOB_SPEED : float = 9.0
+const CAMERA_BOB_HEIGHT : float = 0.1
 
 const CAMERA_FOV_NORMAL : float = 80.0
 const CAMERA_FOV_ZOOM : float = 30.0
@@ -55,17 +59,29 @@ func _ready() -> void:
 	ui.set_mouse(true)
 	ui.pulse(Color(0.0, 0.0, 0.0, 1.0), 1.0)
 	inv_manager.select_slot(selected_hotbar)
+	
+	_F.config_entry_changed.connect(_on_config_entry_changed)
+	_F.update_config_entries()
+	
 	await get_tree().create_timer(0.1).timeout
 	health.respawn()
 	
 func _input(event : InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		if can_control:
-			var s : float = MOUSE_SENSITIVITY * (camera.fov / CAMERA_FOV_NORMAL)
+			var s : float = MOUSE_SENSITIVITY * (camera.fov / CAMERA_FOV_NORMAL) * _F.get_config_entry("input_mouse_vel")
 			rotate_y(-event.screen_relative.x * s)
 			head.rotate_x(-event.screen_relative.y * s)
 			head.rotation_degrees.x = clampf(head.rotation_degrees.x, -90.0, 90.0)
 
+func _on_config_entry_changed(entry : StringName, value) -> void:
+	_set_config(entry, value)
+	print("Entry updated: ", entry, " = ", value)
+
+func _set_config(entry : StringName, value) -> void:
+	match entry:
+		"render_distance":
+			camera.far = value as float
 
 func _physics_process(delta: float) -> void:
 	head_sprite.rotation_degrees.x = head.rotation_degrees.x
@@ -91,41 +107,56 @@ func _physics_process(delta: float) -> void:
 			elif Input.is_action_pressed("attack"):
 				_handle_attack()
 				
-		#else:
-			#placeable_ghost.hide()
+		else:
+			placeable_ghost.hide()
 	else:
 		movement.wish_dir = Vector2.ZERO
-		#placeable_ghost.hide()
+		placeable_ghost.hide()
 	
 	if Input.is_action_just_pressed("screenshot"):
 		_F.screenshot()
-	
+	_update_boundaries()
 
 func _process(delta: float) -> void:
 	if health.alive:
 		_update_camera(delta)
 		
 		_handle_inventory()
+		#_handle_crafting()
+		
 		_update_effects(delta)
-
+	
+	inv_manager.active = health.alive
+	
+		
 func _handle_placing() -> void:
+	if not _can_place_item(): 
+		return
 	held_item.place_item(_ray_point, placeable_ghost.rotation)
 
+func _update_boundaries() -> void:
+	if global_position.y < -30.0:
+		global_position.y = 200.0
+
+func _can_place_item() -> bool:
+	var c : Node3D = ray.get_collider()
+	return c.is_in_group(_G.GROUP_CAN_PLACE)
+
 func _update_ghost() -> void:
-	if not ray.get_collider() is Terrain3D:
-		#placeable_ghost.hide()
+	if not _can_place_item():
+		placeable_ghost.hide()
 		return
 		
 	if held_item.is_empty(): 
-		#placeable_ghost.hide()
+		placeable_ghost.hide()
 		return
 		
 	var i : Item = held_item.item
 	if i.placeable_id == Game.Placeables.NONE:
-		#placeable_ghost.hide()
+		placeable_ghost.hide()
 		return
 	
-	#placeable_ghost.show()
+	placeable_ghost.show()
 	placeable_ghost.global_position = _ray_point + i.place_ghost_offset
 	placeable_ghost.rotation = _ray_norm if i.place_snap_to_normal else rotation
 	placeable_ghost.scale = i.place_ghost_size
@@ -143,13 +174,14 @@ func _handle_attack() -> void:
 	_check_damageable_object(obj)
 			
 func _check_damageable_object(obj : Node) -> void:
+	
 	if obj.is_in_group(_G.GROUP_DESTROYABLE):
 		_set_ui_last_health(obj.health)
-		obj.damage(_current_damage)
+		obj.damage_with_item(held_item.item)
 		
 	elif obj.is_in_group(_G.GROUP_ENTITY):
 		_set_ui_last_health(obj.health)
-		obj.health.hurt(_current_damage)
+		obj.health.hurt_with_item(held_item.item)
 		
 func _set_ui_last_health(h : Health) -> void:
 	if h == null:
@@ -170,7 +202,7 @@ func _update_camera(delta : float) -> void:
 	
 	var form : float = abs(sin(_G.time * b))
 	
-	camera.position.y = form * _camera_movement_mult
+	head.position.y = 0.681 + (form * _camera_movement_mult)
 
 func _handle_drop() -> void:
 	if held_item.is_empty():
@@ -184,13 +216,17 @@ func _handle_drop() -> void:
 
 func _handle_inventory() -> void:
 	if Input.is_action_just_pressed("inventory"):
-		if inv_manager.inventory_ui.visible:
+		if inv_manager.inventory_opened:
 			inv_manager.close_inventory_ui()
-			inv_manager.select_slot(selected_hotbar)
 		else:
 			inv_manager.open_inventory_ui()
+	elif Input.is_action_just_pressed("crafting"):
+		if inv_manager.crafting_opened:
+			inv_manager.close_inventory_ui()
+		else:
+			inv_manager.open_crafting_ui()
 
-	if not inv_manager.inventory_ui.visible:
+	if not inv_manager.is_ui_open():
 		if Input.is_action_just_pressed("scroll_down"):
 			if selected_hotbar > 4:
 				selected_hotbar = 0
@@ -224,6 +260,10 @@ func _handle_inventory() -> void:
 		elif Input.is_key_pressed(KEY_6):
 			selected_hotbar = 5
 			inv_manager.select_slot(selected_hotbar)
+	
+	if not held_item.is_empty():
+		held_item_light.light_energy = float(not is_submerged() and held_item.item.emits_light)
+			
 
 func _update_effects(delta : float) -> void:
 	#oxygen mechanic
@@ -254,12 +294,11 @@ func _on_health_damaged(value: float, _type: Health.DamageType) -> void:
 
 func _on_health_died() -> void:
 	body_sprite.hide()
-	ui.set_mouse(false)
-	inv_manager.hotbar_ui.hide()
 	timer_respawn.start(RESPAWN_TIME)
 	_reset_status()
 	ui.pulse(Color.RED, 2.0)
 	inv_manager.close_inventory_ui()
+	ui.set_mouse(false)
 
 func _on_health_respawned() -> void:
 	body_sprite.show()
@@ -279,6 +318,23 @@ func _on_pickup_query_body_entered(body: Node3D) -> void:
 	
 func _on_inventory_manager_hotbar_slot_selected(slot_id: int) -> void:
 	held_item = inv_manager.inventory.get_hotbar_item(slot_id)
+	if not held_item.is_empty():
+		held_item_sprite.show()
+		held_item_sprite.texture = held_item.item.icon
+		held_item_sprite.pixel_size = 0.25 / held_item.item.icon.get_height()
+		held_item_sprite.shaded = not held_item.item.emits_light
+		held_item_light.visible = held_item.item.emits_light
+		held_item_light.light_color = held_item.item.light_emit_color
+	else:
+		held_item_sprite.hide()
 
 func get_spawn_position() -> Vector3:
 	return _G.game.ray.sample_position(_spawn_position + Vector2(randf() - 0.5, randf() - 0.5).normalized() * _SPAWN_RADIUS) + Vector3.UP
+
+func _on_station_query_body_entered(body: Node3D) -> void:
+	if body.is_in_group(_G.GROUP_STATION):
+		crafting_manager.add_station(body.station_type)
+
+func _on_station_query_body_exited(body: Node3D) -> void:
+	if body.is_in_group(_G.GROUP_STATION):
+		crafting_manager.remove_station(body.station_type)

@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://bbyxhtcs0txmb"]
+
+[ext_resource type="Script" uid="uid://cm2kcr4rukf7p" path="res://src/alert.gd" id="1_4c43f"]
+[ext_resource type="FontFile" uid="uid://07o6bh33do7h" path="res://font/timesb.ttf" id="1_ses4w"]
+
+[node name="Label" type="Label" unique_id=622470899]
+offset_right = 40.0
+offset_bottom = 19.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_ses4w")
+theme_override_font_sizes/font_size = 12
+horizontal_alignment = 1
+script = ExtResource("1_4c43f")

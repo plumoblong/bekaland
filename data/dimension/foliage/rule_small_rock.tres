@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="FoliageRule" format=3 uid="uid://c1shjge8qtxf1"]
+
+[ext_resource type="Script" uid="uid://rbgmi8m3r7g3" path="res://src/foliage_rule.gd" id="1_kcvyf"]
+
+[resource]
+script = ExtResource("1_kcvyf")
+spawn_id = "small_rock"
+min_height = -15.0
+max_height = 32.0
+step = 64
+jitter_min = 24.0
+jitter_max = 48.0
+chance = 0.8

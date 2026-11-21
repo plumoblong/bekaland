@@ -62,3 +62,9 @@ func update(delta : float) -> void:
 	
 func is_moving() -> bool:
 	return wish_dir != Vector2.ZERO
+
+func can_footstep_sfx_play() -> bool:
+	return is_moving() and _parent.is_on_floor()
+
+func get_footstep_sfx_pitch() -> float:
+	return move_speed * movement_mult / 20.0

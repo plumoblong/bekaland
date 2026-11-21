@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://clh645yj3ashf"]
+
+[ext_resource type="Texture2D" uid="uid://8gmp57srsh6b" path="res://images/items.png" id="1_opcjl"]
+[ext_resource type="Script" uid="uid://bgtjxmfdy52l3" path="res://src/item.gd" id="2_7vupr"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_opcjl"]
+atlas = ExtResource("1_opcjl")
+region = Rect2(0, 96, 24, 24)
+
+[resource]
+script = ExtResource("2_7vupr")
+name = "Rock Axe"
+icon = SubResource("AtlasTexture_opcjl")
+max_stack = 1
+attack_damage = 0.4
+wood_damage = 0.45
+metadata/_custom_type_script = "uid://bgtjxmfdy52l3"

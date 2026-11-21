@@ -3,12 +3,14 @@
 [ext_resource type="Texture2D" uid="uid://8gmp57srsh6b" path="res://images/items.png" id="1_jci35"]
 [ext_resource type="Script" uid="uid://bgtjxmfdy52l3" path="res://src/item.gd" id="2_fnosy"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_xriu0"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_fnosy"]
 atlas = ExtResource("1_jci35")
 region = Rect2(0, 24, 24, 24)
 
 [resource]
 script = ExtResource("2_fnosy")
-icon = SubResource("AtlasTexture_xriu0")
+name = "Wood Wall"
+icon = SubResource("AtlasTexture_fnosy")
 placeable_id = 2
+place_ghost_offset = Vector3(0, 1, 0)
 metadata/_custom_type_script = "uid://bgtjxmfdy52l3"

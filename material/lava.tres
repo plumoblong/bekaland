@@ -4,7 +4,6 @@
 
 [resource]
 render_priority = 1
-transparency = 1
 cull_mode = 2
 shading_mode = 0
 albedo_texture = ExtResource("1_64pl2")

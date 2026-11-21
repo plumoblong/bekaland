@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="CraftingRecipe" format=3 uid="uid://c1404nu25drkn"]
+
+[ext_resource type="Script" uid="uid://owxpkers3g4w" path="res://src/inventory_slot.gd" id="1_pam3i"]
+[ext_resource type="Resource" uid="uid://hvqvf1lfi1rs" path="res://data/item/raw_meat.tres" id="2_pam3i"]
+[ext_resource type="Resource" uid="uid://crg7g8bvx5aah" path="res://data/item/cooked_meat.tres" id="3_gv5pd"]
+[ext_resource type="Resource" uid="uid://d1b5ufdrluxk" path="res://data/item/coal.tres" id="3_y68ko"]
+[ext_resource type="Script" uid="uid://djebqfw6l21lg" path="res://src/craft_recipe.gd" id="4_od11n"]
+
+[sub_resource type="Resource" id="Resource_y68ko"]
+script = ExtResource("1_pam3i")
+item = ExtResource("2_pam3i")
+quantity = 1
+metadata/_custom_type_script = "uid://owxpkers3g4w"
+
+[sub_resource type="Resource" id="Resource_5kidb"]
+script = ExtResource("1_pam3i")
+item = ExtResource("3_y68ko")
+quantity = 1
+metadata/_custom_type_script = "uid://owxpkers3g4w"
+
+[sub_resource type="Resource" id="Resource_od11n"]
+script = ExtResource("1_pam3i")
+item = ExtResource("3_gv5pd")
+quantity = 1
+metadata/_custom_type_script = "uid://owxpkers3g4w"
+
+[resource]
+script = ExtResource("4_od11n")
+inputs = Array[ExtResource("1_pam3i")]([SubResource("Resource_y68ko"), SubResource("Resource_5kidb")])
+required_station = 2
+output = SubResource("Resource_od11n")
+metadata/_custom_type_script = "uid://djebqfw6l21lg"

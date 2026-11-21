@@ -18,7 +18,16 @@ layer = 10
 script = ExtResource("1_qnetn")
 textures = Array[Texture2D]([ExtResource("2_jxqpx"), ExtResource("3_aed6u"), ExtResource("1_126je"), ExtResource("5_gcu4u"), ExtResource("4_csl6c"), ExtResource("7_bdt8y"), ExtResource("2_85jvq"), ExtResource("9_j02so"), ExtResource("10_mmw8x"), ExtResource("11_sx211")])
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=1571324538]
+[node name="Control" type="Control" parent="." unique_id=1682786061]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="Control" unique_id=1571324538]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -26,8 +35,9 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="Background" type="TextureRect" parent="." unique_id=1158833241]
+[node name="Background" type="TextureRect" parent="Control" unique_id=1158833241]
 modulate = Color(0.43204266, 0.43204266, 0.43204266, 1)
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -37,22 +47,32 @@ texture = ExtResource("3_85jvq")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="Text" type="Label" parent="." unique_id=1425829376]
-offset_left = 67.0
-offset_top = 457.0
-offset_right = 128.0
-offset_bottom = 476.0
+[node name="Control" type="Control" parent="Control" unique_id=1592791674]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+grow_vertical = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="Texture" type="TextureRect" parent="Control/Control" unique_id=1887624967]
+layout_mode = 0
+offset_left = 20.0
+offset_top = -51.0
+offset_right = 52.0
+offset_bottom = -19.0
+offset_transform_position = Vector2(-64, 0)
+texture = ExtResource("1_126je")
+expand_mode = 1
+
+[node name="Text" type="Label" parent="Control/Control" unique_id=1425829376]
+layout_mode = 0
+offset_left = 61.0
+offset_top = -44.0
+offset_right = 120.0
+offset_bottom = -25.0
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_outline_size = 3
 text = "loading..."
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="Texture" type="TextureRect" parent="." unique_id=1887624967]
-offset_left = 27.0
-offset_top = 449.0
-offset_right = 59.0
-offset_bottom = 481.0
-offset_transform_position = Vector2(-64, 0)
-texture = ExtResource("1_126je")
-expand_mode = 1

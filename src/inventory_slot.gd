@@ -7,7 +7,13 @@ class_name InventorySlot
 signal on_refresh
 
 func is_empty() -> bool:
-	return item == null or quantity <= 0
+	if item == null or quantity <= 0:
+		item = null
+		quantity = 0
+		
+		return true
+		
+	return false
 
 func can_add(amount: int) -> int:
 	# returns how much fits before hitting max_stack
@@ -79,6 +85,7 @@ func place_item(pos : Vector3, rotation : Vector3) -> void:
 	
 	p.global_position = pos
 	p.global_rotation = rotation
+	p.place()
 	quantity -= 1
 	if is_empty():
 		set_empty()

@@ -5,4 +5,5 @@
 
 [resource]
 script = ExtResource("1_48tqa")
+placeable_id = 5
 metadata/_custom_type_script = "uid://bgtjxmfdy52l3"

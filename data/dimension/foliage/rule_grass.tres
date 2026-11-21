@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="FoliageRule" format=3 uid="uid://xwe47dlybqsm"]
+
+[ext_resource type="Script" uid="uid://rbgmi8m3r7g3" path="res://src/foliage_rule.gd" id="1_h6ukh"]
+
+[resource]
+script = ExtResource("1_h6ukh")
+spawn_id = "grass"
+min_height = 18.0
+max_height = 60.0
+chance = 0.7

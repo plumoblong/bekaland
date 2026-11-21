@@ -1,9 +1,47 @@
 [gd_scene format=3 uid="uid://cvxvo05kv24j1"]
 
-[node name="CraftingUI" type="Control" unique_id=1422458481]
+[ext_resource type="Script" uid="uid://wdhlsgiirx2f" path="res://src/crafting_ui.gd" id="1_3gjro"]
+[ext_resource type="PackedScene" uid="uid://c333x5pja3r82" path="res://scene/crafting_slot_ui.tscn" id="1_f7iue"]
+
+[node name="CraftingUI" type="Control" unique_id=1422458481 node_paths=PackedStringArray("recipe_container", "container")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_3gjro")
+recipe_container = NodePath("Container/RecipeContainer/Recipes")
+container = NodePath("Container")
+
+[node name="Container" type="VBoxContainer" parent="." unique_id=1692351090]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -80.0
+offset_top = -157.5
+offset_right = 80.0
+offset_bottom = 157.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="RecipeContainer" type="ScrollContainer" parent="Container" unique_id=1850772247]
+custom_minimum_size = Vector2(160, 256)
+custom_maximum_size = Vector2(160, 256)
+clip_contents = false
+layout_mode = 2
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 0
+
+[node name="Recipes" type="VBoxContainer" parent="Container/RecipeContainer" unique_id=96450630]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1
+
+[node name="CraftingSlotUI" parent="Container/RecipeContainer/Recipes" unique_id=395616360 instance=ExtResource("1_f7iue")]
+layout_mode = 2

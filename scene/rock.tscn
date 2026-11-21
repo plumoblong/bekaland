@@ -1,0 +1,65 @@
+[gd_scene format=3 uid="uid://bcp1ut76k4354"]
+
+[ext_resource type="Script" uid="uid://cb66883ovxmqi" path="res://src/rock.gd" id="1_o08jy"]
+[ext_resource type="Material" uid="uid://dm375oa5l3pe0" path="res://material/rock.tres" id="2_t7a0u"]
+[ext_resource type="Script" uid="uid://c3m674ammcf1a" path="res://src/health.gd" id="3_qrwwc"]
+[ext_resource type="Script" uid="uid://c5m7qrah0eb4r" path="res://src/item_pickup_spawner.gd" id="4_x756o"]
+[ext_resource type="Script" uid="uid://brptackfci4hp" path="res://src/loot_table.gd" id="5_gdaml"]
+[ext_resource type="Script" uid="uid://dh0eisfiobd56" path="res://src/loot.gd" id="6_turv5"]
+[ext_resource type="Resource" uid="uid://4ueichfa3c3e" path="res://data/item/rock.tres" id="7_uo4hu"]
+[ext_resource type="Resource" uid="uid://d1b5ufdrluxk" path="res://data/item/coal.tres" id="8_ow1ly"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_p4xor"]
+radius = 0.7
+radial_segments = 6
+rings = 5
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_g4v7s"]
+radius = 0.7025046
+
+[sub_resource type="Resource" id="Resource_yf5fn"]
+script = ExtResource("6_turv5")
+item = ExtResource("7_uo4hu")
+count_max = 10
+count_min = 5
+metadata/_custom_type_script = "uid://dh0eisfiobd56"
+
+[sub_resource type="Resource" id="Resource_57qmd"]
+script = ExtResource("6_turv5")
+item = ExtResource("8_ow1ly")
+metadata/_custom_type_script = "uid://dh0eisfiobd56"
+
+[sub_resource type="Resource" id="Resource_g4v7s"]
+script = ExtResource("5_gdaml")
+table = Dictionary[ExtResource("6_turv5"), float]({
+SubResource("Resource_yf5fn"): 0.85,
+SubResource("Resource_57qmd"): 0.15
+})
+metadata/_custom_type_script = "uid://brptackfci4hp"
+
+[node name="Rock" type="StaticBody3D" unique_id=1568794059 node_paths=PackedStringArray("body")]
+collision_layer = 8
+collision_mask = 8
+script = ExtResource("1_o08jy")
+body = NodePath("Body")
+metadata/_custom_type_script = "uid://13a34exta3wo"
+
+[node name="Body" type="Node3D" parent="." unique_id=1452249623]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Body" unique_id=922025000]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1.0000001, 0, 0, 0)
+material_override = ExtResource("2_t7a0u")
+mesh = SubResource("SphereMesh_p4xor")
+
+[node name="CollisionPolygon3D" type="CollisionShape3D" parent="." unique_id=1377499796]
+shape = SubResource("SphereShape3D_g4v7s")
+
+[node name="Health" type="Node" parent="." unique_id=1792558544]
+script = ExtResource("3_qrwwc")
+max_health = 10.0
+metadata/_custom_type_script = "uid://c3m674ammcf1a"
+
+[node name="LootSpawner" type="Node3D" parent="." unique_id=869104111]
+script = ExtResource("4_x756o")
+loot = SubResource("Resource_g4v7s")
+metadata/_custom_type_script = "uid://c5m7qrah0eb4r"

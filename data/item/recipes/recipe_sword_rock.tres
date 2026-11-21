@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="CraftingRecipe" format=3 uid="uid://8uklnn5euead"]
+
+[ext_resource type="Script" uid="uid://owxpkers3g4w" path="res://src/inventory_slot.gd" id="1_bj7n5"]
+[ext_resource type="Resource" uid="uid://wba4pr7n16um" path="res://data/item/wood.tres" id="2_rvhn2"]
+[ext_resource type="Resource" uid="uid://4ueichfa3c3e" path="res://data/item/rock.tres" id="3_dtxiy"]
+[ext_resource type="Resource" uid="uid://c474tbpt8ugvq" path="res://data/item/sword_rock.tres" id="4_bj7n5"]
+[ext_resource type="Script" uid="uid://djebqfw6l21lg" path="res://src/craft_recipe.gd" id="5_87ji7"]
+
+[sub_resource type="Resource" id="Resource_sf5a2"]
+script = ExtResource("1_bj7n5")
+item = ExtResource("2_rvhn2")
+quantity = 25
+metadata/_custom_type_script = "uid://owxpkers3g4w"
+
+[sub_resource type="Resource" id="Resource_fij3j"]
+script = ExtResource("1_bj7n5")
+item = ExtResource("3_dtxiy")
+quantity = 15
+metadata/_custom_type_script = "uid://owxpkers3g4w"
+
+[sub_resource type="Resource" id="Resource_rvhn2"]
+script = ExtResource("1_bj7n5")
+item = ExtResource("4_bj7n5")
+quantity = 1
+metadata/_custom_type_script = "uid://owxpkers3g4w"
+
+[resource]
+script = ExtResource("5_87ji7")
+inputs = Array[ExtResource("1_bj7n5")]([SubResource("Resource_sf5a2"), SubResource("Resource_fij3j")])
+required_station = 1
+output = SubResource("Resource_rvhn2")
+metadata/_custom_type_script = "uid://djebqfw6l21lg"

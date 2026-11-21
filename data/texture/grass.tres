@@ -7,4 +7,3 @@ name = "grass_0"
 albedo_texture = ExtResource("1_24mq2")
 uv_scale = 0.25
 detiling_rotation = 1.0
-detiling_shift = 1.0

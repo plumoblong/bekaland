@@ -32,7 +32,7 @@ expand_mode = 1
 
 [node name="CountLabel" type="Label" parent="." unique_id=1990838281]
 layout_mode = 1
-anchors_preset = 3
+anchors_preset = -1
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
@@ -43,6 +43,7 @@ grow_horizontal = 0
 grow_vertical = 0
 offset_transform_enabled = true
 offset_transform_position = Vector2(4, 6)
+offset_transform_pivot_ratio = Vector2(0.8, 0.8)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_outline_size = 3
 text = "99"
@@ -50,6 +51,7 @@ horizontal_alignment = 2
 vertical_alignment = 2
 
 [node name="Debug" type="Label" parent="." unique_id=169045328]
+visible = false
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0

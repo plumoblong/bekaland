@@ -5,10 +5,12 @@
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_abg1k"]
 atlas = ExtResource("1_abg1k")
-region = Rect2(48, 0, 24, 24)
+region = Rect2(96, 48, 24, 24)
 
 [resource]
 script = ExtResource("2_55ob0")
-name = "Stone Wall"
+name = "Rock"
 icon = SubResource("AtlasTexture_abg1k")
+attack_damage = 0.3
+wood_damage = 0.3
 metadata/_custom_type_script = "uid://bgtjxmfdy52l3"

@@ -1,0 +1,77 @@
+[gd_scene format=3 uid="uid://b6u3hqgbgj046"]
+
+[ext_resource type="Script" uid="uid://dm86aj05ayl1b" path="res://src/crafting_station.gd" id="1_h2vxk"]
+[ext_resource type="Material" uid="uid://blkrh86417w3v" path="res://material/wood.tres" id="2_008yh"]
+[ext_resource type="Resource" uid="uid://bv2h6jdi685pe" path="res://data/item/workbench.tres" id="2_302fp"]
+[ext_resource type="Script" uid="uid://owxpkers3g4w" path="res://src/inventory_slot.gd" id="3_h2vxk"]
+[ext_resource type="Script" uid="uid://c3m674ammcf1a" path="res://src/health.gd" id="5_tk7bn"]
+[ext_resource type="Script" uid="uid://cc1y3i7f28y0" path="res://src/loot_spawner.gd" id="6_h2vxk"]
+
+[sub_resource type="Resource" id="Resource_g4v7s"]
+script = ExtResource("3_h2vxk")
+item = ExtResource("2_302fp")
+quantity = 1
+metadata/_custom_type_script = "uid://owxpkers3g4w"
+
+[sub_resource type="BoxMesh" id="BoxMesh_g4v7s"]
+size = Vector3(2.1000001, 0.22783203, 1.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_bmtyr"]
+size = Vector3(0.28, 0.8, 0.28)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g4v7s"]
+size = Vector3(2.2, 1, 1.5)
+
+[node name="Workbench" type="StaticBody3D" unique_id=907028211 node_paths=PackedStringArray("health", "hitbox", "body", "item_spawner") groups=["Destroyable", "Station"]]
+collision_layer = 265
+collision_mask = 265
+script = ExtResource("1_h2vxk")
+use_rotation_snap = false
+health = NodePath("Health")
+hitbox = NodePath("CollisionShape3D")
+body = NodePath("Body")
+item_spawner = NodePath("ItemPickupSpawner")
+item_spawner_slot = SubResource("Resource_g4v7s")
+material = 1
+metadata/_custom_type_script = "uid://qwupevcwmad0"
+
+[node name="Body" type="Node3D" parent="." unique_id=1342257868]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Body" unique_id=195148247]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.886435e-08, 0.88608396, -0.08000004)
+material_override = ExtResource("2_008yh")
+mesh = SubResource("BoxMesh_g4v7s")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Body" unique_id=697198250]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -0.70000017, 0.39999998, -0.48)
+material_override = ExtResource("2_008yh")
+mesh = SubResource("BoxMesh_bmtyr")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Body" unique_id=865770342]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -0.70000005, 0.39999998, 0.42000008)
+material_override = ExtResource("2_008yh")
+mesh = SubResource("BoxMesh_bmtyr")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Body" unique_id=1509987527]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0.6999999, 0.39999998, -0.4800001)
+material_override = ExtResource("2_008yh")
+mesh = SubResource("BoxMesh_bmtyr")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="Body" unique_id=354580016]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0.70000005, 0.39999998, 0.41999996)
+material_override = ExtResource("2_008yh")
+mesh = SubResource("BoxMesh_bmtyr")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=20710016]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.9802322e-08, 0.5, -0.05000007)
+shape = SubResource("BoxShape3D_g4v7s")
+
+[node name="Health" type="Node" parent="." unique_id=1796636181]
+script = ExtResource("5_tk7bn")
+max_health = 0.4
+metadata/_custom_type_script = "uid://c3m674ammcf1a"
+
+[node name="ItemPickupSpawner" type="Node3D" parent="." unique_id=75579799]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0)
+script = ExtResource("6_h2vxk")
+metadata/_custom_type_script = "uid://cc1y3i7f28y0"

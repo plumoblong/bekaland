@@ -1,7 +1,9 @@
 [gd_scene format=3 uid="uid://v6yxyagn1aiy"]
 
 [ext_resource type="Script" uid="uid://dx2ug6mg3l0y7" path="res://src/menu.gd" id="1_e5g8k"]
-[ext_resource type="FontFile" uid="uid://07o6bh33do7h" path="res://font/timesb.ttf" id="2_8hxod"]
+[ext_resource type="PackedScene" uid="uid://ckccohsrw6x6i" path="res://scene/popup_menu.tscn" id="3_15se8"]
+[ext_resource type="Texture2D" uid="uid://bxc5lkhy5mrf2" path="res://texture/morph_1.png" id="3_bo06a"]
+[ext_resource type="PackedScene" uid="uid://du0jxl2x53mbh" path="res://scene/options.tscn" id="4_15se8"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_g4v7s"]
 
@@ -25,7 +27,7 @@
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_33x8s"]
 
-[node name="Menu" type="Control" unique_id=468396459]
+[node name="Menu" type="Control" unique_id=468396459 node_paths=PackedStringArray("continue_button")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -33,8 +35,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_e5g8k")
+continue_button = NodePath("Main/VBoxContainer/Continue")
 
 [node name="Main" type="Control" parent="." unique_id=80769350]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -42,38 +46,27 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Logo" type="Label" parent="Main" unique_id=16391515]
+[node name="VBoxContainer" type="VBoxContainer" parent="Main" unique_id=273673484]
 layout_mode = 1
-anchors_preset = -1
-anchor_top = 0.263
-anchor_right = 1.0
-anchor_bottom = 0.269
-offset_top = -18.0
-offset_bottom = 18.0
-grow_horizontal = 2
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 72.0
+offset_right = 145.0
 grow_vertical = 2
-offset_transform_enabled = true
-theme_override_colors/font_shadow_color = Color(0.22159421, 0.22159421, 0.22159421, 1)
-theme_override_constants/shadow_offset_x = 4
-theme_override_constants/shadow_offset_y = 4
-theme_override_constants/shadow_outline_size = 0
-theme_override_fonts/font = ExtResource("2_8hxod")
-theme_override_font_sizes/font_size = 32
-text = "BEKALAND"
-horizontal_alignment = 1
-vertical_alignment = 1
+alignment = 1
 
-[node name="Start" type="Button" parent="Main" unique_id=319190545]
-layout_mode = 1
-anchors_preset = 14
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_top = -4.0
-offset_bottom = 4.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="TextureRect" type="TextureRect" parent="Main/VBoxContainer" unique_id=1738044382]
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, -23.62)
+texture = ExtResource("3_bo06a")
+
+[node name="Start" type="Button" parent="Main/VBoxContainer" unique_id=319190545]
+custom_maximum_size = Vector2(-1, 16)
+layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 0.5019608)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 0.5019608)
 theme_override_styles/normal = SubResource("StyleBoxEmpty_g4v7s")
 theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_yf5fn")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_57qmd")
@@ -85,6 +78,80 @@ theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_7numd"
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_p1u0y")
 theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_5s0fj")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_33x8s")
-text = "play"
+text = "New Game"
+alignment = 0
 
-[connection signal="pressed" from="Main/Start" to="." method="_on_start_pressed"]
+[node name="Continue" type="Button" parent="Main/VBoxContainer" unique_id=656352942]
+custom_maximum_size = Vector2(-1, 16)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 0.5019608)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 0.5019608)
+theme_override_styles/normal = SubResource("StyleBoxEmpty_g4v7s")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_yf5fn")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_57qmd")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_d0u6y")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_2j2di")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_3gngh")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_fcnqv")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_7numd")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_p1u0y")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_5s0fj")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_33x8s")
+disabled = true
+text = "Continue"
+alignment = 0
+
+[node name="Options" type="Button" parent="Main/VBoxContainer" unique_id=1132463023]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 0.5019608)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 0.5019608)
+theme_override_styles/normal = SubResource("StyleBoxEmpty_g4v7s")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_yf5fn")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_57qmd")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_d0u6y")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_2j2di")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_3gngh")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_fcnqv")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_7numd")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_p1u0y")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_5s0fj")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_33x8s")
+text = "Options"
+alignment = 0
+
+[node name="Quit" type="Button" parent="Main/VBoxContainer" unique_id=500347362]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 0.5019608)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 0.5019608)
+theme_override_styles/normal = SubResource("StyleBoxEmpty_g4v7s")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_yf5fn")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_57qmd")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_d0u6y")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_2j2di")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_3gngh")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_fcnqv")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_7numd")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_p1u0y")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_5s0fj")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_33x8s")
+text = "Quit
+"
+alignment = 0
+
+[node name="Popup" parent="Main" unique_id=486217066 instance=ExtResource("3_15se8")]
+visible = false
+layout_mode = 1
+
+[node name="Options" parent="." unique_id=730165844 instance=ExtResource("4_15se8")]
+visible = false
+layout_mode = 1
+
+[connection signal="pressed" from="Main/VBoxContainer/Start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="Main/VBoxContainer/Continue" to="." method="_on_continue_pressed"]
+[connection signal="pressed" from="Main/VBoxContainer/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="Main/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
+[connection signal="accepted" from="Main/Popup" to="." method="_on_popup_accepted"]
+[connection signal="back_pressed" from="Options" to="." method="_on_options_back_pressed"]

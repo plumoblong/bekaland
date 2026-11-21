@@ -11,16 +11,47 @@ region = Rect2(0, 0, 24, 24)
 height = 1.5
 radius = 0.1
 
-[node name="ItemPickup" type="CharacterBody3D" unique_id=762370924 node_paths=PackedStringArray("sprite", "hitbox")]
+[node name="ItemPickup" type="CharacterBody3D" unique_id=762370924 node_paths=PackedStringArray("hitbox")]
 collision_layer = 16
 collision_mask = 16
 script = ExtResource("1_75b4b")
-sprite = NodePath("Sprite")
 hitbox = NodePath("CollisionShape3D")
 submerge_offset = 0.0
 
-[node name="Sprite" type="Sprite3D" parent="." unique_id=562620101]
+[node name="Sprites" type="Node3D" parent="." unique_id=487700144]
+
+[node name="Sprite" type="Sprite3D" parent="Sprites" unique_id=562620101]
 pixel_size = 0.04
+billboard = 1
+shaded = true
+double_sided = false
+alpha_cut = 2
+texture_filter = 0
+texture = SubResource("AtlasTexture_yf5fn")
+
+[node name="Sprite2" type="Sprite3D" parent="Sprites" unique_id=589187030]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, -0.25)
+pixel_size = 0.03
+billboard = 1
+shaded = true
+double_sided = false
+alpha_cut = 2
+texture_filter = 0
+texture = SubResource("AtlasTexture_yf5fn")
+
+[node name="Sprite3" type="Sprite3D" parent="Sprites" unique_id=1457219354]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, -0.25, 0.25)
+pixel_size = 0.03
+billboard = 1
+shaded = true
+double_sided = false
+alpha_cut = 2
+texture_filter = 0
+texture = SubResource("AtlasTexture_yf5fn")
+
+[node name="Sprite4" type="Sprite3D" parent="Sprites" unique_id=1711329291]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, -0.25, 0.25)
+pixel_size = 0.03
 billboard = 1
 shaded = true
 double_sided = false

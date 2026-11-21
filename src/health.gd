@@ -40,6 +40,9 @@ func hurt(damage : float = 0.0, type : DamageType = DamageType.GENERIC) -> void:
 	start_invincibility()
 	reset_natural_heal()
 	
+func hurt_with_item(item : Item, type : DamageType = DamageType.GENERIC) -> void:
+	hurt(item.attack_damage if item else 0.1, type)
+	
 func reset_natural_heal(time : float = -1.0) -> void:
 	can_natural_heal = false
 	var t : float = NATURAL_HEAL_COOLDOWN if time == -1.0 else time

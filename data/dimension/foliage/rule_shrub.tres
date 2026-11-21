@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="FoliageRule" format=3 uid="uid://rrgnub1v0e81"]
+
+[ext_resource type="Script" uid="uid://rbgmi8m3r7g3" path="res://src/foliage_rule.gd" id="1_7p00l"]
+
+[resource]
+script = ExtResource("1_7p00l")
+spawn_id = "shrub"
+max_height = 7.8
+chance = 0.3

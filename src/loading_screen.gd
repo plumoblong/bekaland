@@ -3,9 +3,9 @@ class_name LoadingScreen
 
 @export var textures : Array[Texture2D]
 
-@onready var loading_texture : TextureRect = $Texture
-@onready var header_text : Label = $Text
-@onready var background_texture : TextureRect = $Background
+@onready var loading_texture : TextureRect = $Control/Control/Texture
+@onready var header_text : Label = $Control/Control/Text
+@onready var background_texture : TextureRect = $Control/Background
 
 func _ready() -> void:
 	dectivate()

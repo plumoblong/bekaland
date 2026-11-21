@@ -6,6 +6,9 @@ class_name Torch
 
 func _ready() -> void:
 	setup()
+	
+	fire.frame = randi_range(0, 29)
+	fire.play("default")
 
 func extinguish() -> void:
 	fire.hide()

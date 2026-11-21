@@ -10,7 +10,14 @@
 [ext_resource type="Script" uid="uid://dh0eisfiobd56" path="res://src/loot.gd" id="8_sewpc"]
 [ext_resource type="Resource" uid="uid://hvqvf1lfi1rs" path="res://data/item/raw_meat.tres" id="9_hvqpc"]
 [ext_resource type="PackedScene" uid="uid://bqirbt1vtu7e4" path="res://scene/entity_sfx.tscn" id="10_sewpc"]
+[ext_resource type="PackedScene" uid="uid://33fpc0av3goo" path="res://scene/footstep_sfx.tscn" id="10_xiwou"]
 [ext_resource type="Texture2D" uid="uid://b64yx20w0gl14" path="res://texture/morph_0.png" id="11_u5p5p"]
+[ext_resource type="AudioStream" uid="uid://broexx6wodig5" path="res://sound/pig_idle_0.wav" id="12_sviro"]
+[ext_resource type="AudioStream" uid="uid://bw7mf83npaevh" path="res://sound/pig_idle_1.wav" id="13_pmjga"]
+[ext_resource type="AudioStream" uid="uid://b67llm8yimx1v" path="res://sound/pig_idle_2.wav" id="14_333oy"]
+[ext_resource type="AudioStream" uid="uid://b0unvd2htdos4" path="res://sound/pig_idle_3.wav" id="15_hwcc8"]
+[ext_resource type="AudioStream" uid="uid://c15ejqyu5ljc5" path="res://sound/pig_hurt.wav" id="16_4ueae"]
+[ext_resource type="AudioStream" uid="uid://dhqeafgygxphn" path="res://sound/pig_die.wav" id="17_sp46v"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_g4v7s"]
 radius = 0.75
@@ -48,6 +55,7 @@ billboard = 1
 shaded = true
 double_sided = false
 texture_filter = 0
+render_priority = -1
 texture = ExtResource("2_qcf1v")
 hframes = 3
 script = ExtResource("3_ha0f7")
@@ -75,9 +83,20 @@ loot = SubResource("Resource_g4v7s")
 random_position_radius = 0.25
 metadata/_custom_type_script = "uid://c5m7qrah0eb4r"
 
+[node name="FootstepSFX" parent="." unique_id=1898182885 node_paths=PackedStringArray("movement") instance=ExtResource("10_xiwou")]
+max_db = -15.0
+movement = NodePath("../Movement")
+step_speed = 1.5
+
 [node name="EntitySFX" parent="." unique_id=6241287 node_paths=PackedStringArray("health", "idle_sound_timer") instance=ExtResource("10_sewpc")]
 health = NodePath("../Health")
 idle_sound_timer = NodePath("../IdleSFXTimer")
+idle_sounds = Array[AudioStream]([ExtResource("12_sviro"), ExtResource("13_pmjga"), ExtResource("14_333oy"), ExtResource("15_hwcc8")])
+hurt_sounds = Array[AudioStream]([ExtResource("16_4ueae")])
+die_sounds = Array[AudioStream]([ExtResource("17_sp46v")])
+idle_pitch_range = Vector2(0.9, 1.15)
+hurt_pitch_range = Vector2(0.9, 1.15)
+die_pitch_range = Vector2(1, 1.2)
 
 [node name="IdleSFXTimer" type="Timer" parent="." unique_id=1279594446]
 one_shot = true

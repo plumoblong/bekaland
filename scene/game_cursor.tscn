@@ -32,10 +32,10 @@ hframes = 4
 
 [node name="Slot" parent="Cursor" unique_id=987532823 instance=ExtResource("3_t1n2v")]
 show_behind_parent = true
-offset_left = 13.0
-offset_top = 2.0
-offset_right = 45.0
-offset_bottom = 34.0
+offset_left = 9.0
+offset_top = 18.0
+offset_right = 41.0
+offset_bottom = 50.0
 mouse_filter = 2
 disable_input = true
 slot = SubResource("Resource_fv6f3")

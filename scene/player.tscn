@@ -6,19 +6,46 @@
 [ext_resource type="Texture2D" uid="uid://bjfvl25g3pc0b" path="res://images/player_body.png" id="4_oh5ij"]
 [ext_resource type="Texture2D" uid="uid://dku5512mqok30" path="res://images/player_head.png" id="5_hp4bs"]
 [ext_resource type="PackedScene" uid="uid://cqnkgktosc74" path="res://scene/ui.tscn" id="5_s4jxa"]
+[ext_resource type="Script" uid="uid://bpqjl0nav3old" path="res://src/crafting_manager.gd" id="5_v4iqv"]
+[ext_resource type="Script" uid="uid://djebqfw6l21lg" path="res://src/craft_recipe.gd" id="6_iuf2t"]
 [ext_resource type="Script" uid="uid://c3m674ammcf1a" path="res://src/health.gd" id="6_oh5ij"]
 [ext_resource type="PackedScene" uid="uid://c8qit8vp088b1" path="res://scene/inventory_ui.tscn" id="7_hp4bs"]
+[ext_resource type="Texture2D" uid="uid://8gmp57srsh6b" path="res://images/items.png" id="7_ihjo1"]
+[ext_resource type="Resource" uid="uid://c41owkqk4ghyj" path="res://data/item/recipes/recipe_workbench.tres" id="7_jrjdb"]
 [ext_resource type="Script" uid="uid://f7tnadjjdegp" path="res://src/inventory_manager.gd" id="8_g2vtq"]
+[ext_resource type="Resource" uid="uid://bq33e5csr1k3p" path="res://data/item/recipes/recipe_wood_wall.tres" id="8_kk4ol"]
+[ext_resource type="Resource" uid="uid://c1404nu25drkn" path="res://data/item/recipes/recipe_cooked_meat.tres" id="9_4reak"]
+[ext_resource type="Resource" uid="uid://c6hitrqfcio31" path="res://data/item/recipes/recipe_torch.tres" id="10_xsw3c"]
+[ext_resource type="Texture2D" uid="uid://c6iwbwxnt76m" path="res://texture/water.png" id="11_4ja17"]
 [ext_resource type="Script" uid="uid://cc1y3i7f28y0" path="res://src/loot_spawner.gd" id="11_ihjo1"]
+[ext_resource type="Resource" uid="uid://dm8lus01w6ky1" path="res://data/item/recipes/recipe_furnace.tres" id="11_l1uwf"]
+[ext_resource type="Resource" uid="uid://nfcv4d76f7gb" path="res://data/item/recipes/recipe_axe_rock.tres" id="12_8ie14"]
+[ext_resource type="PackedScene" uid="uid://bqirbt1vtu7e4" path="res://scene/entity_sfx.tscn" id="12_u7b46"]
+[ext_resource type="AudioStream" uid="uid://cb5l0wg10walq" path="res://sound/player_hurt_0.wav" id="13_j4wxg"]
+[ext_resource type="Resource" uid="uid://ce7yq7vpa2r1u" path="res://data/item/recipes/recipe_pickaxe_rock.tres" id="13_pk8el"]
+[ext_resource type="AudioStream" uid="uid://b6dbj07foy010" path="res://sound/player_die_0.wav" id="14_bup7g"]
+[ext_resource type="PackedScene" uid="uid://33fpc0av3goo" path="res://scene/footstep_sfx.tscn" id="15_j4wxg"]
+[ext_resource type="PackedScene" uid="uid://jl14wqy63fok" path="res://scene/ambience_sfx.tscn" id="16_bup7g"]
+[ext_resource type="PackedScene" uid="uid://cvxvo05kv24j1" path="res://scene/crafting_ui.tscn" id="17_4reak"]
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_75b4b"]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_g4v7s"]
 height = 2.5
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_firq0"]
+atlas = ExtResource("7_ihjo1")
+region = Rect2(0, 48, 24, 24)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_j3pel"]
 radius = 1.5
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_4reak"]
+radius = 6.0
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gwuoj"]
-transparency = 1
+transparency = 4
+albedo_color = Color(1, 1, 0.39, 0.4117647)
+albedo_texture = ExtResource("11_4ja17")
+texture_filter = 0
 
 [sub_resource type="BoxMesh" id="BoxMesh_g4v7s"]
 material = SubResource("StandardMaterial3D_gwuoj")
@@ -35,7 +62,7 @@ submerge_offset = 0.7
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1582901647]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
-shape = SubResource("CylinderShape3D_75b4b")
+shape = SubResource("CapsuleShape3D_g4v7s")
 
 [node name="Head" type="Node3D" parent="." unique_id=1879347344]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.70640874, 0)
@@ -44,7 +71,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.70640874, 0)
 physics_interpolation_mode = 2
 transform = Transform3D(1, 0, -1.7484555e-07, 0, 1, 0, 1.7484555e-07, 0, 1, 0, 0, 0)
 current = true
-far = 800.0
+fov = 37.849285
 
 [node name="Ray" type="RayCast3D" parent="Head/Camera3D" unique_id=1886539879]
 target_position = Vector3(0, 0, -6.5)
@@ -55,13 +82,23 @@ collide_with_areas = true
 script = ExtResource("3_fvtld")
 water_margin = 0.75
 
-[node name="InventoryManager" type="Node" parent="." unique_id=1104471879 node_paths=PackedStringArray("inventory_ui", "hotbar_ui", "ui")]
+[node name="InventoryManager" type="Node" parent="." unique_id=1104471879 node_paths=PackedStringArray("inventory_ui", "hotbar_ui", "crafting_ui", "crafting_manager", "ui")]
 script = ExtResource("8_g2vtq")
 inventory = ExtResource("4_ml7e8")
 inventory_ui = NodePath("../InventoryUI")
 hotbar_ui = NodePath("../HotbarUI")
+crafting_ui = NodePath("../CraftingUI")
+crafting_manager = NodePath("../CraftingManager")
 ui = NodePath("../UI")
 metadata/_custom_type_script = "uid://f7tnadjjdegp"
+
+[node name="CraftingManager" type="Node" parent="." unique_id=159508170 node_paths=PackedStringArray("crafting_ui")]
+script = ExtResource("5_v4iqv")
+recipes = Array[ExtResource("6_iuf2t")]([ExtResource("7_jrjdb"), ExtResource("8_kk4ol"), ExtResource("9_4reak"), ExtResource("10_xsw3c"), ExtResource("11_l1uwf"), ExtResource("12_8ie14"), ExtResource("13_pk8el")])
+inventory = ExtResource("4_ml7e8")
+crafting_ui = NodePath("../CraftingUI")
+
+[node name="Ambience" parent="." unique_id=1224693037 instance=ExtResource("16_bup7g")]
 
 [node name="Health" type="Node" parent="." unique_id=370502166]
 script = ExtResource("6_oh5ij")
@@ -69,26 +106,45 @@ natural_heal = true
 alive = false
 
 [node name="Body" type="Node3D" parent="." unique_id=896251517]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.14248776)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.066875845)
+
+[node name="HeldItem" type="Sprite3D" parent="Body" unique_id=1229443477]
+transform = Transform3D(1, -1.0582551e-15, 0, 1.0582551e-15, 1, 0, 0, 0, 1, 0.34069842, 0.08333039, -0.052675188)
+pixel_size = 0.03
+billboard = 1
+shaded = true
+double_sided = false
+alpha_cut = 2
+texture_filter = 0
+texture = SubResource("AtlasTexture_firq0")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Body/HeldItem" unique_id=1494508846]
+physics_interpolation_mode = 2
+light_color = Color(1, 0.74684954, 0.5548043, 1)
+light_specular = 0.0
+distance_fade_begin = 200.0
+omni_range = 30.0
 
 [node name="Sprite" type="Sprite3D" parent="Body" unique_id=2088482029]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.26023924, 0)
+transform = Transform3D(0.4, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.26023924, 0)
 visibility_range_fade_mode = 1
+offset = Vector2(1.5, 0)
 pixel_size = 0.02
 shaded = true
+alpha_cut = 2
 texture_filter = 0
 texture = ExtResource("4_oh5ij")
 
-[node name="HeldItem" type="Sprite3D" parent="Body" unique_id=1229443477]
-transform = Transform3D(1, 4.440892e-16, 0, 4.440892e-16, 1, 0, 0, 0, 1, 1, 5.9604645e-08, -0.14248776)
-
 [node name="Head" type="Sprite3D" parent="Body" unique_id=1125036444]
 transform = Transform3D(1, 0, 0, 0, 0.9977782, 0.06662437, 0, -0.06662437, 0.9977782, 0, 0.76023924, 0)
+visibility_range_begin = 1.0
+visibility_range_begin_margin = 0.1
 visibility_range_fade_mode = 1
 offset = Vector2(0, 24)
 pixel_size = 0.02
 shaded = true
 double_sided = false
+alpha_cut = 2
 texture_filter = 0
 texture = ExtResource("5_hp4bs")
 hframes = 2
@@ -96,11 +152,14 @@ frame = 1
 
 [node name="Face" type="Sprite3D" parent="Body/Head" unique_id=566559488]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+visibility_range_begin = 1.0
+visibility_range_begin_margin = 0.1
 visibility_range_fade_mode = 1
 offset = Vector2(0, 24)
 pixel_size = 0.02
 shaded = true
 double_sided = false
+alpha_cut = 2
 texture_filter = 0
 texture = ExtResource("5_hp4bs")
 hframes = 2
@@ -114,6 +173,7 @@ one_shot = true
 [node name="UI" parent="." unique_id=90584689 instance=ExtResource("5_s4jxa")]
 
 [node name="InventoryUI" parent="." unique_id=1137781025 instance=ExtResource("7_hp4bs")]
+visible = false
 
 [node name="HotbarUI" parent="." unique_id=220085551 instance=ExtResource("7_hp4bs")]
 visible = false
@@ -125,6 +185,8 @@ start_grid = 0
 end_grid = 6
 hotbar = true
 
+[node name="CraftingUI" parent="." unique_id=1422458481 instance=ExtResource("17_4reak")]
+
 [node name="PickupQuery" type="Area3D" parent="." unique_id=1639568746]
 collision_layer = 16
 collision_mask = 16
@@ -133,18 +195,38 @@ collision_mask = 16
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
 shape = SubResource("SphereShape3D_j3pel")
 
+[node name="StationQuery" type="Area3D" parent="." unique_id=2101505833]
+collision_layer = 256
+collision_mask = 256
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StationQuery" unique_id=2034782032]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+shape = SubResource("SphereShape3D_4reak")
+
 [node name="Ghost" type="MeshInstance3D" parent="." unique_id=1943790572]
+physics_interpolation_mode = 2
 top_level = true
-transparency = 1.0
+visible = false
 visibility_range_end = 8.0
 visibility_range_end_margin = 8.0
 visibility_range_fade_mode = 1
 mesh = SubResource("BoxMesh_g4v7s")
 
 [node name="PickupSpawner" type="Node3D" parent="." unique_id=602097519]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3274641, 0.09266001, 0)
 script = ExtResource("11_ihjo1")
 metadata/_custom_type_script = "uid://cc1y3i7f28y0"
+
+[node name="EntitySFX" parent="." unique_id=6241287 node_paths=PackedStringArray("health") instance=ExtResource("12_u7b46")]
+stream = null
+health = NodePath("../Health")
+hurt_sounds = Array[AudioStream]([ExtResource("13_j4wxg")])
+die_sounds = Array[AudioStream]([ExtResource("14_bup7g")])
+hurt_pitch_range = Vector2(0.7, 0.9)
+die_pitch_range = Vector2(0.85, 1)
+
+[node name="FootstepSFX" parent="." unique_id=1898182885 node_paths=PackedStringArray("movement") instance=ExtResource("15_j4wxg")]
+movement = NodePath("../Movement")
 
 [connection signal="hotbar_slot_selected" from="InventoryManager" to="." method="_on_inventory_manager_hotbar_slot_selected"]
 [connection signal="damaged" from="Health" to="." method="_on_health_damaged"]
@@ -153,3 +235,5 @@ metadata/_custom_type_script = "uid://cc1y3i7f28y0"
 [connection signal="timeout" from="SuffocationTimer" to="." method="_suffocate"]
 [connection signal="timeout" from="RespawnTimer" to="." method="_on_respawn_timer_timeout"]
 [connection signal="body_entered" from="PickupQuery" to="." method="_on_pickup_query_body_entered"]
+[connection signal="body_entered" from="StationQuery" to="." method="_on_station_query_body_entered"]
+[connection signal="body_exited" from="StationQuery" to="." method="_on_station_query_body_exited"]

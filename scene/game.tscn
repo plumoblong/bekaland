@@ -3,45 +3,36 @@
 [ext_resource type="Script" uid="uid://eij8qsygaf5q" path="res://src/generation.gd" id="1_5kiuu"]
 [ext_resource type="Script" uid="uid://bll1rbtbfq1ub" path="res://src/game.gd" id="1_dbls1"]
 [ext_resource type="PackedScene" uid="uid://bksy4y2gtl53c" path="res://scene/torch.tscn" id="2_yq8tf"]
+[ext_resource type="PackedScene" uid="uid://77prwilv4xta" path="res://scene/wood_wall.tscn" id="3_5g16k"]
+[ext_resource type="Environment" uid="uid://bdy0j6uqhe1n0" path="res://data/dimension/default_environment.tres" id="4_81276"]
+[ext_resource type="PackedScene" uid="uid://b6u3hqgbgj046" path="res://scene/workbench.tscn" id="4_ve786"]
 [ext_resource type="Script" uid="uid://mr1vkpuqbn77" path="res://src/enemy_spawn.gd" id="4_xlg7c"]
 [ext_resource type="PackedScene" uid="uid://53mv8wotyrc0" path="res://scene/water.tscn" id="4_xwcet"]
+[ext_resource type="PackedScene" uid="uid://4iaasxyekkor" path="res://scene/chest.tscn" id="5_0lu6w"]
 [ext_resource type="Script" uid="uid://d25nqlla4trm1" path="res://src/dimension.gd" id="5_81276"]
 [ext_resource type="Script" uid="uid://clww0ee7xv23x" path="res://src/item_manager.gd" id="5_ll5lq"]
 [ext_resource type="PackedScene" uid="uid://dcnr258lg7xl4" path="res://scene/player.tscn" id="5_p1ry8"]
+[ext_resource type="PackedScene" uid="uid://cbk6taqw6rq1j" path="res://scene/debug_placeable.tscn" id="6_i6gbm"]
+[ext_resource type="Resource" uid="uid://dcor6vlcwxi6u" path="res://data/dimension/cavern.tres" id="6_sng2h"]
 [ext_resource type="Resource" uid="uid://blr6p5ijlrute" path="res://data/dimension/island.tres" id="6_ym5sv"]
 [ext_resource type="PackedScene" uid="uid://b3r4h71ndb7f2" path="res://scene/sun.tscn" id="7_qpk70"]
 [ext_resource type="PackedScene" uid="uid://drx66fiugetl6" path="res://scene/ray.tscn" id="9_ym5sv"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_5kiuu"]
-sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
-ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
-
-[sub_resource type="Sky" id="Sky_dbls1"]
-sky_material = SubResource("ProceduralSkyMaterial_5kiuu")
-
-[sub_resource type="Environment" id="Environment_33cqm"]
-background_mode = 1
-background_color = Color(1, 1, 1, 1)
-sky = SubResource("Sky_dbls1")
-ambient_light_source = 2
-fog_enabled = true
-fog_mode = 1
-fog_light_color = Color(0, 0.49411765, 1, 1)
-fog_density = 1.0
-fog_depth_begin = 96.5
-fog_depth_end = 337.1
-
 [node name="Game" type="Node" unique_id=202458787 node_paths=PackedStringArray("ray")]
 script = ExtResource("1_dbls1")
 ray = NodePath("RayCast3D")
-placeable_scenes = Array[PackedScene]([ExtResource("2_yq8tf")])
+placeable_scenes = Array[PackedScene]([ExtResource("2_yq8tf"), ExtResource("3_5g16k"), ExtResource("4_ve786"), ExtResource("5_0lu6w"), ExtResource("6_i6gbm")])
 
 [node name="Environment" type="WorldEnvironment" parent="." unique_id=1732974813]
-environment = SubResource("Environment_33cqm")
+environment = ExtResource("4_81276")
 
 [node name="Light" type="DirectionalLight3D" parent="." unique_id=632771224]
 transform = Transform3D(0.11736256, -0.99272746, 0.026801541, 0.35355347, 0.06698734, 0.9330127, -0.9280226, -0.100025, 0.35884398, 0, 0, 0)
 light_specular = 0.0
+shadow_enabled = true
+shadow_reverse_cull_face = true
+shadow_blur = 3.0
+directional_shadow_max_distance = 600.0
 
 [node name="Skybox" parent="." unique_id=1926797977 node_paths=PackedStringArray("game") instance=ExtResource("7_qpk70")]
 game = NodePath("..")
@@ -49,11 +40,12 @@ game = NodePath("..")
 [node name="Generation" type="Node" parent="." unique_id=334838749]
 process_priority = 1
 script = ExtResource("1_5kiuu")
-dimensions = Array[ExtResource("5_81276")]([ExtResource("6_ym5sv")])
+dimensions = Array[ExtResource("5_81276")]([ExtResource("6_ym5sv"), ExtResource("6_sng2h")])
 
-[node name="Spawner" type="Node" parent="." unique_id=1250086166 node_paths=PackedStringArray("animals_node", "animal_spawn_timer")]
+[node name="Spawner" type="Node" parent="." unique_id=1250086166 node_paths=PackedStringArray("animals_node", "enemies_node", "animal_spawn_timer")]
 script = ExtResource("4_xlg7c")
 animals_node = NodePath("../Animals")
+enemies_node = NodePath("../Enemies")
 animal_spawn_timer = NodePath("../AnimalSpawnTimer")
 
 [node name="ItemManager" type="Node" parent="." unique_id=511905055]

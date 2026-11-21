@@ -1,0 +1,43 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://dj7gqocvndbnc"]
+
+[sub_resource type="Gradient" id="Gradient_3gngh"]
+offsets = PackedFloat32Array(0.5330056, 0.7099719, 1)
+colors = PackedColorArray(1, 1, 1, 0, 0.9880618, 0.9880618, 0.9880618, 0.9880618, 1, 1, 1, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_d0u6y"]
+noise_type = 3
+frequency = 0.0424
+fractal_octaves = 3
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_57qmd"]
+width = 682
+height = 572
+generate_mipmaps = false
+noise = SubResource("FastNoiseLite_d0u6y")
+color_ramp = SubResource("Gradient_3gngh")
+seamless = true
+invert = true
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_firq0"]
+noise_type = 3
+frequency = 0.0019
+fractal_octaves = 3
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_unks0"]
+width = 682
+height = 572
+generate_mipmaps = false
+noise = SubResource("FastNoiseLite_firq0")
+invert = true
+
+[resource]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+albedo_texture = SubResource("NoiseTexture2D_57qmd")
+heightmap_enabled = true
+heightmap_deep_parallax = true
+heightmap_min_layers = 8
+heightmap_max_layers = 32
+heightmap_texture = SubResource("NoiseTexture2D_unks0")
+texture_filter = 0

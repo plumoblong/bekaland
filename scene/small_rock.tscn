@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://n0qum5xncava"]
+
+[ext_resource type="Script" uid="uid://uaqqj45qvish" path="res://src/small_rock.gd" id="1_k2ahf"]
+[ext_resource type="Resource" uid="uid://4ueichfa3c3e" path="res://data/item/rock.tres" id="2_7muc0"]
+[ext_resource type="Material" uid="uid://dm375oa5l3pe0" path="res://material/rock.tres" id="2_ylpqp"]
+[ext_resource type="Script" uid="uid://owxpkers3g4w" path="res://src/inventory_slot.gd" id="3_urdu8"]
+[ext_resource type="Script" uid="uid://c3m674ammcf1a" path="res://src/health.gd" id="5_kf10b"]
+[ext_resource type="Script" uid="uid://cc1y3i7f28y0" path="res://src/loot_spawner.gd" id="7_b723l"]
+
+[sub_resource type="Resource" id="Resource_yf5fn"]
+script = ExtResource("3_urdu8")
+item = ExtResource("2_7muc0")
+quantity = 1
+metadata/_custom_type_script = "uid://owxpkers3g4w"
+
+[sub_resource type="SphereMesh" id="SphereMesh_yf5fn"]
+radius = 0.3
+height = 0.5
+radial_segments = 5
+rings = 3
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_g4v7s"]
+radius = 0.3
+
+[node name="SmallRock" type="StaticBody3D" unique_id=441582675 node_paths=PackedStringArray("health", "hitbox", "body", "item_spawner") groups=["Destroyable"]]
+collision_layer = 8
+collision_mask = 8
+script = ExtResource("1_k2ahf")
+health = NodePath("Health")
+hitbox = NodePath("CollisionShape3D")
+body = NodePath("Body")
+item_spawner = NodePath("ItemPickupSpawner")
+item_spawner_slot = SubResource("Resource_yf5fn")
+material = 2
+metadata/_custom_type_script = "uid://13a34exta3wo"
+
+[node name="Body" type="Node3D" parent="." unique_id=1209742436]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Body" unique_id=945663233]
+material_override = ExtResource("2_ylpqp")
+mesh = SubResource("SphereMesh_yf5fn")
+
+[node name="Health" type="Node" parent="." unique_id=1959353955]
+script = ExtResource("5_kf10b")
+max_health = 0.1
+metadata/_custom_type_script = "uid://c3m674ammcf1a"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1743171227]
+shape = SubResource("SphereShape3D_g4v7s")
+
+[node name="ItemPickupSpawner" type="Node3D" parent="." unique_id=363157248]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+script = ExtResource("7_b723l")
+metadata/_custom_type_script = "uid://cc1y3i7f28y0"

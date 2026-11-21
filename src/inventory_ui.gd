@@ -22,6 +22,7 @@ func set_hotbar_slot(is_hotbar : bool = false) -> void:
 	set_selected(-1)
 	for i : int in slot_nodes.size():
 		slot_nodes[i].hotbar_slot = is_hotbar
+		print(i, is_hotbar)
 
 func set_inventory(new_inventory: Inventory) -> void:
 	inventory = new_inventory
@@ -47,9 +48,4 @@ func _refresh() -> void:
 		i._refresh()
 	
 func _process(_delta: float) -> void:
-	grid.visible = not _F.is_screenshoting
-	#debug.text = "Hotbar: " + str(hotbar) + "; " + "Anchor: " + str(grid.get_anchor(SIDE_TOP))
-	#debug.visible = _G.debug_mode
-	#if slot_nodes.is_empty():
-		#return
-	#debug.position = slot_nodes[0].global_position - Vector2(0.0, 32.0)
+	grid.visible = not (_F.is_screenshoting and _F.get_config_entry("hide_ui_when_screenshot"))

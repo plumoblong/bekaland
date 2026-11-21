@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://33fpc0av3goo"]
+
+[ext_resource type="Script" uid="uid://ddg2x6froa275" path="res://src/footstep_sfx.gd" id="1_ipfa1"]
+[ext_resource type="AudioStream" uid="uid://c4oak1hxcboxb" path="res://sound/step_default.wav" id="1_lxedc"]
+
+[node name="FootstepSFX" type="AudioStreamPlayer3D" unique_id=1898182885]
+stream = ExtResource("1_lxedc")
+max_db = 0.0
+max_distance = 30.0
+panning_strength = 2.0
+attenuation_filter_cutoff_hz = 20500.0
+attenuation_filter_db = 0.0
+doppler_tracking = 2
+script = ExtResource("1_ipfa1")

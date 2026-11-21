@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://b7e8jaym3cccp" path="res://data/terrain/noise_fallof_1.png" id="1_jhniw"]
 [ext_resource type="FastNoiseLite" uid="uid://6sskw3378c43" path="res://data/terrain/terrain_noise.tres" id="2_babxy"]
+[ext_resource type="Resource" uid="uid://by1dqti8yjd8d" path="res://data/dimension/island_foliage.tres" id="2_kcjui"]
 [ext_resource type="Script" uid="uid://d25nqlla4trm1" path="res://src/dimension.gd" id="3_kcjui"]
 [ext_resource type="FastNoiseLite" uid="uid://cnh8k0c8fbnpe" path="res://data/terrain/terrain_selector_noise.tres" id="4_1m5l2"]
 [ext_resource type="Gradient" uid="uid://6pv5unxa0dq7" path="res://data/terrain/height_color_gradient.tres" id="5_mnj2u"]
@@ -17,5 +18,6 @@ noise = ExtResource("2_babxy")
 selector_noise = ExtResource("4_1m5l2")
 control = ExtResource("1_jhniw")
 terrain_gradient = ExtResource("5_mnj2u")
+foliage = ExtResource("2_kcjui")
 sky_gradient = SubResource("Gradient_p1ry8")
 metadata/_custom_type_script = "uid://d25nqlla4trm1"

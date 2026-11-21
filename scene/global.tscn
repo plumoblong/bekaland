@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cyy6ux2w0es8s" path="res://src/global.gd" id="1_t7wwv"]
 [ext_resource type="PackedScene" uid="uid://csxdx3y546hrs" path="res://scene/loading_screen.tscn" id="2_3o7an"]
+[ext_resource type="PackedScene" uid="uid://bbyxhtcs0txmb" path="res://scene/alert.tscn" id="2_y1wus"]
 
 [node name="Global" type="CanvasLayer" unique_id=1046745986]
 layer = 10
@@ -29,13 +30,8 @@ theme_override_font_sizes/font_size = 8
 text = "sdfs"
 horizontal_alignment = 2
 
-[node name="Alert" type="Label" parent="." unique_id=1034236789]
-offset_right = 68.0
-offset_bottom = 19.0
-theme_override_font_sizes/font_size = 10
-text = "Screenshot saved"
-
 [node name="Version" type="Label" parent="." unique_id=541295583]
+modulate = Color(1, 1, 1, 0.5019608)
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
@@ -45,10 +41,21 @@ offset_left = -107.0
 offset_top = -19.0
 grow_horizontal = 0
 grow_vertical = 0
-theme_override_font_sizes/font_size = 10
+theme_override_font_sizes/font_size = 8
 text = "BEKALAND version 1"
 horizontal_alignment = 2
 vertical_alignment = 2
+
+[node name="Alert" parent="." unique_id=622470899 instance=ExtResource("2_y1wus")]
+visible = false
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.31445313
+offset_right = 0.0
+offset_bottom = 0.0
+text = "THIS AN ALERT BRUH!"
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
 
 [node name="LoadingScreen" parent="." unique_id=1374857047 instance=ExtResource("2_3o7an")]
 visible = false

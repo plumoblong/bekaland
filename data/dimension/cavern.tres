@@ -1,0 +1,42 @@
+[gd_resource type="Resource" script_class="Dimension" format=3 uid="uid://dcor6vlcwxi6u"]
+
+[ext_resource type="Script" uid="uid://d25nqlla4trm1" path="res://src/dimension.gd" id="1_1hehl"]
+[ext_resource type="Texture2D" uid="uid://cm368q87cwslv" path="res://data/terrain/noise_fallof_0.png" id="1_bgejb"]
+[ext_resource type="Resource" uid="uid://bf14ppa0blpgr" path="res://data/dimension/cavern_foilage.tres" id="2_nh5o6"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_sng2h"]
+noise_type = 3
+frequency = 0.0455
+fractal_octaves = 2
+fractal_weighted_strength = 1.0
+metadata/_preview_in_3d_space_ = true
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ym5sv"]
+noise_type = 0
+frequency = 0.0059
+
+[sub_resource type="Gradient" id="Gradient_sng2h"]
+offsets = PackedFloat32Array(0, 0.5, 1)
+colors = PackedColorArray(0, 0, 0.011764706, 1, 0.011764706, 0, 0, 1, 0, 0, 0.011764706, 1)
+
+[sub_resource type="Gradient" id="Gradient_1a11q"]
+colors = PackedColorArray(0.5372669, 0.5372669, 0.5372669, 1, 0.4408114, 0.4408114, 0.4408114, 1)
+
+[resource]
+script = ExtResource("1_1hehl")
+display_name = "Cave"
+dimension_type = 1
+noise = SubResource("FastNoiseLite_sng2h")
+selector_noise = SubResource("FastNoiseLite_ym5sv")
+control = ExtResource("1_bgejb")
+terrain_gradient = SubResource("Gradient_1a11q")
+terrain_max_height = 30.0
+spawn_foliage = false
+foliage = ExtResource("2_nh5o6")
+spawn_rocks = true
+sea_level = 2.0
+water_is_lava = true
+use_skybox = false
+sky_gradient = SubResource("Gradient_sng2h")
+minimal_light = 0.01
+metadata/_custom_type_script = "uid://d25nqlla4trm1"

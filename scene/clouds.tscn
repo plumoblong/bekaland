@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://x22wd6mf8gt0"]
+
+[ext_resource type="Script" uid="uid://df0e3ocjqxbi4" path="res://src/clouds.gd" id="1_x4tcw"]
+[ext_resource type="Material" uid="uid://dj7gqocvndbnc" path="res://material/cloud.tres" id="2_3fkv0"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_g4v7s"]
+material = ExtResource("2_3fkv0")
+size = Vector2(4096, 4096)
+
+[node name="Clouds" type="Node3D" unique_id=1514373708]
+script = ExtResource("1_x4tcw")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=862449912]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 200, 0)
+mesh = SubResource("PlaneMesh_g4v7s")

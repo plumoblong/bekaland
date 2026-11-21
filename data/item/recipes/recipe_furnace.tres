@@ -1,0 +1,38 @@
+[gd_resource type="Resource" script_class="CraftingRecipe" format=3 uid="uid://dm8lus01w6ky1"]
+
+[ext_resource type="Script" uid="uid://owxpkers3g4w" path="res://src/inventory_slot.gd" id="1_t1f1o"]
+[ext_resource type="Resource" uid="uid://4ueichfa3c3e" path="res://data/item/rock.tres" id="2_4bh3r"]
+[ext_resource type="Resource" uid="uid://dvfdu7i3rqehw" path="res://data/item/torch.tres" id="3_5kidb"]
+[ext_resource type="Resource" uid="uid://n3hnf2k8fncb" path="res://data/item/furnace.tres" id="4_4bh3r"]
+[ext_resource type="Script" uid="uid://djebqfw6l21lg" path="res://src/craft_recipe.gd" id="4_5kidb"]
+[ext_resource type="Resource" uid="uid://d1b5ufdrluxk" path="res://data/item/coal.tres" id="4_r2orh"]
+
+[sub_resource type="Resource" id="Resource_fmgc7"]
+script = ExtResource("1_t1f1o")
+item = ExtResource("2_4bh3r")
+quantity = 30
+metadata/_custom_type_script = "uid://owxpkers3g4w"
+
+[sub_resource type="Resource" id="Resource_triy6"]
+script = ExtResource("1_t1f1o")
+item = ExtResource("3_5kidb")
+quantity = 5
+metadata/_custom_type_script = "uid://owxpkers3g4w"
+
+[sub_resource type="Resource" id="Resource_vbcu4"]
+script = ExtResource("1_t1f1o")
+item = ExtResource("4_r2orh")
+quantity = 15
+metadata/_custom_type_script = "uid://owxpkers3g4w"
+
+[sub_resource type="Resource" id="Resource_r2orh"]
+script = ExtResource("1_t1f1o")
+item = ExtResource("4_4bh3r")
+quantity = 1
+metadata/_custom_type_script = "uid://owxpkers3g4w"
+
+[resource]
+script = ExtResource("4_5kidb")
+inputs = Array[ExtResource("1_t1f1o")]([SubResource("Resource_fmgc7"), SubResource("Resource_triy6"), SubResource("Resource_vbcu4")])
+output = SubResource("Resource_r2orh")
+metadata/_custom_type_script = "uid://djebqfw6l21lg"

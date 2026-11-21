@@ -15,6 +15,8 @@ class_name CharacterEntity
 var _is_in_water : bool = false
 var _is_in_lava : bool = false
 
+var _status_on_fire : bool = false
+
 func disable_hitbox() -> void:
 	if not hitbox:
 		return
@@ -35,4 +37,7 @@ func is_in_liquid() -> bool:
 	return _is_in_lava or _is_in_water
 
 func is_submerged() -> bool:
-	return global_position.y + submerge_offset < _G.game.get_sea_level() and in_water() or in_lava()
+	return global_position.y + submerge_offset < _G.game.get_sea_level() and is_in_liquid()
+
+func is_on_fire() -> bool:
+	return _status_on_fire

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://bruuhqhffa0sk"]
+
+[ext_resource type="Texture2D" uid="uid://8gmp57srsh6b" path="res://images/items.png" id="1_vsi50"]
+[ext_resource type="Script" uid="uid://bgtjxmfdy52l3" path="res://src/item.gd" id="2_81f02"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_81f02"]
+atlas = ExtResource("1_vsi50")
+region = Rect2(0, 120, 24, 24)
+
+[resource]
+script = ExtResource("2_81f02")
+name = "Rock Pickaxe"
+icon = SubResource("AtlasTexture_81f02")
+max_stack = 1
+attack_damage = 0.25
+rock_damage = 0.5
+metadata/_custom_type_script = "uid://bgtjxmfdy52l3"

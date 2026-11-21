@@ -3,7 +3,7 @@ class_name Game
 
 @onready var generation : Generation = get_node("Generation")
 @onready var spawner : Spawner = get_node("Spawner")
-@onready var water : Node3D = get_node("Water")
+@onready var water : Water = get_node("Water")
 @onready var environment : WorldEnvironment = get_node("Environment")
 @onready var player : Player = get_node("Player")
 @onready var skybox : Skybox = get_node("Skybox")
@@ -30,6 +30,10 @@ var world_seed : int = 0                   # shared by every dimension
 var _default_sky_gradient : Gradient
 var _pending_player_pos : Variant = null   # Vector3 when loading a save
 var _switching : bool = false
+
+# ---- inventories (player, chests, ...) ----
+var _saved_inventories : Dictionary = {}  # id -> Inventory.to_data(), exactly what is in the save file
+var _live_inventories : Dictionary = {}   # id -> Inventory that currently exists in the world
 
 signal day_ended
 
@@ -60,9 +64,13 @@ func _ready() -> void:
 	_G.game = self
 	_default_sky_gradient = sky_gradient
 	
-	var data : Dictionary = _F.load_world()
-	if not data.is_empty():
-		_apply_save_data(data)
+	if not _G.is_starting_new_game:
+	
+		var data : Dictionary = _F.load_world()
+		if not data.is_empty():
+			_apply_save_data(data)
+	
+	register_inventory("player", _get_inventory())
 	
 	await _start_dimension()
 
@@ -77,6 +85,44 @@ func _apply_save_data(data : Dictionary) -> void:
 	var p : Variant = data.get("player_pos")
 	if p is Array and p.size() == 3:
 		_pending_player_pos = Vector3(p[0], p[1], p[2])
+	
+	_saved_inventories = data.get("inventories", {})
+	if data.has("inventory") and not _saved_inventories.has("player"):
+		_saved_inventories["player"] = data["inventory"] # save from before chests existed
+
+## ADD an inventory to the save file. Call it once when the inventory's owner is ready:
+##     _G.game.register_inventory("player", inventory)
+##     _G.game.register_inventory(get_meta("uid"), inventory, self)   # a placed chest
+## - If this id was saved before, the inventory is filled with the saved items right away.
+## - `holder`: when this node leaves the tree its inventory is remembered in the save
+##   (e.g. a chest unloaded with its dimension) instead of being forgotten.
+func register_inventory(id : String, inv : Inventory, holder : Node = null) -> void:
+	_live_inventories[id] = inv
+	if _saved_inventories.has(id):
+		inv.load_data(_saved_inventories[id])
+	if holder:
+		var c : Callable = _on_inventory_holder_exiting.bind(id)
+		if not holder.tree_exiting.is_connected(c):
+			holder.tree_exiting.connect(c, CONNECT_ONE_SHOT)
+
+## Call when the owner is destroyed for good (chest broken): removes it from the save
+func forget_inventory(id : String) -> void:
+	_live_inventories.erase(id)
+	_saved_inventories.erase(id)
+
+func _on_inventory_holder_exiting(id : String) -> void:
+	if _live_inventories.has(id):
+		_saved_inventories[id] = _live_inventories[id].to_data()
+		_live_inventories.erase(id)
+
+func _collect_inventories() -> Dictionary:
+	for id : String in _live_inventories:
+		_saved_inventories[id] = _live_inventories[id].to_data()
+	return _saved_inventories
+
+## The one place that knows where the player's inventory lives
+func _get_inventory() -> Inventory:
+	return player.inventory # <- change this if yours is stored somewhere else
 
 ## Builds (or loads) the terrain of current_dimension
 func _start_dimension() -> void:
@@ -89,6 +135,7 @@ func _start_dimension() -> void:
 	# per-dimension look
 	water.global_position.y = dim.sea_level if dim.has_water else -256.0
 	water.visible = dim.has_water
+	water.set_lava(dim.water_is_lava)
 	sky_gradient = dim.sky_gradient if dim.sky_gradient else _default_sky_gradient
 	
 	generation.setup(dim, world_seed, _F.get_dimension_dir(key))
@@ -132,6 +179,7 @@ func get_placeable(id : Placeables) -> Placeable:
 		return null
 	var p : Placeable = placeable_scenes[id - 1].instantiate()
 	p.set_meta("placeable_id", id) # lets save_world() know what this object is
+	p.set_meta("uid", "%08x%08x" % [randi(), randi()]) # stable id, saved with the object
 	return p
 
 func get_hour() -> int:
@@ -177,6 +225,7 @@ func _get_placed_data() -> Array:
 			var n3 : Node3D = n
 			out.append({
 				"id": n3.get_meta("placeable_id"),
+				"uid": n3.get_meta("uid", ""),
 				"pos": n3.global_position,
 				"rot": n3.global_rotation,
 			})
@@ -187,6 +236,8 @@ func _load_placed(list : Array) -> void:
 		var p : Placeable = get_placeable(int(e["id"]) as Placeables)
 		if p == null:
 			continue
+		if e.has("uid"):
+			p.set_meta("uid", e["uid"]) # before add_child, so _ready() sees the saved uid
 		player_obj.add_child(p)
 		p.global_position = e["pos"]
 		p.global_rotation = e["rot"]
@@ -218,6 +269,7 @@ func save_world() -> void:
 		"world_time": world_time,
 		"world_day": world_day,
 		"player_pos": [p.x, p.y, p.z],
+		"inventories": _collect_inventories(),
 	})
 	
 	_G.set_alert("World Saved!", Color.GREEN)

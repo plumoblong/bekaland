@@ -1,0 +1,98 @@
+[gd_scene format=3 uid="uid://c7h57s7b1ndoa"]
+
+[ext_resource type="Script" uid="uid://blqoy4tmqb2go" path="res://src/character_entity.gd" id="1_tc4ai"]
+[ext_resource type="Texture2D" uid="uid://b5dgs061kwe4u" path="res://images/ENTITIES/ancestor.png" id="2_mmf5b"]
+[ext_resource type="Script" uid="uid://cyefixq68ujo7" path="res://src/rotating_sprite.gd" id="3_gmdw6"]
+[ext_resource type="Script" uid="uid://djvti03xkst6p" path="res://src/movement.gd" id="4_6okuq"]
+[ext_resource type="Script" uid="uid://c3m674ammcf1a" path="res://src/health.gd" id="5_r1chc"]
+[ext_resource type="Script" uid="uid://c5m7qrah0eb4r" path="res://src/item_pickup_spawner.gd" id="6_e4k7r"]
+[ext_resource type="Script" uid="uid://brptackfci4hp" path="res://src/loot_table.gd" id="7_yigln"]
+[ext_resource type="Script" uid="uid://dh0eisfiobd56" path="res://src/loot.gd" id="8_pg2c0"]
+[ext_resource type="Resource" uid="uid://hvqvf1lfi1rs" path="res://data/item/raw_meat.tres" id="9_0744i"]
+[ext_resource type="PackedScene" uid="uid://33fpc0av3goo" path="res://scene/footstep_sfx.tscn" id="10_7787u"]
+[ext_resource type="PackedScene" uid="uid://bqirbt1vtu7e4" path="res://scene/entity_sfx.tscn" id="11_tqcmn"]
+[ext_resource type="AudioStream" uid="uid://b7nebhl2cjyjs" path="res://sound/human_hurt_1.wav" id="12_4kji6"]
+[ext_resource type="Texture2D" uid="uid://b64yx20w0gl14" path="res://texture/morph_0.png" id="18_qgf4s"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_g4v7s"]
+
+[sub_resource type="Resource" id="Resource_1fjgv"]
+script = ExtResource("8_pg2c0")
+item = ExtResource("9_0744i")
+count_max = 3
+count_min = 1
+metadata/_custom_type_script = "uid://dh0eisfiobd56"
+
+[sub_resource type="Resource" id="Resource_hgkyr"]
+script = ExtResource("7_yigln")
+table = Dictionary[ExtResource("8_pg2c0"), float]({
+SubResource("Resource_1fjgv"): 1.0
+})
+metadata/_custom_type_script = "uid://brptackfci4hp"
+
+[node name="Ancestor" type="CharacterBody3D" unique_id=8710644 node_paths=PackedStringArray("health", "sprite", "movement", "hitbox")]
+script = ExtResource("1_tc4ai")
+entity_type = 3
+health = NodePath("Health")
+sprite = NodePath("Sprite")
+movement = NodePath("Movement")
+hitbox = NodePath("CollisionShape3D")
+metadata/_custom_type_script = "uid://blqoy4tmqb2go"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2101003732]
+shape = SubResource("CapsuleShape3D_g4v7s")
+
+[node name="Sprite" type="Sprite3D" parent="." unique_id=1861172106]
+process_mode = 3
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+offset = Vector2(0, 2)
+pixel_size = 0.04
+billboard = 1
+shaded = true
+double_sided = false
+texture_filter = 0
+render_priority = -1
+texture = ExtResource("2_mmf5b")
+hframes = 3
+script = ExtResource("3_gmdw6")
+death_anim_final_color = Color(0.34509805, 0, 0, 0)
+
+[node name="Movement" type="Node" parent="." unique_id=666050654]
+script = ExtResource("4_6okuq")
+move_speed = 8.0
+metadata/_custom_type_script = "uid://djvti03xkst6p"
+
+[node name="Timer" type="Timer" parent="." unique_id=1295379126]
+one_shot = true
+
+[node name="Health" type="Node" parent="." unique_id=1803541590]
+script = ExtResource("5_r1chc")
+metadata/_custom_type_script = "uid://c3m674ammcf1a"
+
+[node name="LootSpawner" type="Node3D" parent="." unique_id=1404587066]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7718632, 0)
+script = ExtResource("6_e4k7r")
+loot = SubResource("Resource_hgkyr")
+random_position_radius = 0.25
+metadata/_custom_type_script = "uid://c5m7qrah0eb4r"
+
+[node name="FootstepSFX" parent="." unique_id=1898182885 node_paths=PackedStringArray("movement") instance=ExtResource("10_7787u")]
+max_db = -15.0
+movement = NodePath("../Movement")
+step_speed = 1.5
+
+[node name="EntitySFX" parent="." unique_id=6241287 node_paths=PackedStringArray("health", "idle_sound_timer") instance=ExtResource("11_tqcmn")]
+health = NodePath("../Health")
+idle_sound_timer = NodePath("../IdleSFXTimer")
+idle_sounds = Array[AudioStream]([ExtResource("12_4kji6")])
+idle_pitch_range = Vector2(2.635, 3.545)
+hurt_pitch_range = Vector2(0.9, 1.15)
+die_pitch_range = Vector2(1, 1.2)
+
+[node name="IdleSFXTimer" type="Timer" parent="." unique_id=839387569]
+one_shot = true
+
+[node name="Sprite3D" type="Sprite3D" parent="." unique_id=1653360852]
+transform = Transform3D(-7.0730033e-07, 0, 1.0000004, 0, 0.45794874, 0, -16.181145, 0, -4.3711402e-08, 0, 0, -2.5800889)
+visible = false
+texture = ExtResource("18_qgf4s")

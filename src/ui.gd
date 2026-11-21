@@ -8,6 +8,7 @@ var _p : Player
 @onready var respawn_label : Label = get_node("Death/Respawn")
 
 @onready var water_overlay : TextureRect = get_node("WaterOverlay")
+@onready var fire_overlay : AnimatedSprite2D = get_node("FireOverlay")
 @onready var time_label : Label = get_node("Alive/Time")
 
 @onready var crosshair : TextureRect = get_node("Alive/Crosshair")
@@ -19,7 +20,7 @@ var _last_health_alpha : float = 0.0
 var _c_alpha : float
 var _c_alpha2 : float
 
-const _HEART_AMOUNT : float = 6.0
+const _HEART_AMOUNT : float = 10.0
 var ui_visible : bool = true
 
 @onready var health_bar : TextureRect = get_node("Alive/Bars/Health")
@@ -50,7 +51,7 @@ func _process(delta : float) -> void:
 		_update_alive(delta)
 		alive.show()
 		death.hide()
-		alive.visible = not _F.is_screenshoting and ui_visible and _p.health.alive
+		alive.visible = not (_F.is_screenshoting and _F.get_config_entry("hide_ui_when_screenshot")) and ui_visible and _p.health.alive
 	else:
 		_update_dead()
 		alive.hide()
@@ -58,10 +59,16 @@ func _process(delta : float) -> void:
 
 	_update_debug()
 	
+	if Input.is_action_just_pressed("escape"):
+		set_mouse(false)
+		_G.game.save_world()
+		get_tree().change_scene_to_file("res://scene/menu.tscn")
+		_G.clear_alerts()
+	
 func _update_alive(delta : float) -> void:
 	_update_clock()
 	_update_bars()
-	_update_water()
+	_update_status()
 	_update_last_health(delta)
 	_handle_tooltip()
 	if Input.is_action_just_pressed("hide_ui"):
@@ -75,16 +82,19 @@ func _handle_tooltip() -> void:
 func _update_dead() -> void:
 	respawn_label.text = "Respawning in " + str(ceili(_p.timer_respawn.time_left)) + " seconds."
 	
-func _update_water() -> void:
+func _update_status() -> void:
 	water_overlay.visible = _p.oxygen < 1.0 or _p.is_in_liquid()
-	var c : float = (float(_p.is_submerged()) * 0.2) + (1.0 - _p.oxygen) * 0.55
+	var a : float = (float(_p.is_submerged()) * 0.2) + (1.0 - _p.oxygen) * 0.55
+	var c : Color = Color("ff8a00") if _p.is_on_fire() else Color("0000ff")
 	
-	water_overlay.modulate.a = c
+	water_overlay.modulate = Color(c.r, c.g, c.b, a)
+	
+	fire_overlay.visible = _p.is_on_fire()
+	fire_overlay.scale = get_viewport_rect().size / 32.0
 	
 func _update_bars() -> void:
 	health_bar.size.x = 14.0 * (_p.health.get_ratio() * _HEART_AMOUNT)
 	health_bar_bg.size.x = 14.0 * _HEART_AMOUNT * _p.health.max_health
-
 	
 func _update_last_health(delta : float) -> void:
 	if _last_health_alpha > 0.0:
@@ -97,6 +107,7 @@ func set_last_health(health : float = 1.0) -> void:
 	last_health_bar.anchor_left = 0.45
 	last_health_bar.anchor_right = 0.45 + (health * 0.1)
 	_last_health_alpha = 1.0
+	$Alive/Crosshair/LastHealth/Label.text = str(health)
 
 func _update_crosshair(delta : float) -> void:
 	_c_alpha = float(_p.ray.is_colliding())

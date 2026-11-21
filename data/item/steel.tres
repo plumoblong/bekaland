@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://oynuor7kajcp"]
+
+[ext_resource type="Texture2D" uid="uid://8gmp57srsh6b" path="res://images/items.png" id="1_nl8r4"]
+[ext_resource type="Script" uid="uid://bgtjxmfdy52l3" path="res://src/item.gd" id="2_x5xel"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nl8r4"]
+atlas = ExtResource("1_nl8r4")
+region = Rect2(96, 96, 24, 24)
+
+[resource]
+script = ExtResource("2_x5xel")
+name = "Steel"
+icon = SubResource("AtlasTexture_nl8r4")
+metadata/_custom_type_script = "uid://bgtjxmfdy52l3"

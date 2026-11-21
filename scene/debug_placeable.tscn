@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cbk6taqw6rq1j"]
+
+[ext_resource type="Script" uid="uid://cx83gnlwke12o" path="res://src/debug_placable.gd" id="1_eiu47"]
+
+[node name="DebugPlaceable" type="StaticBody3D" unique_id=810249884]
+script = ExtResource("1_eiu47")

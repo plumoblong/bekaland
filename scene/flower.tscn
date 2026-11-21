@@ -1,0 +1,78 @@
+[gd_scene format=3 uid="uid://bgkftirtdc6lo"]
+
+[ext_resource type="Script" uid="uid://dscuqpp2yj221" path="res://src/flower.gd" id="1_lulix"]
+[ext_resource type="Texture2D" uid="uid://ds31ij524fvva" path="res://texture/flower.png" id="2_xm5fp"]
+[ext_resource type="Script" uid="uid://c3m674ammcf1a" path="res://src/health.gd" id="3_lulix"]
+
+[sub_resource type="Gradient" id="Gradient_firq0"]
+offsets = PackedFloat32Array(0, 0.2672414, 0.33090186, 0.73673743, 0.7579576, 0.7844828, 0.80835545, 0.8322281, 0.9277188)
+colors = PackedColorArray(0.5109608, 0.119849056, 0, 1, 1, 0, 0, 1, 0.77402145, 0.5766256, 0.25975165, 1, 0.8962264, 0.8008039, 0.1037736, 1, 0, 0.5460448, 1, 1, 0, 0.04502344, 1, 1, 0.6124952, 0.1290322, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_g4v7s"]
+
+[node name="Flower" type="StaticBody3D" unique_id=277390319 node_paths=PackedStringArray("health", "hitbox", "body") groups=["Destroyable"]]
+collision_layer = 8
+collision_mask = 8
+script = ExtResource("1_lulix")
+gradient_color = SubResource("Gradient_firq0")
+health = NodePath("Health")
+hitbox = NodePath("CollisionShape3D")
+body = NodePath("Body")
+metadata/_custom_type_script = "uid://13a34exta3wo"
+
+[node name="Body" type="Node3D" parent="." unique_id=1019606221]
+
+[node name="Node3D" type="Node3D" parent="Body" unique_id=2023378076]
+
+[node name="Stick2" type="Sprite3D" parent="Body/Node3D" unique_id=339397970]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+modulate = Color(0.2492, 0.35, 0.126, 1)
+pixel_size = 0.025
+shaded = true
+alpha_cut = 2
+texture_filter = 0
+texture = ExtResource("2_xm5fp")
+hframes = 2
+
+[node name="Stick" type="Sprite3D" parent="Body/Node3D" unique_id=242939522]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0.6, 0)
+flip_h = true
+modulate = Color(0.2492, 0.35, 0.126, 1)
+pixel_size = 0.025
+shaded = true
+alpha_cut = 2
+texture_filter = 0
+texture = ExtResource("2_xm5fp")
+hframes = 2
+
+[node name="Head" type="Sprite3D" parent="Body/Node3D" unique_id=891959185]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+modulate = Color(1, 0, 0, 1)
+pixel_size = 0.025
+shaded = true
+alpha_cut = 2
+texture_filter = 0
+texture = ExtResource("2_xm5fp")
+hframes = 2
+frame = 1
+
+[node name="Head2" type="Sprite3D" parent="Body/Node3D" unique_id=1393528289]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0.6, 0)
+flip_h = true
+modulate = Color(1, 0, 0, 1)
+pixel_size = 0.025
+shaded = true
+alpha_cut = 2
+texture_filter = 0
+texture = ExtResource("2_xm5fp")
+hframes = 2
+frame = 1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=392436154]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+shape = SubResource("SphereShape3D_g4v7s")
+
+[node name="Health" type="Node" parent="." unique_id=330765050]
+script = ExtResource("3_lulix")
+max_health = 0.1
+metadata/_custom_type_script = "uid://c3m674ammcf1a"

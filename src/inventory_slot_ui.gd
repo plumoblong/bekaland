@@ -7,6 +7,8 @@ class_name InventorySlotUI
 
 @export var disable_input : bool = false
 @export var hotbar_slot : bool = false
+@export var big_text : bool = false
+@export var invalid : bool = false
 
 var selected : bool = false
 
@@ -14,10 +16,7 @@ var selected : bool = false
 var slot_id : int = -1
 var inventory_id : int = -1
 
-const BG_NORMAL_COLOR : Color = Color(0.0, 0.0, 0.0, 0.502)
-const BG_HOVER_COLOR : Color = Color(1.0, 1.0, 1.0, 0.502)
-const BG_TRANSITION_SPEED : float = 16.0
-const BG_COLOR_SPLIT : float = 0.33
+
 
 var _color : Color
 var _color2 : Color
@@ -25,10 +24,12 @@ var _color2 : Color
 func _ready() -> void:
 	color = Color.TRANSPARENT
 	if not disable_input:
-		color = BG_NORMAL_COLOR
+		color = _G.UI_BG_NORMAL_COLOR
 		mouse_entered.connect(_on_mouse_entered)
 		mouse_exited.connect(_on_mouse_exited)
 	_refresh()
+	if big_text:
+		count_label.offset_transform_scale = Vector2.ONE * 1.5
 
 func set_slot(new_slot: InventorySlot) -> void:
 	if slot != null:
@@ -42,15 +43,16 @@ func set_slot(new_slot: InventorySlot) -> void:
 func _process(delta: float) -> void:
 	if not disable_input:
 		
-		_color = BG_HOVER_COLOR if selected else BG_NORMAL_COLOR
-		_color2 = lerp(_color2, _color, delta * BG_TRANSITION_SPEED)
+		_color = _G.UI_BG_HOVER_COLOR if selected else _G.UI_BG_NORMAL_COLOR
+		_color2 = lerp(_color2, _color, delta * _G.UI_BG_TRANSITION_SPEED)
 		color = Color.from_hsv(0.0, 0.0, _color2.v, 0.5)
 		
-	debug_label.visible = _G.debug_mode
-	if slot.item != null:
-		debug_label.text = str(slot_id) + "\n" + str(slot.item.name)
-	else:
-		debug_label.text = str(slot_id)
+	#debug_label.visible = _G.debug_mode
+	#if slot:
+		#if slot.item != null:
+			#debug_label.text = str(slot_id) + "\n" + str(slot.item.name)
+		#else:
+			#debug_label.text = str(slot_id)
 
 func _refresh() -> void:
 	if slot == null or slot.is_empty():
@@ -72,14 +74,22 @@ func _gui_input(event: InputEvent) -> void:
 					
 					
 func _handle_mouse_inventory(e : MouseButton) -> void:
+	
+	var scroll = _F.get_config_entry("input_inv_scroll")
+	
 	match e:
 		MOUSE_BUTTON_WHEEL_DOWN:
 			if slot.is_empty():
 				return
+				
+			if scroll:
+				_C.slot.add(slot, 1)
+		
+		MOUSE_BUTTON_WHEEL_UP:
+			if scroll:
+				slot.add(slot, 1)
 			
-			_C.slot.add(slot, 1)
-			
-		MOUSE_BUTTON_WHEEL_UP, MOUSE_BUTTON_RIGHT:
+		MOUSE_BUTTON_RIGHT:
 			slot.add(_C.slot, 1)
 			
 		MOUSE_BUTTON_LEFT:

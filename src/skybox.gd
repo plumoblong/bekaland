@@ -15,9 +15,9 @@ const _MOON_PHASE_ADD_CHANCES : Array[int] = [
 func _ready() -> void:
 	game.day_ended.connect(_update_moon)
 
-func _process(_delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 		
-	rotation_degrees.x = game.world_time * 360.0 - 15.0
+	rotation_degrees.x = (game.world_time * 360.0) - 15.0
 	global_position = game.player.global_position
 
 func _update_moon() -> void:

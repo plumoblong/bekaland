@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://4iaasxyekkor"]
+
+[ext_resource type="Script" uid="uid://b8dyprl5hsxue" path="res://src/container.gd" id="1_26f88"]
+
+[node name="Placeable" type="StaticBody3D" unique_id=1833750925]
+script = ExtResource("1_26f88")
+metadata/_custom_type_script = "uid://qwupevcwmad0"

@@ -1,0 +1,120 @@
+[gd_scene format=3 uid="uid://ckccohsrw6x6i"]
+
+[ext_resource type="Script" uid="uid://dx3u41o4gjwgj" path="res://src/popup_menu.gd" id="1_o5va8"]
+[ext_resource type="Texture2D" uid="uid://brhk61wa2e658" path="res://texture/warning.png" id="2_g5pwt"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rdvac"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_o5va8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_g5pwt"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hb21v"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bpl8i"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ic5g8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2xffj"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xl67b"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_08m7n"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ueynx"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ep3bd"]
+
+[node name="Popup" type="Control" unique_id=486217066]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_o5va8")
+
+[node name="TextureRect" type="ColorRect" parent="." unique_id=16628827]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.5019608)
+
+[node name="Warning" type="Node2D" parent="." unique_id=1833207585]
+
+[node name="Sprite" type="Sprite2D" parent="Warning" unique_id=2108138130]
+position = Vector2(48, 168)
+scale = Vector2(1.25, 1.5)
+texture = ExtResource("2_g5pwt")
+centered = false
+
+[node name="Sprite2D2" type="Sprite2D" parent="Warning" unique_id=407642999]
+position = Vector2(552.00006, 168)
+scale = Vector2(1.2500001, 1.5)
+texture = ExtResource("2_g5pwt")
+centered = false
+
+[node name="HBoxContainer" type="VBoxContainer" parent="." unique_id=130658939]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 96.0
+offset_right = -96.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="HBoxContainer" unique_id=371186868]
+custom_maximum_size = Vector2(-1, 512)
+clip_contents = true
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, -24)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 3
+text = "Error"
+horizontal_alignment = 1
+autowrap_mode = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Confirm" type="Button" parent="HBoxContainer" unique_id=1873672123]
+custom_maximum_size = Vector2(-1, 16)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 0.5019608)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 0.5019608)
+theme_override_styles/normal = SubResource("StyleBoxEmpty_rdvac")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_o5va8")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_g5pwt")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_hb21v")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_bpl8i")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_ic5g8")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_2xffj")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_xl67b")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_08m7n")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_ueynx")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ep3bd")
+text = "Accept"
+
+[node name="Close" type="Button" parent="HBoxContainer" unique_id=1704091571]
+custom_maximum_size = Vector2(-1, 16)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 0.5019608)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 0.5019608)
+theme_override_styles/normal = SubResource("StyleBoxEmpty_rdvac")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_o5va8")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_g5pwt")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_hb21v")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_bpl8i")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_ic5g8")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_2xffj")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_xl67b")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_08m7n")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_ueynx")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ep3bd")
+text = "Close"

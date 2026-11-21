@@ -8,6 +8,7 @@ class_name Item
 
 @export_category("meta")
 @export var emits_light : bool = false
+@export var light_emit_color : Color = Color.WHITE
 
 @export_category("placeable")
 
@@ -23,3 +24,9 @@ class_name Item
 
 @export var consumable_poison_chance : float = 0.0
 @export var consumable_heal_value : float = 0.1
+
+@export_category("tool info")
+
+@export var attack_damage : float = 0.1
+@export var wood_damage : float = 0.1
+@export var rock_damage : float = 0.1

@@ -3,20 +3,22 @@ class_name Generation
 
 const TERRAIN_TEXTURE : Terrain3DTextureAsset = preload("res://data/texture/grass.tres")
 const TERRAIN_SCALE : float = 16.0
-const TERRAIN_HEIGHT : float = 150.0
+
 const TERRAIN_SIZE : float = 512.0
 
 const GRASS_MESH : PackedScene = preload("res://scene/long_grass.tscn")
 const SHRUB_MESH : PackedScene = preload("res://scene/shrub.tscn")
 const TREE_MESH : PackedScene = preload("res://scene/tree.tscn")
-const CACTUS_MESH : PackedScene = preload("res://scene/cactus.tscn")
+const FLOWER_MESH : PackedScene = preload("res://scene/flower.tscn")
+const PEBBLE_MESH : PackedScene = preload("res://scene/small_rock.tscn")
 
 ## Save-file name -> scene. Add new foliage types here.
 const FOLIAGE_SCENES : Dictionary = {
 	"tree": TREE_MESH,
 	"grass": GRASS_MESH,
 	"shrub": SHRUB_MESH,
-	"cactus": CACTUS_MESH,
+	"flower": FLOWER_MESH,
+	"small_rock": PEBBLE_MESH,
 }
 
 const GRASS_THRES : float = 18.0
@@ -54,6 +56,7 @@ func setup(dim : Dimension, world_seed : int, save_dir : String) -> void:
 	dimension.selector_noise.frequency = 0.06 * bumpiness
 	dimension.noise.seed = _seed
 	dimension.selector_noise.seed = _seed
+	_game.skybox.visible = dimension.use_skybox
 	
 	terrain = _create_terrain()
 	
@@ -82,6 +85,7 @@ func setup(dim : Dimension, world_seed : int, save_dir : String) -> void:
 			_create_foliage()               # first time in this dimension
 	
 	_G.loading_screen.dectivate()
+	_G.override_max_fps(false)
 
 func save_terrain(save_dir : String) -> void:
 	if not terrain: return
@@ -121,6 +125,7 @@ func _create_terrain() -> Terrain3D:
 	var t : Terrain3D = Terrain3D.new()
 	
 	t.name = "Terrain3D"
+	t.add_to_group(_G.GROUP_CAN_PLACE)
 	get_parent().add_child(t, true)
 	
 	# Set material and assets
@@ -168,36 +173,26 @@ func _setup_terrain_assets() -> void:
 	terrain.assets.set_texture(0, TERRAIN_TEXTURE)
 	
 func _create_foliage() -> void:
+	if dimension.foliage == null:
+		return
+
 	var scale : int = int(TERRAIN_SCALE) / 2
 	var half_x : int = TERRAIN_SIZE * scale
 	var half_z : int = TERRAIN_SIZE * scale
 
-	# --- Trees ---
-	var tree_step : int = 32
-	for x : int in range(-half_x, half_x, tree_step):
-		for z : int in range(-half_z, half_z, tree_step):
-			var pos : Vector3 = Vector3(
-				x + _rng.randf_range(10.0, 48.0), 0.0, z + _rng.randf_range(10.0, 48.0)
-			)
-			var height : float = terrain.data.get_height(pos)
-			if height > TREE_THRES:
-				_spawn("tree", pos, height)
-			#if height > CACTUS_THRES_MIN:
-				#if height < CACTUS_THRES_MAX and _rng.randf() < 0.5:
-					#_spawn("cactus", pos, height)
-
-	# --- Grass & shrubs ---
-	var grass_step : int = 32
-	for x : int in range(-half_x, half_x, grass_step):
-		for z : int in range(-half_z, half_z, grass_step):
-			var pos : Vector3 = Vector3(
-				x + _rng.randf_range(4.0, 64.0), 0.0, z + _rng.randf_range(4.0, 64.0)
-			)
-			var height : float = terrain.data.get_height(pos)
-			if height > GRASS_THRES:
-				_spawn("grass", pos, height)
-			elif height < SHRUB_THRES and _rng.randf() < 0.3:
-				_spawn("shrub", pos, height)
+	for rule : FoliageRule in dimension.foliage.rules:
+		for x : int in range(-half_x, half_x, rule.step):
+			for z : int in range(-half_z, half_z, rule.step):
+				var pos : Vector3 = Vector3(
+					x + _rng.randf_range(rule.jitter_min, rule.jitter_max), 0.0,
+					z + _rng.randf_range(rule.jitter_min, rule.jitter_max)
+				)
+				var height : float = terrain.data.get_height(pos)
+				if not rule.accepts_height(height):
+					continue
+				if rule.chance < 1.0 and _rng.randf() >= rule.chance:
+					continue
+				_spawn(rule.spawn_id, pos, height)
 
 func get_random_point_in_range(start_pos : Vector2, range_min : float = 4.0, range_max : float = 6.0) -> Vector3:
 	var scale : int = int(TERRAIN_SCALE) / 2
@@ -246,7 +241,9 @@ func _setup_terrain_noise() -> void:
 	
 	var color_map : Image = _get_color_map(img)
 	
-	terrain.data.import_images([img, null, color_map], Vector3(-TERRAIN_SIZE, 0, -TERRAIN_SIZE) * 0.5 * terrain.vertex_spacing, -40.0, TERRAIN_HEIGHT)
+	var offset : float = -40.0 * dimension.terrain_max_height / 150.0
+	
+	terrain.data.import_images([img, null, color_map], Vector3(-TERRAIN_SIZE, 0, -TERRAIN_SIZE) * 0.5 * terrain.vertex_spacing, offset, dimension.terrain_max_height)
 
 func _get_selector_noise() -> Image:
 	

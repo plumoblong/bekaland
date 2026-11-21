@@ -1,0 +1,208 @@
+[gd_scene format=3 uid="uid://du0jxl2x53mbh"]
+
+[ext_resource type="FontFile" uid="uid://07o6bh33do7h" path="res://font/timesb.ttf" id="1_eynqa"]
+[ext_resource type="Script" uid="uid://cvlvx32h53cl" path="res://src/options.gd" id="1_lcy60"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_eynqa"]
+content_margin_left = 4.0
+content_margin_top = 0.0
+content_margin_right = 4.0
+content_margin_bottom = 0.0
+color = Color(0.1251387, 0.1251387, 0.1251387, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lcy60"]
+content_margin_bottom = 3.0
+bg_color = Color(1, 1, 1, 0.6)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_eynqa"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lcy60"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6kqe7"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fvdw5"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0bggd"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_e53ll"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_x4vle"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bgq50"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3140y"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2nirn"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wibsa"]
+
+[node name="Options" type="Control" unique_id=730165844]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_lcy60")
+
+[node name="Container" type="ScrollContainer" parent="." unique_id=1377086313]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.875
+horizontal_scroll_mode = 0
+metadata/_edit_use_anchors_ = true
+metadata/_edit_group_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Container" unique_id=77483314]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+alignment = 1
+
+[node name="-" type="HSeparator" parent="Container/VBoxContainer" unique_id=854706840]
+custom_minimum_size = Vector2(512, 0)
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_eynqa")
+
+[node name="HeaderVid" type="Label" parent="Container/VBoxContainer" unique_id=1897077975]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_eynqa")
+theme_override_font_sizes/font_size = 24
+text = "Video"
+horizontal_alignment = 1
+
+[node name="_" type="HSeparator" parent="Container/VBoxContainer" unique_id=692703424]
+custom_minimum_size = Vector2(512, 0)
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_eynqa")
+
+[node name="Fullscreen" type="CheckButton" parent="Container/VBoxContainer" unique_id=655456125]
+custom_minimum_size = Vector2(256, 0)
+custom_maximum_size = Vector2(256, -1)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Fullscreen"
+
+[node name="Shadows" type="CheckButton" parent="Container/VBoxContainer" unique_id=136984341]
+custom_minimum_size = Vector2(256, 0)
+custom_maximum_size = Vector2(256, -1)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+button_pressed = true
+text = "Shadows"
+
+[node name="HideScreenshot" type="CheckButton" parent="Container/VBoxContainer" unique_id=1967450399]
+custom_minimum_size = Vector2(256, 0)
+custom_maximum_size = Vector2(256, -1)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+button_pressed = true
+text = "Hide UI on screenshot"
+
+[node name="RenderDistText" type="Label" parent="Container/VBoxContainer" unique_id=1644227620]
+layout_mode = 2
+text = "Render Distance: Normal"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RenderDist" type="HSlider" parent="Container/VBoxContainer" unique_id=347213310]
+custom_minimum_size = Vector2(128, 0)
+custom_maximum_size = Vector2(128, -1)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/slider = SubResource("StyleBoxFlat_lcy60")
+max_value = 2.0
+value = 1.0
+scrollable = false
+tick_count = 3
+ticks_on_borders = true
+ticks_position = 2
+
+[node name="-2" type="HSeparator" parent="Container/VBoxContainer" unique_id=322476007]
+custom_minimum_size = Vector2(512, 0)
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_eynqa")
+
+[node name="HeaderInput" type="Label" parent="Container/VBoxContainer" unique_id=519900969]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_eynqa")
+theme_override_font_sizes/font_size = 24
+text = "Input"
+horizontal_alignment = 1
+
+[node name="__" type="HSeparator" parent="Container/VBoxContainer" unique_id=1684482521]
+custom_minimum_size = Vector2(512, 0)
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_eynqa")
+
+[node name="MouseSensText" type="Label" parent="Container/VBoxContainer" unique_id=1250736108]
+layout_mode = 2
+text = "Mouse Sensitivity: 1.0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MouseSens" type="HSlider" parent="Container/VBoxContainer" unique_id=1994831251]
+custom_minimum_size = Vector2(128, 0)
+custom_maximum_size = Vector2(128, -1)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/slider = SubResource("StyleBoxFlat_lcy60")
+min_value = 0.1
+max_value = 5.0
+step = 0.1
+value = 1.0
+scrollable = false
+tick_count = 5
+ticks_on_borders = true
+ticks_position = 2
+
+[node name="InvScroll" type="CheckButton" parent="Container/VBoxContainer" unique_id=1152421522]
+custom_minimum_size = Vector2(256, 0)
+custom_maximum_size = Vector2(256, -1)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+button_pressed = true
+text = "Scroll wheel in inventory"
+
+[node name="__2" type="HSeparator" parent="Container/VBoxContainer" unique_id=140172997]
+custom_minimum_size = Vector2(512, 0)
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_eynqa")
+
+[node name="Back" type="Button" parent="." unique_id=1707183192]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.875
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 0.5019608)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 0.5019608)
+theme_override_styles/normal = SubResource("StyleBoxEmpty_eynqa")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_lcy60")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_6kqe7")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_fvdw5")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_0bggd")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_e53ll")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_x4vle")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_bgq50")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_3140y")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_2nirn")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_wibsa")
+text = "Back"
+metadata/_edit_use_anchors_ = true
+
+[connection signal="pressed" from="Container/VBoxContainer/Fullscreen" to="." method="_on_fullscreen_pressed"]
+[connection signal="toggled" from="Container/VBoxContainer/Shadows" to="." method="_on_shadows_toggled"]
+[connection signal="toggled" from="Container/VBoxContainer/HideScreenshot" to="." method="_on_hide_screenshot_toggled"]
+[connection signal="value_changed" from="Container/VBoxContainer/RenderDist" to="." method="_on_render_dist_value_changed"]
+[connection signal="value_changed" from="Container/VBoxContainer/MouseSens" to="." method="_on_mouse_sens_value_changed"]
+[connection signal="toggled" from="Container/VBoxContainer/InvScroll" to="." method="_on_inv_scroll_toggled"]
+[connection signal="pressed" from="Back" to="." method="_on_back_pressed"]

@@ -4,16 +4,16 @@
 [ext_resource type="Script" uid="uid://dh0eisfiobd56" path="res://src/loot.gd" id="2_x3ob2"]
 [ext_resource type="Resource" uid="uid://wba4pr7n16um" path="res://data/item/wood.tres" id="3_tc3a1"]
 
-[sub_resource type="Resource" id="Resource_x17qx"]
+[sub_resource type="Resource" id="Resource_ipl3r"]
 script = ExtResource("2_x3ob2")
 item = ExtResource("3_tc3a1")
-count_max = 15
-count_min = 5
+count_max = 14
+count_min = 7
 metadata/_custom_type_script = "uid://dh0eisfiobd56"
 
 [resource]
 script = ExtResource("1_rl62m")
-table = Dictionary[ExtResource("2_x3ob2"), int]({
-SubResource("Resource_x17qx"): 1
+table = Dictionary[ExtResource("2_x3ob2"), float]({
+SubResource("Resource_ipl3r"): 1.0
 })
 metadata/_custom_type_script = "uid://brptackfci4hp"

@@ -5,14 +5,16 @@ enum ConfigEntry {
 	RENDER_DISTANCE_LOW = 150,
 	RENDER_DISTANCE_NORMAL = 300,
 	RENDER_DISTANCE_FAR = 600,
-}
+}	
 
-@export var config : Dictionary[StringName, Variant] = {
-	"input_mouse_vel" = 0.5,
-	"input_inv_scroll" = false,
+var _config : Dictionary[StringName, Variant] = {
+	"input_mouse_vel" = 1.0,
+	"input_inv_scroll" = true,
+	"max_fps" = 0,
 	"fullscreen" = false,
+	"shadows" = true,
 	"render_distance" = ConfigEntry.RENDER_DISTANCE_NORMAL,
-	"hide_ui_when_screenshot" = false,
+	"hide_ui_when_screenshot" = true,
 }
 
 var CONFIG_PATH : String = "user://config.json" 
@@ -26,23 +28,36 @@ signal screenshot_end
 var is_screenshoting : bool = false
 var screenshot_textures : Array[ImageTexture]
 
-# ---------- WORLD SAVES ----------
+# ---------- WORLD SAVE (single world) ----------
 const SAVE_ROOT : String = "user://saves/"
-var current_slot : String = "world1"
+const WORLD_DIR : String = SAVE_ROOT + "world/"
 
 func get_world_dir() -> String:
-	return SAVE_ROOT + current_slot + "/"
+	return WORLD_DIR
 
 ## Every dimension gets its own folder so terrain never mixes
 func get_dimension_dir(dimension_key : String) -> String:
-	return get_world_dir() + dimension_key + "/"
+	return WORLD_DIR + dimension_key + "/"
 
+## True when a save file exists (the "Continue" button uses this)
 func has_save() -> bool:
-	return FileAccess.file_exists(get_world_dir() + "world.json")
+	return FileAccess.file_exists(WORLD_DIR + "world.json")
+
+## Same as has_save() but also makes sure the file is readable
+func can_continue() -> bool:
+	return not load_world().is_empty()
+
+## "New Game": wipes the old world (if any) and starts from an empty folder.
+## Call it, then change to the game scene: with no world.json there,
+## Game generates a fresh world with a new seed.
+## (Ask the player to confirm first if has_save() is true!)
+func new_game() -> void:
+	_delete_dir_recursive(WORLD_DIR)
+	DirAccess.make_dir_recursive_absolute(WORLD_DIR)
 
 func save_world(data : Dictionary) -> void:
-	DirAccess.make_dir_recursive_absolute(get_world_dir())
-	var f : FileAccess = FileAccess.open(get_world_dir() + "world.json", FileAccess.WRITE)
+	DirAccess.make_dir_recursive_absolute(WORLD_DIR)
+	var f : FileAccess = FileAccess.open(WORLD_DIR + "world.json", FileAccess.WRITE)
 	if f == null:
 		push_error("Could not write world.json")
 		return
@@ -52,9 +67,19 @@ func save_world(data : Dictionary) -> void:
 func load_world() -> Dictionary:
 	if not has_save():
 		return {}
-	var text : String = FileAccess.get_file_as_string(get_world_dir() + "world.json")
+	var text : String = FileAccess.get_file_as_string(WORLD_DIR + "world.json")
 	var parsed : Variant = JSON.parse_string(text)
 	return parsed if parsed is Dictionary else {}
+
+func _delete_dir_recursive(path : String) -> void:
+	var dir_path : String = path.trim_suffix("/") + "/"
+	if not DirAccess.dir_exists_absolute(dir_path):
+		return
+	for file : String in DirAccess.get_files_at(dir_path):
+		DirAccess.remove_absolute(dir_path + file)
+	for sub_dir : String in DirAccess.get_directories_at(dir_path):
+		_delete_dir_recursive(dir_path + sub_dir)
+	DirAccess.remove_absolute(dir_path.trim_suffix("/"))
 
 ## Terrain3D stores its regions as .res files
 func has_terrain(dir : String) -> bool:
@@ -91,15 +116,19 @@ func setup() -> void:
 	_load_screenshots()
 
 func get_config_entry(entry : StringName) -> Variant:
-	var e = config[entry] if config.has(entry) else null
+	var e = _config[entry] if _config.has(entry) else null
 	return e
 	
 func set_config_entry(entry : StringName, value) -> void:
-	if not config.has(entry):
+	if not _config.has(entry):
 		print("Config entry ", entry, " is null. Returning")
 		return
-	config[entry] = value
+	_config[entry] = value
 	config_entry_changed.emit(entry, value)
+
+func update_config_entries() -> void:
+	for i : StringName in _config.keys():
+		config_entry_changed.emit(i, _config[i])
 
 func save_config() -> void:
 	var c : FileAccess = FileAccess.open(CONFIG_PATH, FileAccess.WRITE)
@@ -107,7 +136,7 @@ func save_config() -> void:
 	if c == null:
 		return
 	
-	c.store_line(JSON.stringify(config))
+	c.store_line(JSON.stringify(_config))
 	c.close()
 	
 func _load_screenshots() -> void:

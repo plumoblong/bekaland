@@ -49,6 +49,7 @@ hitbox = NodePath("Hitbox")
 body = NodePath("Body")
 loot_spawner = NodePath("LootSpawner")
 item_spawner_slot = ExtResource("2_ebvvg")
+material = 1
 
 [node name="Body" type="Node3D" parent="." unique_id=1541400398]
 
@@ -75,7 +76,7 @@ shape = SubResource("CylinderShape3D_g4v7s")
 
 [node name="Health" type="Node" parent="." unique_id=1345430830]
 script = ExtResource("6_x17qx")
-max_health = 0.5
+max_health = 3.0
 metadata/_custom_type_script = "uid://c3m674ammcf1a"
 
 [node name="LootSpawner" type="Node3D" parent="." unique_id=436834291]

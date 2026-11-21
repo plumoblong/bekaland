@@ -18,22 +18,36 @@ enum Mat {
 	NONE,
 	WOOD,
 	ROCK,
-	METAL,
 }
 
 const SHAKE_FRAMERATE : float = 25.0
 
 func setup() -> void:
 	
-	health.damaged.connect(_on_damaged)
-	health.died.connect(_on_die)
-	physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
-	
-	add_to_group(_G.GROUP_DESTROYABLE)
+	if health:
+		health.damaged.connect(_on_damaged)
+		health.died.connect(_on_die)
+		physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
+		
+		add_to_group(_G.GROUP_DESTROYABLE)
 
 func damage(value : float = 0.1) -> void:
 	health.hurt(value)
 	
+func damage_with_item(item : Item) -> void:
+	health.hurt(_get_damage_from_item(item))
+	
+func _get_damage_from_item(item : Item) -> float:
+	if item == null:
+		return 0.1 # bare-hands fallback, same as damage()'s default
+	match material:
+		Mat.ROCK:
+			return item.rock_damage
+		Mat.WOOD:
+			return item.wood_damage
+		_:
+			return item.attack_damage
+			
 func _on_damaged(_value : float, _type : Health.DamageType) -> void:
 	_shake_booty()
 

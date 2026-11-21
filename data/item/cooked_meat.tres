@@ -12,5 +12,5 @@ script = ExtResource("2_kyy7m")
 name = "Good Meat"
 icon = SubResource("AtlasTexture_pmo6e")
 consumable = true
-consumable_heal_value = 0.15
+consumable_heal_value = 0.3
 metadata/_custom_type_script = "uid://bgtjxmfdy52l3"

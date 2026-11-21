@@ -3,6 +3,10 @@
 [ext_resource type="Script" uid="uid://bw8ivcky3mw2y" path="res://src/long_grass.gd" id="1_ehiel"]
 [ext_resource type="Texture2D" uid="uid://deeggl8ek01c6" path="res://texture/grass.png" id="1_j0gcf"]
 [ext_resource type="Script" uid="uid://c3m674ammcf1a" path="res://src/health.gd" id="3_y2rvj"]
+[ext_resource type="Script" uid="uid://c5m7qrah0eb4r" path="res://src/item_pickup_spawner.gd" id="4_slkl1"]
+[ext_resource type="Script" uid="uid://brptackfci4hp" path="res://src/loot_table.gd" id="5_jsioi"]
+[ext_resource type="Script" uid="uid://dh0eisfiobd56" path="res://src/loot.gd" id="6_cj643"]
+[ext_resource type="Resource" uid="uid://dklxca8uojg7e" path="res://data/item/wheat.tres" id="7_jsioi"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3gngh"]
 transparency = 4
@@ -17,6 +21,21 @@ orientation = 2
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_g4v7s"]
 radius = 1.0
+
+[sub_resource type="Resource" id="Resource_gg0gu"]
+script = ExtResource("6_cj643")
+item = ExtResource("7_jsioi")
+count_max = 2
+count_min = 1
+metadata/_custom_type_script = "uid://dh0eisfiobd56"
+
+[sub_resource type="Resource" id="Resource_n5fl1"]
+script = ExtResource("5_jsioi")
+table = Dictionary[ExtResource("6_cj643"), float]({
+SubResource("Resource_gg0gu"): 1.0
+})
+loot_chance_percent = 0.5
+metadata/_custom_type_script = "uid://brptackfci4hp"
 
 [node name="LongGrass" type="StaticBody3D" unique_id=1215575340 node_paths=PackedStringArray("health", "hitbox", "body")]
 collision_layer = 8
@@ -51,3 +70,9 @@ shape = SubResource("SphereShape3D_g4v7s")
 script = ExtResource("3_y2rvj")
 max_health = 0.01
 metadata/_custom_type_script = "uid://c3m674ammcf1a"
+
+[node name="LootSpawner" type="Node3D" parent="." unique_id=459573978]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5306096, 0)
+script = ExtResource("4_slkl1")
+loot = SubResource("Resource_n5fl1")
+metadata/_custom_type_script = "uid://cc1y3i7f28y0"

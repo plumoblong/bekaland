@@ -12,6 +12,7 @@ script = ExtResource("2_r435o")
 name = "Torch"
 icon = SubResource("AtlasTexture_cnv80")
 emits_light = true
+light_emit_color = Color(1, 0.74509805, 0.5529412, 1)
 placeable_id = 1
 place_ghost_size = Vector3(0.4, 1, 0.4)
 place_ghost_offset = Vector3(0, 0.34, 0)

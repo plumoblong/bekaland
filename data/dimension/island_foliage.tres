@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Foliage" format=3 uid="uid://by1dqti8yjd8d"]
+
+[ext_resource type="Script" uid="uid://rbgmi8m3r7g3" path="res://src/foliage_rule.gd" id="1_4drct"]
+[ext_resource type="Resource" uid="uid://dykcab85jbe4j" path="res://data/dimension/foliage/rule_tree.tres" id="2_4fx6n"]
+[ext_resource type="Script" uid="uid://c4lrna3njeq1y" path="res://src/foliage.gd" id="2_7f828"]
+[ext_resource type="Resource" uid="uid://xwe47dlybqsm" path="res://data/dimension/foliage/rule_grass.tres" id="3_64lmn"]
+[ext_resource type="Resource" uid="uid://rrgnub1v0e81" path="res://data/dimension/foliage/rule_shrub.tres" id="4_gradl"]
+[ext_resource type="Resource" uid="uid://c1shjge8qtxf1" path="res://data/dimension/foliage/rule_small_rock.tres" id="5_gradl"]
+
+[resource]
+script = ExtResource("2_7f828")
+rules = Array[ExtResource("1_4drct")]([ExtResource("2_4fx6n"), ExtResource("3_64lmn"), ExtResource("4_gradl"), ExtResource("5_gradl")])

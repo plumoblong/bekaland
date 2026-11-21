@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="CraftingRecipe" format=3 uid="uid://c6hitrqfcio31"]
+
+[ext_resource type="Script" uid="uid://owxpkers3g4w" path="res://src/inventory_slot.gd" id="1_j13ks"]
+[ext_resource type="Resource" uid="uid://wba4pr7n16um" path="res://data/item/wood.tres" id="2_w45x4"]
+[ext_resource type="Resource" uid="uid://d1b5ufdrluxk" path="res://data/item/coal.tres" id="3_w45x4"]
+[ext_resource type="Resource" uid="uid://dvfdu7i3rqehw" path="res://data/item/torch.tres" id="4_70u3p"]
+[ext_resource type="Script" uid="uid://djebqfw6l21lg" path="res://src/craft_recipe.gd" id="4_b3psa"]
+
+[sub_resource type="Resource" id="Resource_g7cci"]
+script = ExtResource("1_j13ks")
+item = ExtResource("2_w45x4")
+quantity = 5
+metadata/_custom_type_script = "uid://owxpkers3g4w"
+
+[sub_resource type="Resource" id="Resource_nnd6d"]
+script = ExtResource("1_j13ks")
+item = ExtResource("3_w45x4")
+quantity = 2
+metadata/_custom_type_script = "uid://owxpkers3g4w"
+
+[sub_resource type="Resource" id="Resource_b3psa"]
+script = ExtResource("1_j13ks")
+item = ExtResource("4_70u3p")
+quantity = 1
+metadata/_custom_type_script = "uid://owxpkers3g4w"
+
+[resource]
+script = ExtResource("4_b3psa")
+inputs = Array[ExtResource("1_j13ks")]([SubResource("Resource_g7cci"), SubResource("Resource_nnd6d")])
+output = SubResource("Resource_b3psa")
+metadata/_custom_type_script = "uid://djebqfw6l21lg"

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="FoliageRule" format=3 uid="uid://dykcab85jbe4j"]
+
+[ext_resource type="Script" uid="uid://rbgmi8m3r7g3" path="res://src/foliage_rule.gd" id="1_t0i10"]
+
+[resource]
+script = ExtResource("1_t0i10")
+min_height = 35.0
+max_height = 80.0
+jitter_min = 10.0
+jitter_max = 48.0
+chance = 0.7

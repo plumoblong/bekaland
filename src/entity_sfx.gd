@@ -24,8 +24,9 @@ func _ready() -> void:
 	doppler_tracking = AudioStreamPlayer3D.DOPPLER_TRACKING_PHYSICS_STEP
 	health.damaged.connect(_play_hurt_sound)
 	health.died.connect(_play_die_sound)
-	idle_sound_timer.timeout.connect(_play_idle_sound)
-	idle_sound_timer.start(5.0)
+	if idle_sound_timer:
+		idle_sound_timer.timeout.connect(_play_idle_sound)
+		idle_sound_timer.start(5.0)
 	
 func start_sound(type : SoundType, pitch : float = 1.0, distance : float = 50.0) -> void:
 	stream = _pick_stream(type)
@@ -39,10 +40,12 @@ func start_sound(type : SoundType, pitch : float = 1.0, distance : float = 50.0)
 	
 	match type:
 		SoundType.HURT:
+			
 			_pause_timer()
 			pitch_scale = randf_range(hurt_pitch_range.x, hurt_pitch_range.y) * pitch
 		SoundType.DIE:
-			idle_sound_timer.paused = true
+			if idle_sound_timer:
+				idle_sound_timer.paused = true
 			pitch_scale = randf_range(die_pitch_range.x, die_pitch_range.y) * pitch
 		_:
 			pitch_scale = randf_range(idle_pitch_range.x, idle_pitch_range.y) * pitch
@@ -50,6 +53,8 @@ func start_sound(type : SoundType, pitch : float = 1.0, distance : float = 50.0)
 	play()
 
 func _pause_timer() -> void:
+	if not idle_sound_timer:
+		return
 	idle_sound_timer.paused = true
 	await get_tree().create_timer(4.0).timeout
 	idle_sound_timer.paused = false

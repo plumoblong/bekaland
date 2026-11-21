@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="CraftingRecipe" format=3 uid="uid://ce7yq7vpa2r1u"]
+
+[ext_resource type="Script" uid="uid://owxpkers3g4w" path="res://src/inventory_slot.gd" id="1_0k2bc"]
+[ext_resource type="Resource" uid="uid://wba4pr7n16um" path="res://data/item/wood.tres" id="2_si38m"]
+[ext_resource type="Resource" uid="uid://4ueichfa3c3e" path="res://data/item/rock.tres" id="3_ewjqf"]
+[ext_resource type="Resource" uid="uid://bruuhqhffa0sk" path="res://data/item/pickaxe_rock.tres" id="4_0k2bc"]
+[ext_resource type="Script" uid="uid://djebqfw6l21lg" path="res://src/craft_recipe.gd" id="5_61gyd"]
+
+[sub_resource type="Resource" id="Resource_sf5a2"]
+script = ExtResource("1_0k2bc")
+item = ExtResource("2_si38m")
+quantity = 25
+metadata/_custom_type_script = "uid://owxpkers3g4w"
+
+[sub_resource type="Resource" id="Resource_fij3j"]
+script = ExtResource("1_0k2bc")
+item = ExtResource("3_ewjqf")
+quantity = 20
+metadata/_custom_type_script = "uid://owxpkers3g4w"
+
+[sub_resource type="Resource" id="Resource_si38m"]
+script = ExtResource("1_0k2bc")
+item = ExtResource("4_0k2bc")
+quantity = 1
+metadata/_custom_type_script = "uid://owxpkers3g4w"
+
+[resource]
+script = ExtResource("5_61gyd")
+inputs = Array[ExtResource("1_0k2bc")]([SubResource("Resource_sf5a2"), SubResource("Resource_fij3j")])
+required_station = 1
+output = SubResource("Resource_si38m")
+metadata/_custom_type_script = "uid://djebqfw6l21lg"

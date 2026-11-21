@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://jl14wqy63fok"]
+
+[ext_resource type="Script" uid="uid://cr53rrph661a4" path="res://scene/ambience.gd" id="1_nrw3f"]
+[ext_resource type="AudioStream" uid="uid://ca3kgjhkr58bj" path="res://sound/ambience/day.ogg" id="2_s47f2"]
+[ext_resource type="AudioStream" uid="uid://canu272k2omcf" path="res://sound/ambience/night.ogg" id="3_ejluh"]
+
+[sub_resource type="Curve" id="Curve_s47f2"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.04961341, 0), 0.0, 0.0, 0, 0, Vector2(0.5503927, 0), 0.0, 4.1700926, 0, 0, Vector2(0.61583775, 1), 3.6765332, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[node name="Ambience" type="Node" unique_id=1224693037]
+script = ExtResource("1_nrw3f")
+overall_volume = 0.1
+night_volume_curve = SubResource("Curve_s47f2")
+
+[node name="Day" type="AudioStreamPlayer" parent="." unique_id=733133774]
+stream = ExtResource("2_s47f2")
+volume_db = -8.608
+pitch_scale = 0.83
+bus = &"Ambience"
+
+[node name="Night" type="AudioStreamPlayer" parent="." unique_id=1580722476]
+stream = ExtResource("3_ejluh")
+volume_db = -80.0
+pitch_scale = 0.83
+bus = &"Ambience"
