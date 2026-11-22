@@ -70,8 +70,6 @@ func _ready() -> void:
 		if not data.is_empty():
 			_apply_save_data(data)
 	
-	register_inventory("player", _get_inventory())
-	
 	await _start_dimension()
 
 func get_dimension_key() -> String:
@@ -89,40 +87,6 @@ func _apply_save_data(data : Dictionary) -> void:
 	_saved_inventories = data.get("inventories", {})
 	if data.has("inventory") and not _saved_inventories.has("player"):
 		_saved_inventories["player"] = data["inventory"] # save from before chests existed
-
-## ADD an inventory to the save file. Call it once when the inventory's owner is ready:
-##     _G.game.register_inventory("player", inventory)
-##     _G.game.register_inventory(get_meta("uid"), inventory, self)   # a placed chest
-## - If this id was saved before, the inventory is filled with the saved items right away.
-## - `holder`: when this node leaves the tree its inventory is remembered in the save
-##   (e.g. a chest unloaded with its dimension) instead of being forgotten.
-func register_inventory(id : String, inv : Inventory, holder : Node = null) -> void:
-	_live_inventories[id] = inv
-	if _saved_inventories.has(id):
-		inv.load_data(_saved_inventories[id])
-	if holder:
-		var c : Callable = _on_inventory_holder_exiting.bind(id)
-		if not holder.tree_exiting.is_connected(c):
-			holder.tree_exiting.connect(c, CONNECT_ONE_SHOT)
-
-## Call when the owner is destroyed for good (chest broken): removes it from the save
-func forget_inventory(id : String) -> void:
-	_live_inventories.erase(id)
-	_saved_inventories.erase(id)
-
-func _on_inventory_holder_exiting(id : String) -> void:
-	if _live_inventories.has(id):
-		_saved_inventories[id] = _live_inventories[id].to_data()
-		_live_inventories.erase(id)
-
-func _collect_inventories() -> Dictionary:
-	for id : String in _live_inventories:
-		_saved_inventories[id] = _live_inventories[id].to_data()
-	return _saved_inventories
-
-## The one place that knows where the player's inventory lives
-func _get_inventory() -> Inventory:
-	return player.inventory # <- change this if yours is stored somewhere else
 
 ## Builds (or loads) the terrain of current_dimension
 func _start_dimension() -> void:
@@ -269,7 +233,6 @@ func save_world() -> void:
 		"world_time": world_time,
 		"world_day": world_day,
 		"player_pos": [p.x, p.y, p.z],
-		"inventories": _collect_inventories(),
 	})
 	
 	_G.set_alert("World Saved!", Color.GREEN)
