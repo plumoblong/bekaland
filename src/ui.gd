@@ -10,6 +10,7 @@ var _p : Player
 @onready var water_overlay : TextureRect = get_node("WaterOverlay")
 @onready var fire_overlay : AnimatedSprite2D = get_node("FireOverlay")
 @onready var time_label : Label = get_node("Alive/Time")
+@onready var interact_label: Label = get_node("Alive/InteractLabel")
 
 @onready var crosshair : TextureRect = get_node("Alive/Crosshair")
 @onready var last_health_bar : ColorRect = get_node("Alive/Crosshair/LastHealth")
@@ -73,6 +74,7 @@ func _update_alive(delta : float) -> void:
 	_handle_tooltip()
 	if Input.is_action_just_pressed("hide_ui"):
 		ui_visible = not ui_visible
+	interact_label.visible = _p.can_interact
 	#_update_crosshair(delta)
 
 func _handle_tooltip() -> void:
@@ -113,7 +115,10 @@ func _update_crosshair(delta : float) -> void:
 	_c_alpha = float(_p.ray.is_colliding())
 	_c_alpha2 = lerpf(_c_alpha2, _c_alpha, delta * 6.0)
 	crosshair.modulate.a = 0.25 + (snappedf(_c_alpha2, 0.2) * 0.5)
-	
+
+func set_interact_text(text : String) -> void:
+	interact_label.text = "Press F to " + text + "."
+
 func _update_debug() -> void:
 	if not OS.has_feature("debug"): return
 	debug_label.visible = _G.debug_mode

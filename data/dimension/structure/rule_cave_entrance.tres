@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="StructureRule" format=3 uid="uid://d186lh8b2vc65"]
+
+[ext_resource type="Script" uid="uid://daghgoswxh03q" path="res://src/structure_rule.gd" id="1_i0oxw"]
+
+[resource]
+script = ExtResource("1_i0oxw")
+min_instances = 8
+max_instances = 16
+min_spacing = 512.0
+spawn_id = "cave_entrance"
+min_height = 50.0
+max_height = 70.0
+step = 128
+jitter_min = 32.0
+metadata/_custom_type_script = "uid://daghgoswxh03q"

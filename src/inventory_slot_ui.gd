@@ -16,8 +16,6 @@ var selected : bool = false
 var slot_id : int = -1
 var inventory_id : int = -1
 
-
-
 var _color : Color
 var _color2 : Color
 

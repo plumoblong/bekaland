@@ -13,5 +13,5 @@ name = "Rock Pickaxe"
 icon = SubResource("AtlasTexture_81f02")
 max_stack = 1
 attack_damage = 0.25
-rock_damage = 0.5
+rock_damage = 0.8
 metadata/_custom_type_script = "uid://bgtjxmfdy52l3"

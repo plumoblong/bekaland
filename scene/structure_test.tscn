@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://cclbcepuwj4nl"]
+
+[ext_resource type="Material" uid="uid://blkrh86417w3v" path="res://material/wood.tres" id="1_1wdq4"]
+[ext_resource type="Texture2D" uid="uid://crymg0busubep" path="res://texture/grass_0.png" id="2_wc5m4"]
+[ext_resource type="Texture2D" uid="uid://cmcp20uixr3yv" path="res://images/door.png" id="3_nmfgb"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tahdw"]
+albedo_color = Color(1, 0.07954544, 0, 1)
+albedo_texture = ExtResource("2_wc5m4")
+metallic_specular = 0.0
+uv1_scale = Vector3(0.555, 0.449, 0.743)
+uv1_offset = Vector3(0, -0.175, -0.49)
+texture_filter = 0
+
+[node name="StructureTest" type="Node3D" unique_id=1530836569]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=997964216]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+size = Vector3(4, 3, 4)
+material = ExtResource("1_1wdq4")
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="." unique_id=1633333896]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 4.7417703, 0.045995235, 1.9030256, 2.4264448)
+smoothing_angle = 0.0
+polygon = PackedVector2Array(-3, 0, 0, 2, 3, 0)
+material = SubResource("StandardMaterial3D_tahdw")
+
+[node name="Decal" type="Decal" parent="." unique_id=1713515597]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -0.07130697, 0.4356941, 2.7573133)
+size = Vector3(0.9921875, 2, 2)
+texture_albedo = ExtResource("3_nmfgb")
+normal_fade = 0.999

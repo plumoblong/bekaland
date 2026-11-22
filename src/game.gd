@@ -10,32 +10,30 @@ class_name Game
 @onready var light : DirectionalLight3D = get_node("Light")
 @onready var player_obj : Node = get_node("PlayerObjects")
 @onready var pickups : Node = get_node("Pickups")
+
 @export var ray : TerrainRay
+@export var sky_gradient : Gradient
 
 var world_time : float = 0.25
 var world_day : int = 0
+signal day_ended
+
 const WORLD_TIME_SCALE : float = 1440.0
 
-@export var sky_gradient : Gradient
-
-const FOG_DEPTH : float = 600.0
+var _current_fog_depth : float = 300.0
 const FOG_DEPTH_RATIO : float = 0.5
 const FOG_DEPTH_WATER : float = 0.25
 
 var sky_color : Color
 
-# ---- dimensions / saving ----
 var current_dimension : WorldType = WorldType.ISLAND
-var world_seed : int = 0                   # shared by every dimension
+var world_seed : int = 0
 var _default_sky_gradient : Gradient
-var _pending_player_pos : Variant = null   # Vector3 when loading a save
+var _pending_player_pos : Variant = null
+var _pending_player_rot : Variant = null
 var _switching : bool = false
 
-# ---- inventories (player, chests, ...) ----
-var _saved_inventories : Dictionary = {}  # id -> Inventory.to_data(), exactly what is in the save file
-var _live_inventories : Dictionary = {}   # id -> Inventory that currently exists in the world
-
-signal day_ended
+var _saved_inventories : Dictionary = {}
 
 enum Placeables {
 	NONE = 0,
@@ -60,8 +58,12 @@ enum WorldType {
 
 @export var placeable_scenes : Array[PackedScene]
 
+signal save_data_applied
+
 func _ready() -> void:
 	_G.game = self
+	_F.config_entry_changed.connect(_on_config_entry_changed)
+	
 	_default_sky_gradient = sky_gradient
 	
 	if not _G.is_starting_new_game:
@@ -71,6 +73,15 @@ func _ready() -> void:
 			_apply_save_data(data)
 	
 	await _start_dimension()
+	
+	_F.update_config_entries()
+
+func _on_config_entry_changed(entry : StringName, value) -> void:
+	match entry:
+		"render_distance":
+			_current_fog_depth = value as float
+		"shadows":
+			light.shadow_enabled = value as bool
 
 func get_dimension_key() -> String:
 	return WorldType.keys()[current_dimension]
@@ -81,14 +92,16 @@ func _apply_save_data(data : Dictionary) -> void:
 	current_dimension = int(data.get("dimension", WorldType.ISLAND)) as WorldType
 	world_seed = int(data.get("seed", 0))
 	var p : Variant = data.get("player_pos")
+	var pr : Variant = data.get("player_rot")
 	if p is Array and p.size() == 3:
 		_pending_player_pos = Vector3(p[0], p[1], p[2])
+	if pr is Array and pr.size() == 3:
+		_pending_player_rot = Vector3(pr[0], pr[1], pr[2])
 	
 	_saved_inventories = data.get("inventories", {})
-	if data.has("inventory") and not _saved_inventories.has("player"):
-		_saved_inventories["player"] = data["inventory"] # save from before chests existed
+	
+	save_data_applied.emit()
 
-## Builds (or loads) the terrain of current_dimension
 func _start_dimension() -> void:
 	var key : String = get_dimension_key()
 	var dim : Dimension = generation.dimensions[current_dimension]
@@ -96,7 +109,6 @@ func _start_dimension() -> void:
 	if world_seed == 0:
 		world_seed = randi()
 	
-	# per-dimension look
 	water.global_position.y = dim.sea_level if dim.has_water else -256.0
 	water.visible = dim.has_water
 	water.set_lava(dim.water_is_lava)
@@ -105,12 +117,17 @@ func _start_dimension() -> void:
 	generation.setup(dim, world_seed, _F.get_dimension_dir(key))
 	
 	# give the terrain collision a moment to build
-	await get_tree().create_timer(0.25).timeout
+	await get_tree().create_timer(0.1).timeout
 	
 	_load_placed(_F.load_objects(_F.get_dimension_dir(key)).get("placed", []))
 	
 	if _pending_player_pos != null:
 		player.global_position = _pending_player_pos
+		
+		if _pending_player_rot != null:
+			player.global_rotation = _pending_player_rot
+		
+		_pending_player_rot = null
 		_pending_player_pos = null
 	else:
 		player.global_position = player.get_spawn_position()
@@ -123,12 +140,11 @@ func change_dimension(target : WorldType) -> void:
 		return
 	_switching = true
 	
-	save_world() # saves the dimension we're leaving
+	save_world()
 	
 	current_dimension = target
 	_pending_player_pos = null
-	
-	# Things that belong to the old dimension
+
 	for n : Node in $Animals.get_children(): n.queue_free()
 	for n : Node in $Enemies.get_children(): n.queue_free()
 	for n : Node in player_obj.get_children(): n.queue_free() # already saved above
@@ -178,7 +194,7 @@ func _update_environment() -> void:
 	skybox.stars.emitting = light.light_energy < 0.1
 	
 	var fog_level = clampf(sky_color.v, 0.25, 1.0) * in_water_mult
-	env.fog_depth_end = FOG_DEPTH * fog_level
+	env.fog_depth_end = _current_fog_depth * fog_level
 	env.fog_depth_begin = env.fog_depth_end * FOG_DEPTH_RATIO * in_water_mult
 	env.ambient_light_color = Color.from_hsv(sky_color.h, sky_color.s * 0.5, sky_color.v)
 
@@ -192,6 +208,7 @@ func _get_placed_data() -> Array:
 				"uid": n3.get_meta("uid", ""),
 				"pos": n3.global_position,
 				"rot": n3.global_rotation,
+				"inv_id" : -1,
 			})
 	return out
 
@@ -207,25 +224,45 @@ func _load_placed(list : Array) -> void:
 		p.global_rotation = e["rot"]
 
 func _notification(what : int) -> void:
-	if what == NOTIFICATION_WM_CLOSE_REQUEST:
-		save_world() # autosave when the window is closed
+	if what == NOTIFICATION_WM_CLOSE_REQUEST or what == NOTIFICATION_APPLICATION_FOCUS_OUT:
+		save_world()
 
-func save_world() -> void:
+func _get_free_inv_id() -> int:
+	return _saved_inventories.size()
+
+func register_inventory(inv : Inventory, id : int = -1) -> void:
+	var i : int = id if id > -1 else _get_free_inv_id()
+	if _saved_inventories.has(i):
+		push_error(inv, " cant be registered, id ", id, " is already in use")
+		return
+	_saved_inventories[i] = inv
+	_F.save_inventory(inv, i)
+
+func erase_inventory(id : int) -> void:
+	if _saved_inventories.has(id):
+		_saved_inventories.erase(id)
+		_F.delete_inventory(id)
+
+func get_inventory(id : int) -> Inventory:
+	if _saved_inventories.has(id):
+		return _saved_inventories[id]
+	return null
+
+func save_world(quiet : bool = false) -> void:
 	if generation.terrain == null:
-		return # mid dimension-switch / still loading, nothing valid to save
+		return
 	
-	_G.set_alert("Saving World...", Color.YELLOW)
-	
-	# terrain + trees + placed objects of the current dimension
+	if not quiet: _G.set_alert("Saving World...")
+
 	var dir : String = _F.get_dimension_dir(get_dimension_key())
 	generation.save_terrain(dir)
 	_F.save_objects(dir, {
 		"foliage": generation.get_foliage_data(),
 		"placed": _get_placed_data(),
 	})
-	
-	# everything else
+
 	var p : Vector3 = player.global_position
+	var pr : Vector3 = player.global_rotation
 	_F.save_world({
 		"version": _G.VERSION,
 		"dimension": current_dimension,
@@ -233,6 +270,7 @@ func save_world() -> void:
 		"world_time": world_time,
 		"world_day": world_day,
 		"player_pos": [p.x, p.y, p.z],
+		"player_rot": [pr.x, pr.y, pr.z],
+		"inventories" : {}
 	})
 	
-	_G.set_alert("World Saved!", Color.GREEN)

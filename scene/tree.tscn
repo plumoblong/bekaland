@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://bxt4uyfyoy564" path="res://src/tree.gd" id="1_214j1"]
 [ext_resource type="Texture2D" uid="uid://cmed6namt8stx" path="res://texture/sand_0.png" id="1_dcgk5"]
-[ext_resource type="Resource" uid="uid://djiuoh2wvu611" path="res://data/item/dummy_slot.tres" id="2_ebvvg"]
 [ext_resource type="Texture2D" uid="uid://bfkv4ayd5o5xr" path="res://texture/foliage.png" id="2_lutej"]
 [ext_resource type="Script" uid="uid://c5m7qrah0eb4r" path="res://src/item_pickup_spawner.gd" id="5_y4dod"]
 [ext_resource type="Resource" uid="uid://ceuuufpwcqpbf" path="res://data/loottable/tree.tres" id="6_ebvvg"]
@@ -48,7 +47,6 @@ health = NodePath("Health")
 hitbox = NodePath("Hitbox")
 body = NodePath("Body")
 loot_spawner = NodePath("LootSpawner")
-item_spawner_slot = ExtResource("2_ebvvg")
 material = 1
 
 [node name="Body" type="Node3D" parent="." unique_id=1541400398]

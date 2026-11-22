@@ -8,8 +8,6 @@ class_name InventoryManager
 @export var crafting_manager : CraftingManager
 @export var ui : UI
 
-const DUMMY_SLOT : InventorySlot = preload("res://data/item/dummy_slot.tres")
-
 signal hotbar_slot_selected(slot_id : int)
 
 var inventory_opened : bool = false
@@ -33,11 +31,11 @@ func _ready() -> void:
 	if crafting_ui:
 		crafting_ui.requested_crafting.connect(_on_crafting_requested)
 		crafting_ui.request_close.connect(_close_crafting)
+		
+func _on_save_data_applied() -> void:
+	inventory = _G.game.get_inventory(0)
+	inventory.setup()
 	
-#func set_inv() -> void:
-	#hotbar_ui.set_inventory(inventory)
-	#inventory_ui.set_inventory(inventory)
-
 func _close_crafting() -> void:
 	await get_tree().create_timer(0.1).timeout
 	close_inventory_ui()

@@ -6,19 +6,21 @@ const TERRAIN_SCALE : float = 16.0
 
 const TERRAIN_SIZE : float = 512.0
 
-const GRASS_MESH : PackedScene = preload("res://scene/long_grass.tscn")
-const SHRUB_MESH : PackedScene = preload("res://scene/shrub.tscn")
-const TREE_MESH : PackedScene = preload("res://scene/tree.tscn")
-const FLOWER_MESH : PackedScene = preload("res://scene/flower.tscn")
-const PEBBLE_MESH : PackedScene = preload("res://scene/small_rock.tscn")
+var _grass_mesh : PackedScene = load("res://scene/long_grass.tscn")
+var _shrub_mesh : PackedScene = load("res://scene/shrub.tscn")
+var _tree_mesh : PackedScene = load("res://scene/tree.tscn")
+var _flower_mesh : PackedScene = load("res://scene/flower.tscn")
+var _pebble_mesh : PackedScene = load("res://scene/small_rock.tscn")
+var _struct_cave_entrance : PackedScene = load("res://scene/cave_entrance.tscn")
 
 ## Save-file name -> scene. Add new foliage types here.
-const FOLIAGE_SCENES : Dictionary = {
-	"tree": TREE_MESH,
-	"grass": GRASS_MESH,
-	"shrub": SHRUB_MESH,
-	"flower": FLOWER_MESH,
-	"small_rock": PEBBLE_MESH,
+var FOLIAGE_SCENES : Dictionary = {
+	"tree": _tree_mesh,
+	"grass": _grass_mesh,
+	"shrub": _shrub_mesh,
+	"flower": _flower_mesh,
+	"small_rock": _pebble_mesh,
+	"cave_entrance" : _struct_cave_entrance,
 }
 
 const GRASS_THRES : float = 18.0
@@ -82,7 +84,8 @@ func setup(dim : Dimension, world_seed : int, save_dir : String) -> void:
 		if saved.has("foliage"):
 			_load_foliage(saved["foliage"]) # exact trees from the save
 		else:
-			_create_foliage()               # first time in this dimension
+			_create_structures()            # first time in this dimension:
+			_create_foliage()               # structures first, so they always get their spot
 	
 	_G.loading_screen.dectivate()
 	_G.override_max_fps(false)
@@ -190,9 +193,96 @@ func _create_foliage() -> void:
 				var height : float = terrain.data.get_height(pos)
 				if not rule.accepts_height(height):
 					continue
-				if rule.chance < 1.0 and _rng.randf() >= rule.chance:
+				if _rng.randf() >= rule.chance:
 					continue
 				_spawn(rule.spawn_id, pos, height)
+
+## Spawns every StructureRule: at least min_instances (when a valid spot exists), at most max_instances.
+func _create_structures() -> void:
+	if dimension.foliage == null:
+		return
+
+	var scale : int = int(TERRAIN_SCALE) / 2
+	var half_x : int = TERRAIN_SIZE * scale
+	var half_z : int = TERRAIN_SIZE * scale
+
+	for rule : StructureRule in dimension.foliage.structures:
+		# preferred = passed height AND the chance roll; fallback = passed height only
+		var preferred : Array[Vector3] = []
+		var fallback : Array[Vector3] = []
+
+		for x : int in range(-half_x, half_x, rule.step):
+			for z : int in range(-half_z, half_z, rule.step):
+				var pos : Vector3 = Vector3(
+					x + _rng.randf_range(rule.jitter_min, rule.jitter_max), 0.0,
+					z + _rng.randf_range(rule.jitter_min, rule.jitter_max)
+				)
+				var height : float = terrain.data.get_height(pos)
+				if not rule.accepts_height(height):
+					continue
+				var p : Vector3 = Vector3(pos.x, height, pos.z)
+				if _rng.randf() < rule.chance:
+					preferred.append(p)
+				else:
+					fallback.append(p)
+
+		# Last resort: the grid found nothing, so probe random points across the map
+		if preferred.is_empty() and fallback.is_empty():
+			for i : int in 5000:
+				var pos : Vector3 = Vector3(
+					_rng.randf_range(-half_x, half_x), 0.0, _rng.randf_range(-half_z, half_z)
+				)
+				var height : float = terrain.data.get_height(pos)
+				if rule.accepts_height(height):
+					fallback.append(Vector3(pos.x, height, pos.z))
+					break
+
+		_shuffle_seeded(preferred)
+		_shuffle_seeded(fallback)
+		var pool : Array[Vector3] = preferred + fallback
+
+		var target : int = rule.roll_count(_rng)
+		var placed : Array[Vector3] = []
+
+		# Pass 1: respect min_spacing
+		for p : Vector3 in pool:
+			if placed.size() >= target:
+				break
+			if _too_close(p, placed, rule.min_spacing):
+				continue
+			placed.append(p)
+
+		# Pass 2: spacing blocked the guaranteed minimum, so relax it
+		if placed.size() < rule.min_instances:
+			for p : Vector3 in pool:
+				if placed.size() >= rule.min_instances:
+					break
+				if not placed.has(p):
+					placed.append(p)
+
+		if placed.is_empty():
+			push_warning("No valid spot for structure '%s' (check its height range)" % rule.spawn_id)
+			continue
+
+		for p : Vector3 in placed:
+			_spawn(rule.spawn_id, p, p.y)
+
+func _too_close(p : Vector3, others : Array[Vector3], min_dist : float) -> bool:
+	if min_dist <= 0.0:
+		return false
+	var p2 : Vector2 = Vector2(p.x, p.z)
+	for o : Vector3 in others:
+		if p2.distance_to(Vector2(o.x, o.z)) < min_dist:
+			return true
+	return false
+
+## Fisher-Yates using the world-seeded RNG (Array.shuffle() uses the global RNG, which isn't deterministic per seed)
+func _shuffle_seeded(arr : Array) -> void:
+	for i : int in range(arr.size() - 1, 0, -1):
+		var j : int = _rng.randi_range(0, i)
+		var tmp : Variant = arr[i]
+		arr[i] = arr[j]
+		arr[j] = tmp
 
 func get_random_point_in_range(start_pos : Vector2, range_min : float = 4.0, range_max : float = 6.0) -> Vector3:
 	var scale : int = int(TERRAIN_SCALE) / 2

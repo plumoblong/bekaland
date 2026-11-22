@@ -20,6 +20,9 @@ var _config : Dictionary[StringName, Variant] = {
 var CONFIG_PATH : String = "user://config.json" 
 var SCREENSHOT_PATH : String = "user://screenshots/"
 
+const INVENTORY_DIR : String = WORLD_DIR + "inventories/"
+const PLAYER_INVENTORY_ID : int = 0
+
 signal config_entry_changed(entry : StringName, value)
 
 signal screenshot_start
@@ -184,3 +187,33 @@ func screenshot() -> void:
 	screenshot_end.emit()
 	await get_tree().create_timer(0.05).timeout
 	is_screenshoting = false
+
+func get_inventory_path(id : int) -> String:
+	return INVENTORY_DIR + str(id) + ".res"
+
+func has_inventory(id : int) -> bool:
+	return FileAccess.file_exists(get_inventory_path(id))
+
+func save_inventory(inventory : Inventory, id : int) -> void:
+	if inventory == null:
+		return
+	DirAccess.make_dir_recursive_absolute(INVENTORY_DIR)
+	var err : Error = ResourceSaver.save(inventory, get_inventory_path(id))
+	if err != OK:
+		push_error("Could not save inventory %d (error %d)" % [id, err])
+
+func load_inventory(id : int) -> Inventory:
+	if not has_inventory(id):
+		return null
+	# CACHE_MODE_IGNORE: never hand back an older copy of this file kept in memory
+	var inv : Inventory = ResourceLoader.load(get_inventory_path(id), "", ResourceLoader.CACHE_MODE_IGNORE) as Inventory
+	if inv == null:
+		push_error("Inventory %d is corrupt or doesnt exist" % id)
+		return null
+	inv.setup() # adds slots if `capacity` was increased since the save
+	return inv
+
+## For things that are gone for good (a broken chest)
+func delete_inventory(id : int) -> void:
+	if has_inventory(id):
+		DirAccess.remove_absolute(get_inventory_path(id))

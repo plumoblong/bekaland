@@ -1,0 +1,121 @@
+[gd_scene format=4 uid="uid://breesuv3yiq8f"]
+
+[ext_resource type="Script" uid="uid://bewh5txu6phwb" path="res://src/cave_entrance.gd" id="1_kvmdp"]
+[ext_resource type="Texture2D" uid="uid://can81lqwfylyq" path="res://texture/grass_1.png" id="1_pl054"]
+[ext_resource type="Texture2D" uid="uid://if86wg0y215g" path="res://texture/basement_door.png" id="2_pl054"]
+[ext_resource type="Script" uid="uid://dj7qc3c8inn6v" path="res://src/interactable.gd" id="4_cn745"]
+[ext_resource type="PackedScene" uid="uid://bcp1ut76k4354" path="res://scene/rock.tscn" id="5_asjm7"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kvmdp"]
+albedo_color = Color(0.7, 0.5149666, 0.27299997, 1)
+albedo_texture = ExtResource("1_pl054")
+metallic_specular = 0.0
+uv1_scale = Vector3(0.555, 0.449, 0.743)
+uv1_offset = Vector3(0, -0.175, -0.49)
+uv1_triplanar = true
+uv1_world_triplanar = true
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0i4sn"]
+resource_name = "none"
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_0uhfj"]
+_surfaces = [{
+"aabb": AABB(-0.25, 0, -0.25, 0.5, 0.5, 0.5),
+"format": 34896613377,
+"index_count": 30,
+"index_data": PackedByteArray("AAABAAIAAgABAAMAAAACAAQAAAAEAAEABAACAAUAAQAGAAMAAQAEAAYABAAFAAYAAwAGAAcABgAFAAcA"),
+"name": "none",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("////////AAD/////AAAAAP//AAD//wAA//8AAAAAAAAAAP+f//8AAAAAAAD//wAAAAD/nwAAAAAAAAAAAAAAAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_pl054"]
+_surfaces = [{
+"aabb": AABB(-0.25, 0, -0.25, 0.5, 0.5, 0.5),
+"attribute_data": PackedByteArray("AAAAAP9/AAAAAP9//3//f/9/AAD/f/9/AAAAAAAA/3//f/9/AAD/f/9/AAAAAAAA/38AAP9//38AAAAAAAD/fwAAAAD/fwAAAAD/f/9//38="),
+"format": 34896613399,
+"index_count": 30,
+"index_data": PackedByteArray("AAABAAIAAgABAAMABAAFAAYABgAFAAcACAAJAAoACgAJAAsADAANAA4ADgANAA8AEAARABIAEgARABMA"),
+"material": SubResource("StandardMaterial3D_0i4sn"),
+"name": "none",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 20,
+"vertex_data": PackedByteArray("/////////7//////AAD/v///AAD///+///8AAAAA/78AAP+f////vwAAAAD///+/AAD/nwAA/78AAAAAAAD/v////////0vBAAD/n///S8H/////AABLwQAA/58AAEvB////////nY7//wAA//9wiQAA/5////GGAAAAAP//AID/////AAD//wAA/58AAP////8AAAAA//8AAAAAAAD///9/AAD/fwAA/38AAP9/AAD/f////3////9/////f///9u4QovbuEKL27hCi9u4Qov////////////////9///9ZbFns7HXr9adyp/L/f///")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_0uhfj")
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_yf5fn"]
+points = PackedVector3Array(2.5, 1.6, 2.5, 2.5, 1.6, -2.5, -2.5, 0.55, 2.5, -2.5, 0.55, -2.5, 2.5, -1.5, 2.5, 2.5, -1.5, -2.5, -2.5, -1.5, 2.5, -2.5, -1.5, -2.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yf5fn"]
+size = Vector3(3, 1, 3)
+
+[node name="CaveEntrance" type="StaticBody3D" unique_id=599756325 node_paths=PackedStringArray("interactable")]
+script = ExtResource("1_kvmdp")
+to_world = 1
+interactable = NodePath("Interactable")
+random_rotation_step = 10.0
+
+[node name="Sprite3D" type="Sprite3D" parent="." unique_id=1664821697]
+transform = Transform3D(-4.371139e-08, 0.97437006, 0.22495104, 0, 0.22495104, -0.97437006, -1, -4.259107e-08, -9.832922e-09, 0, 1.5627074, 0)
+cast_shadow = 0
+modulate = Color(0.81, 0.59589, 0.3159, 1)
+pixel_size = 0.038
+shaded = true
+alpha_cut = 2
+texture_filter = 0
+texture = ExtResource("2_pl054")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1547579347]
+transform = Transform3D(10, 0, 0, 0, 6.25, 0, 0, 0, 10, 0, -0.99999994, 0)
+material_override = SubResource("StandardMaterial3D_kvmdp")
+mesh = SubResource("ArrayMesh_pl054")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1842395795]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("ConvexPolygonShape3D_yf5fn")
+
+[node name="Interactable" type="Area3D" parent="." unique_id=727600269 groups=["Interactable"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+collision_layer = 512
+collision_mask = 512
+script = ExtResource("4_cn745")
+interact_string = "Enter the mines"
+metadata/_custom_type_script = "uid://dj7qc3c8inn6v"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactable" unique_id=1154196330]
+shape = SubResource("BoxShape3D_yf5fn")
+
+[node name="Rocks" type="Node3D" parent="." unique_id=817496708]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+
+[node name="Rock" parent="Rocks" unique_id=1568794059 instance=ExtResource("5_asjm7")]
+transform = Transform3D(0.76812625, -0.63994336, 0.021317884, 0.6033447, 0.734541, 0.3105233, -0.21437618, -0.22565909, 0.9503267, -2.9423532, 0.2247197, -1.3871707)
+not_for_generation = true
+
+[node name="Rock2" parent="Rocks" unique_id=1831591902 instance=ExtResource("5_asjm7")]
+transform = Transform3D(0.31170642, -0.6300237, -0.7112729, 0.49402905, 0.7468913, -0.44507143, 0.81164914, -0.21265784, 0.5440609, -2.776662, 0.41110152, 1.455731)
+not_for_generation = true
+for_scale = Vector3(1, 1.3, 1.4)
+
+[node name="Rock3" parent="Rocks" unique_id=1214212356 instance=ExtResource("5_asjm7")]
+transform = Transform3D(0.9018825, -0.41137105, -0.1318394, 0.32269478, 0.8444713, -0.42747682, 0.2871862, 0.34299004, 0.89436114, -2.376721, 1.137024, -0.070453525)
+not_for_generation = true
+
+[node name="Rock4" parent="Rocks" unique_id=163684876 instance=ExtResource("5_asjm7")]
+transform = Transform3D(0.9018827, -0.41137105, -0.13183936, 0.21241754, 0.6880724, -0.6938552, 0.3761471, 0.597771, 0.7079429, -1.3537476, 1.3779912, 2.0463135)
+not_for_generation = true
+for_scale = Vector3(1.4, 1, 1)
+
+[node name="Rock5" parent="Rocks" unique_id=1163986189 instance=ExtResource("5_asjm7")]
+transform = Transform3D(0.9018826, -0.41137096, -0.13183936, 0.27029052, 0.77545744, -0.57062143, 0.3369729, 0.47899863, 0.81056124, -1.4482455, 1.2378852, -1.8655626)
+not_for_generation = true
+for_scale = Vector3(1.2, 1.4, 1)
+
+[connection signal="child_exiting_tree" from="." to="." method="_on_child_exiting_tree"]

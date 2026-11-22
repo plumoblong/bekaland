@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="StructureRule" format=3 uid="uid://ipgrukylhsm5"]
+
+[ext_resource type="Script" uid="uid://daghgoswxh03q" path="res://src/structure_rule.gd" id="1_0yuuc"]
+
+[resource]
+script = ExtResource("1_0yuuc")
+min_instances = 64
+max_instances = 100
+min_spacing = 64.0
+spawn_id = "s_test"
+min_height = 16.0
+step = 64
+metadata/_custom_type_script = "uid://daghgoswxh03q"

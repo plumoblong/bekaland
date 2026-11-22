@@ -6,7 +6,10 @@
 [ext_resource type="Resource" uid="uid://xwe47dlybqsm" path="res://data/dimension/foliage/rule_grass.tres" id="3_64lmn"]
 [ext_resource type="Resource" uid="uid://rrgnub1v0e81" path="res://data/dimension/foliage/rule_shrub.tres" id="4_gradl"]
 [ext_resource type="Resource" uid="uid://c1shjge8qtxf1" path="res://data/dimension/foliage/rule_small_rock.tres" id="5_gradl"]
+[ext_resource type="Script" uid="uid://daghgoswxh03q" path="res://src/structure_rule.gd" id="7_6tqsx"]
+[ext_resource type="Resource" uid="uid://d186lh8b2vc65" path="res://data/dimension/structure/rule_cave_entrance.tres" id="8_6tqsx"]
 
 [resource]
 script = ExtResource("2_7f828")
 rules = Array[ExtResource("1_4drct")]([ExtResource("2_4fx6n"), ExtResource("3_64lmn"), ExtResource("4_gradl"), ExtResource("5_gradl")])
+structures = Array[ExtResource("7_6tqsx")]([ExtResource("8_6tqsx")])

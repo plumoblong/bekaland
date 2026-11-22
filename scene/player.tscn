@@ -31,6 +31,9 @@
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_g4v7s"]
 height = 2.5
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_asjm7"]
+size = Vector3(0.5, 0.5, 5)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_firq0"]
 atlas = ExtResource("7_ihjo1")
 region = Rect2(0, 48, 24, 24)
@@ -72,6 +75,15 @@ physics_interpolation_mode = 2
 transform = Transform3D(1, 0, -1.7484555e-07, 0, 1, 0, 1.7484555e-07, 0, 1, 0, 0, 0)
 current = true
 fov = 37.849285
+
+[node name="InteractQuery" type="Area3D" parent="Head/Camera3D" unique_id=1563525586]
+transform = Transform3D(1, 0, 1.7484555e-07, 0, 1, 0, -1.7484555e-07, 0, 1, 0, 0, 0)
+collision_layer = 512
+collision_mask = 512
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Head/Camera3D/InteractQuery" unique_id=1340032446]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.5)
+shape = SubResource("BoxShape3D_asjm7")
 
 [node name="Ray" type="RayCast3D" parent="Head/Camera3D" unique_id=1886539879]
 target_position = Vector3(0, 0, -6.5)
@@ -228,6 +240,8 @@ die_pitch_range = Vector2(0.85, 1)
 [node name="FootstepSFX" parent="." unique_id=1898182885 node_paths=PackedStringArray("movement") instance=ExtResource("15_j4wxg")]
 movement = NodePath("../Movement")
 
+[connection signal="area_entered" from="Head/Camera3D/InteractQuery" to="." method="_on_interact_query_area_entered"]
+[connection signal="area_exited" from="Head/Camera3D/InteractQuery" to="." method="_on_interact_query_area_exited"]
 [connection signal="hotbar_slot_selected" from="InventoryManager" to="." method="_on_inventory_manager_hotbar_slot_selected"]
 [connection signal="damaged" from="Health" to="." method="_on_health_damaged"]
 [connection signal="died" from="Health" to="." method="_on_health_died"]

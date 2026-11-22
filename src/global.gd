@@ -24,6 +24,7 @@ const GROUP_ENTITY : StringName = "Entity"
 const GROUP_PICKUP : StringName = "Pickup"
 const GROUP_CAN_PLACE : StringName = "CanPlace"
 const GROUP_STATION : StringName = "Station"
+const GROUP_INTERACT : StringName = "Interactable"
 
 var world_seed : String = "" 
 
@@ -37,6 +38,8 @@ const UI_BG_HOVER_COLOR : Color = Color(1.0, 1.0, 1.0, 0.502)
 const UI_BG_SELECTED_COLOR : Color = Color(1.0, 1.0, 0.0, 0.502)
 const UI_BG_TRANSITION_SPEED : float = 16.0
 const UI_BG_COLOR_SPLIT : float = 0.33
+
+const DUMMY_SLOT : InventorySlot = preload("res://data/item/dummy_slot.tres")
 
 func set_init_flags() -> void:
 	var h : Array[bool] = [OS.has_feature("pc"), OS.has_feature("mobile"), OS.has_feature("web")]

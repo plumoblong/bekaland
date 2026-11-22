@@ -13,5 +13,5 @@ name = "Rock Axe"
 icon = SubResource("AtlasTexture_opcjl")
 max_stack = 1
 attack_damage = 0.4
-wood_damage = 0.45
+wood_damage = 0.3
 metadata/_custom_type_script = "uid://bgtjxmfdy52l3"

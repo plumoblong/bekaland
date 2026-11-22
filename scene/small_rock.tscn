@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://c3m674ammcf1a" path="res://src/health.gd" id="5_kf10b"]
 [ext_resource type="Script" uid="uid://cc1y3i7f28y0" path="res://src/loot_spawner.gd" id="7_b723l"]
 
-[sub_resource type="Resource" id="Resource_yf5fn"]
+[sub_resource type="Resource" id="Resource_r6eqq"]
 script = ExtResource("3_urdu8")
 item = ExtResource("2_7muc0")
 quantity = 1
@@ -30,8 +30,10 @@ health = NodePath("Health")
 hitbox = NodePath("CollisionShape3D")
 body = NodePath("Body")
 item_spawner = NodePath("ItemPickupSpawner")
-item_spawner_slot = SubResource("Resource_yf5fn")
+item_spawner_slot = SubResource("Resource_r6eqq")
 material = 2
+shake_strength = 0.1
+shake_duration = 0.1
 metadata/_custom_type_script = "uid://13a34exta3wo"
 
 [node name="Body" type="Node3D" parent="." unique_id=1209742436]

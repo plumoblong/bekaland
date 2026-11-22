@@ -4,8 +4,6 @@ class_name Inventory
 @export var slots: Array[InventorySlot] = []
 @export var capacity: int = 30
 
-const DUMMY_SLOT : InventorySlot = preload("res://data/item/dummy_slot.tres")
-
 signal inventory_change 
 
 func clear() -> void:
@@ -14,7 +12,7 @@ func clear() -> void:
 
 func setup() -> void:
 	for i : int in range(capacity - slots.size()):
-		var s : InventorySlot = DUMMY_SLOT.duplicate()
+		var s : InventorySlot = _G.DUMMY_SLOT.duplicate()
 		slots.append(s)
 		
 func get_total_count(item: Item) -> int:
@@ -60,7 +58,7 @@ func remove_item(item : Item, count : int = 1) -> bool:
 		slot.quantity -= taken
 		remaining -= taken
 		if slot.quantity <= 0:
-			slots[i] = DUMMY_SLOT.duplicate()
+			slots[i] = _G.DUMMY_SLOT.duplicate()
 
 	inventory_change.emit()
 	return true

@@ -55,13 +55,15 @@ var _ray_norm : Vector3 = Vector3.ZERO
 var _spawn_position : Vector2 = Vector2.ZERO
 const _SPAWN_RADIUS : float = 4.0
 
+var can_interact : bool = false
+var _current_interact_id : String = ""
+
 func _ready() -> void:
 	ui.set_mouse(true)
 	ui.pulse(Color(0.0, 0.0, 0.0, 1.0), 1.0)
 	inv_manager.select_slot(selected_hotbar)
 	
 	_F.config_entry_changed.connect(_on_config_entry_changed)
-	_F.update_config_entries()
 	
 	await get_tree().create_timer(0.1).timeout
 	health.respawn()
@@ -75,10 +77,6 @@ func _input(event : InputEvent) -> void:
 			head.rotation_degrees.x = clampf(head.rotation_degrees.x, -90.0, 90.0)
 
 func _on_config_entry_changed(entry : StringName, value) -> void:
-	_set_config(entry, value)
-	print("Entry updated: ", entry, " = ", value)
-
-func _set_config(entry : StringName, value) -> void:
 	match entry:
 		"render_distance":
 			camera.far = value as float
@@ -120,10 +118,7 @@ func _physics_process(delta: float) -> void:
 func _process(delta: float) -> void:
 	if health.alive:
 		_update_camera(delta)
-		
 		_handle_inventory()
-		#_handle_crafting()
-		
 		_update_effects(delta)
 	
 	inv_manager.active = health.alive
@@ -192,7 +187,8 @@ func _set_ui_last_health(h : Health) -> void:
 	ui.set_last_health(r)
 	
 func _update_camera(delta : float) -> void:
-	var fov : float = CAMERA_FOV_ZOOM if Input.is_action_pressed("zoom") else CAMERA_FOV_NORMAL
+	var fov : float = CAMERA_FOV_ZOOM if Input.is_action_pressed("zoom") and can_control else CAMERA_FOV_NORMAL
+	
 	camera.fov = fov
 	
 	var b : float = (CAMERA_BOB_SPEED * (movement.move_speed / 20.0)) * movement.movement_mult
@@ -338,3 +334,24 @@ func _on_station_query_body_entered(body: Node3D) -> void:
 func _on_station_query_body_exited(body: Node3D) -> void:
 	if body.is_in_group(_G.GROUP_STATION):
 		crafting_manager.remove_station(body.station_type)
+
+func _on_interact_query_area_entered(area: Area3D) -> void:
+	if not area.is_in_group(_G.GROUP_INTERACT):
+		return
+	
+	can_interact = true
+	var a : Interactable = area as Interactable
+	_current_interact_id = a.interact_id
+	
+	ui.set_interact_text(a.interact_string)
+	
+func _on_interact_query_area_exited(_area: Area3D) -> void:
+	can_interact = false
+	_current_interact_id = ""
+
+func _handle_interacting() -> void:
+	match _current_interact_id:
+		"enter_cave":
+			_G.game.change_dimension(Game.WorldType.CAVE)
+		_:
+			_G.game.change_dimension(Game.WorldType.ISLAND)
