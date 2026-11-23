@@ -103,9 +103,6 @@ func is_ui_open() -> bool:
 
 func _on_crafting_requested(recipe : CraftingRecipe) -> void:
 	var out : InventorySlot = recipe.output.duplicate()
-	if not out:
-		_G.set_alert("Recipe is invalid!")
-		return
 	
 	for i : InventorySlot in recipe.inputs:
 		inventory.remove_item(i.item, i.quantity)

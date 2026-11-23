@@ -45,12 +45,12 @@ func _process(delta: float) -> void:
 		_color2 = lerp(_color2, _color, delta * _G.UI_BG_TRANSITION_SPEED)
 		color = Color.from_hsv(0.0, 0.0, _color2.v, 0.5)
 		
-	#debug_label.visible = _G.debug_mode
-	#if slot:
-		#if slot.item != null:
-			#debug_label.text = str(slot_id) + "\n" + str(slot.item.name)
-		#else:
-			#debug_label.text = str(slot_id)
+	debug_label.visible = _G.debug_mode
+	if slot:
+		if slot.item != null:
+			debug_label.text = str(slot_id) + "\n" + str(slot.item.name)
+		else:
+			debug_label.text = str(slot_id)
 
 func _refresh() -> void:
 	if slot == null or slot.is_empty():

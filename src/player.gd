@@ -111,8 +111,7 @@ func _physics_process(delta: float) -> void:
 		movement.wish_dir = Vector2.ZERO
 		placeable_ghost.hide()
 	
-	if Input.is_action_just_pressed("screenshot"):
-		_F.screenshot()
+	
 	_update_boundaries()
 
 func _process(delta: float) -> void:
@@ -120,7 +119,12 @@ func _process(delta: float) -> void:
 		_update_camera(delta)
 		_handle_inventory()
 		_update_effects(delta)
-	
+		
+		if Input.is_action_just_pressed("interact"):
+			_handle_interacting()
+			
+		if Input.is_action_just_pressed("screenshot"):
+			_F.screenshot()
 	inv_manager.active = health.alive
 	
 		
@@ -350,8 +354,12 @@ func _on_interact_query_area_exited(_area: Area3D) -> void:
 	_current_interact_id = ""
 
 func _handle_interacting() -> void:
+	if not can_interact or not can_control:
+		return
 	match _current_interact_id:
 		"enter_cave":
+			_G.loading_screen.activate("Entering the Mines...", false)
 			_G.game.change_dimension(Game.WorldType.CAVE)
 		_:
+			_G.loading_screen.activate("Entering the Island", false)
 			_G.game.change_dimension(Game.WorldType.ISLAND)

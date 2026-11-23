@@ -153,6 +153,7 @@ func change_dimension(target : WorldType) -> void:
 	await _start_dimension()
 	
 	_switching = false
+	_G.loading_screen.dectivate()
 
 func get_placeable(id : Placeables) -> Placeable:
 	if id == Placeables.NONE:
